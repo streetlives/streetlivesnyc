@@ -1,0 +1,5 @@
+<p>
+  <span class='CommentList-itemDate'><%- moment(created_at).format('MMMM Do YYYY') %></span>
+  <%- comment %>
+  <% if (username) { %> <div class="CommentList-username"><%- username %></div> <% } %>
+</p>

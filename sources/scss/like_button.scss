@@ -1,0 +1,48 @@
+.LikeButtons {
+  margin: 0 0 20px 0;
+}
+.LikeButtons-title {
+  margin: 0 0 3px 0;
+  font-size: 12px;
+}
+
+.LikeButtons-response {
+  margin: -2px 0 0 0;
+  padding: 0 0 0 14px;
+  font-size: 12px;
+}
+
+.LikeButtons-list {
+  display: inline-block;
+}
+
+.LikeButtons-listItem {
+  display: inline-block;
+  margin: 0 5px 0 0;
+  padding: 8px 25px 8px 0px;
+}
+
+.LikeButton {
+  display: block;
+  border: none;
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+  z-index: 10;
+  outline: none;
+  opacity: 0.7;
+
+  background: transparent url(/img/hand_up.png) no-repeat;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.LikeButton--dislike {
+  background: transparent url(/img/hand_down.png) no-repeat;
+}
+
+.LikeButton.is-selected {
+  opacity: 1;
+}

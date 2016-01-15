@@ -1,0 +1,35 @@
+.LikesList {
+  padding: 4px 0 10px 0; }
+
+.LikesList-item {
+  display: inline-block;
+  font-size: 13px; }
+
+.LikesList-item--total,
+.LikesList-item--like,
+.LikesList-item--dislike {
+  margin: 0 10px 0 0; }
+
+.LikesList-item--total:before,
+.LikesList-item--like:before,
+.LikesList-item--dislike:before {
+  position: relative;
+  top: 2px;
+  margin: 0 3px 0 0;
+  content: '';
+  display: inline-block;
+  width: 15px;
+  height: 15px; }
+
+.LikesList-item--like:before {
+  background: transparent url(/img/hand_up.png) no-repeat; }
+
+.LikesList-item--dislike:before {
+  background: transparent url(/img/hand_down.png) no-repeat; }
+
+.LikesList-item--total:before {
+  width: 16px;
+  height: 14px;
+  background: transparent url(/img/total.png) no-repeat; }
+
+/*# sourceMappingURL=likes.css.map */

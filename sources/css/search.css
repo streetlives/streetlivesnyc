@@ -1,0 +1,22 @@
+.SearchField {
+  position: absolute;
+  width: 500px;
+  height: 40px;
+  top: 80px;
+  left: 55px;
+  z-index: 10; }
+
+.SearchInput {
+  border: 1px solid transparent;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+  padding: 0 50px 0 13px;
+  font-size: 15px;
+  font-weight: 300;
+  text-overflow: ellipsis; }
+  .SearchInput:focus {
+    border: 1px solid transparent; }
+  .SearchInput:hover {
+    border: 1px solid transparent; }
+
+/*# sourceMappingURL=search.css.map */

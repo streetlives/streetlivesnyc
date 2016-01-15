@@ -1,0 +1,69 @@
+{
+  "name": "streetlives",
+  "description": "Streetlives",
+  "version": "0.1.0",
+  "homepage": "https://github.com/javierarce/streetlives",
+  "author": {
+    "name": "Javier Arce",
+    "email": "javierarce@gmail.com",
+    "url": "http://javierarce.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/javierarce/streetlives.git"
+  },
+  "bugs": {
+    "url": "https://github.com/javierarce/streetlives/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/javierarce/streetlives/blob/master/LICENSE-MIT"
+    }
+  ],
+  "scripts": {
+    "test": "./node_modules/.bin/mocha -b test -u tdd  -R spec"
+  },
+  "engines": {
+    "node": "0.10.33",
+    "npm": "2.1.10"
+  },
+  "dependencies": {
+    "cartodb": "latest",
+    "morgan": "1.0.0",
+    "ejs": "latest",
+    "express": "~4.9.x",
+    "express-session": "1.0.4",
+    "errorhandler": "1.0.1",
+    "method-override": "1.0.0",
+    "consolidate": "0.12.1",
+    "swig": "~1.3.2",
+    "body-parser": "1.0.2",
+    "cookie-parser": "1.0.1",
+    "html": "latest",
+    "cli-color": "1.0.0",
+    "redis": "^0.12.1",
+    "request": "latest",
+    "underscore": "latest",
+    "utf8": "latest"
+  },
+  "devDependencies": {
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-concat": "^0.5.0",
+    "grunt-contrib-jshint": "~0.6.0",
+    "grunt-contrib-jst": "^0.6.0",
+    "grunt-contrib-nodeunit": "~0.2.0",
+    "grunt-contrib-sass": "~0.7.3",
+    "grunt-contrib-uglify": "~0.4.0",
+    "grunt-contrib-watch": "~0.6.1",
+    "grunt-mocha-test": "~0.7.0",
+    "jshint-stylish": "~0.1.3",
+    "load-grunt-tasks": "~0.2.0",
+    "mocha": "~1.17.1",
+    "time-grunt": "~0.1.1"
+  },
+  "keywords": [
+    "streetlives",
+    "template"
+  ]
+}

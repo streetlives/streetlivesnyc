@@ -1,0 +1,9 @@
+--ignore-dir=sources/css
+--ignore-dir=sources/js
+--ignore-dir=public/css
+--ignore-dir=public/js/
+--ignore-dir=.sass-cache
+--color
+--follow
+--group
+--sort-files

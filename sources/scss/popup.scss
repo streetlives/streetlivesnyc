@@ -1,0 +1,34 @@
+.Popup .leaflet-popup-content-wrapper {
+  font-family: 'Open Sans', sans-serif;
+  text-align: center;
+  background: #FFF;
+  color: #333;
+  font-size: 14px;
+  line-height: 24px;
+  border-radius: 2px;
+  padding: 10px;
+  position: relative;
+}
+.Popup .leaflet-popup-content-wrapper a {
+  color:rgba(255,255,255,0.5);
+}
+.Popup .leaflet-popup-tip-container {
+  width:30px;
+  height:15px;
+}
+.Popup .leaflet-popup-tip-container .leaflet-popup-tip {
+  font-family: 'Open Sans', sans-serif;
+  background: #FFF;
+  margin: -15px auto 0;
+}
+.Popup a.leaflet-popup-close-button {
+  color: #333;
+  z-index: 10;
+  font-weight: normal;
+}
+
+.Popup-addressName {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: bold;
+  line-height: 30px;
+}

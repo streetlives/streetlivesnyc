@@ -1,0 +1,71 @@
+.Header {
+  display: flex;
+  position: absolute;
+  top: 0;
+  left: 0;
+  flex-direction: row;
+  flex-flow: space-around;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  width: 100%;
+  padding: 20px;
+  background: #333333;
+  color: #FFFFFF;
+  font-family: 'Open Sans', sans-serif;
+  box-sizing: border-box; }
+
+.HeaderTitle {
+  flex: 1;
+  color: #FFFFFF;
+  font-size: 20px;
+  text-decoration: none;
+  text-transform: none;
+  font-family: 'Open Sans', sans-serif; }
+
+.HeaderItems {
+  flex: 1;
+  text-align: right; }
+
+.HeaderItem {
+  display: inline-block;
+  color: #FFFFFF; }
+
+.HeaderItem-link {
+  text-decoration: none;
+  display: block;
+  padding: 3px 5px;
+  border: none;
+  outline: none;
+  background: none;
+  color: #FFFFFF;
+  font-size: 14px;
+  text-transform: uppercase;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: lighter; }
+  .HeaderItem-link:hover {
+    text-decoration: none;
+    cursor: pointer;
+    animation-name: navBar-hover;
+    animation-duration: .3s;
+    color: #00D5A5; }
+
+.HeaderItem-link.is-selected {
+  border: 1px solid #00D5A5; }
+
+@keyframes navBar-hover {
+  0% {
+    color: #FFFFFF; }
+  100% {
+    color: #00D5A5; } }
+@-webkit-keyframes navBar-hover {
+  0% {
+    color: #FFFFFF; }
+  100% {
+    color: #00D5A5; } }
+@keyframes btnInfo-hover {
+  0% {
+    background: #00D5A5; }
+  100% {
+    background: #53F9D4; } }
+
+/*# sourceMappingURL=header.css.map */

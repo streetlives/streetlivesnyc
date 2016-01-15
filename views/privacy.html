@@ -1,0 +1,22 @@
+{% extends 'page.html' %}
+{% block 'yield' %}
+
+<header class="Header">
+  <a href="/" class="HeaderTitle">
+    StreetlivesNYC
+  </a>
+
+  <ul class="HeaderItems">
+    <li class="HeaderItem"><a href='/' class="HeaderItem-link js-item js-map">Map</a></li>
+    <li class="HeaderItem"><a href='/about' class="HeaderItem-link js-item js-about">About</a></li>
+    <li class="HeaderItem"><a href='/privacy' class="HeaderItem-link is-selected js-item js-privacy">Privacy</a></li>
+  </ul>
+</header>
+<div class="StaticPage">
+  <h2 class="StaticPage-title">Privacy</h2>
+  <p>
+    Users retain full rights to their stories and images. StreetlivesNYC and its creators will not exploit posts for any personal or corporate financial benefit. Posts can be anonymous or known, but please do not give full names of others. Posts are moderated, but not edited, we will not publish hate speech.
+  </p>
+  
+</div>
+{% endblock %}
