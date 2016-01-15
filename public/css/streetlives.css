@@ -42,6 +42,172 @@ table {
   border-collapse: collapse;
   border-spacing: 0; }
 
+/*
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Lato Light'), local('Lato-Light'), url(https://fonts.gstatic.com/s/lato/v11/IY9HZVvI1cMoAHxvl0w9LVKPGs1ZzpMvnHX-7fPOuAc.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Lato Light'), local('Lato-Light'), url(https://fonts.gstatic.com/s/lato/v11/22JRxvfANxSmnAhzbFH8PgLUuEpTyoUstqEm5AMlJo4.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Lato Regular'), local('Lato-Regular'), url(https://fonts.gstatic.com/s/lato/v11/8qcEw_nrk_5HEcCpYdJu8BTbgVql8nDJpwnrE27mub0.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Lato Regular'), local('Lato-Regular'), url(https://fonts.gstatic.com/s/lato/v11/MDadn8DQ_3oT6kvnUq_2r_esZW2xOQ-xsNqO47m55DA.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Lato Bold'), local('Lato-Bold'), url(https://fonts.gstatic.com/s/lato/v11/rZPI2gHXi8zxUjnybc2ZQFKPGs1ZzpMvnHX-7fPOuAc.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Lato Bold'), local('Lato-Bold'), url(https://fonts.gstatic.com/s/lato/v11/MgNNr5y1C_tIEuLEmicLmwLUuEpTyoUstqEm5AMlJo4.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+*/
+/****** NEW FONTS *****/
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 'Hairline';
+  src: local("Montserrat Hairline"), local("Montserrat-Hairline"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-hairline-webfont.eot) format("eot"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-hairline-webfont.woff2) format("woff2"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-hairline-webfont.woff) format("woff"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-hairline-webfont.ttf) format("truetype"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-hairline-webfont.svg) format("svg"); }
+@font-face {
+  font-family: 'Montserrat-Ultralight';
+  font-style: normal;
+  src: local("Montserrat Ultralight"), local("Montserrat-Ultralight"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-ultralight-webfont.eot) format("eot"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-ultralight-webfont.woff2) format("woff2"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-ultralight-webfont.woff) format("woff"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-ultralight-webfont.ttf) format("truetype"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-ultralight-webfont.svg) format("svg"); }
+@font-face {
+  font-family: 'Montserrat-Light';
+  font-style: normal;
+  src: local("Montserrat Light"), local("Montserrat-Light"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-light-webfont.eot) format("eot"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-light-webfont.woff2) format("woff2"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-light-webfont.woff) format("woff"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-light-webfont.ttf) format("truetype"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-light-webfont.svg) format("svg"); }
+@font-face {
+  font-family: 'Montserrat-Regular';
+  font-style: normal;
+  src: local("Montserrat Regular"), local("Montserrat-Regular"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-regular-webfont.eot) format("eot"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-regular-webfont.woff2) format("woff2"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-regular-webfont.woff) format("woff"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-regular-webfont.ttf) format("truetype"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-regular-webfont.svg#montserrat-regular) format("svg"); }
+@font-face {
+  font-family: 'Montserrat-Semibold';
+  font-style: normal;
+  src: local("Montserrat Semibold"), local("Montserrat-Semibold"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-semibold-webfont.eot) format("eot"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-semibold-webfont.woff2) format("woff2"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-semibold-webfont.woff) format("woff"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-semibold-webfont.ttf) format("truetype"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-semibold-webfont.svg) format("svg"); }
+@font-face {
+  font-family: 'Montserrat-Bold';
+  font-style: normal;
+  src: local("Montserrat Bold"), local("Montserrat-Bold"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-bold-webfont.eot) format("eot"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-bold-webfont.woff2) format("woff2"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-bold-webfont.woff) format("woff"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-bold-webfont.ttf) format("truetype"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-bold-webfont.svg) format("svg"); }
+@font-face {
+  font-family: 'Montserrat-Extrabold';
+  font-style: normal;
+  src: local("Montserrat Extrabold"), local("Montserrat-Extrabold"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-extrabold-webfont.eot) format("eot"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-extrabold-webfont.woff2) format("woff2"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-extrabold-webfont.woff) format("woff"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-extrabold-webfont.ttf) format("truetype"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-extrabold-webfont.svg) format("svg"); }
+@font-face {
+  font-family: 'Montserrat-Black';
+  font-style: normal;
+  src: local("Montserrat Black"), local("Montserrat-Black"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-black-webfont.eot) format("eot"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-black-webfont.woff2) format("woff2"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-black-webfont.woff) format("woff"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-black-webfont.ttf) format("truetype"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-black-webfont.svg) format("svg"); }
+/*
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Lato Light'), local('Lato-Light'), url(https://fonts.gstatic.com/s/lato/v11/IY9HZVvI1cMoAHxvl0w9LVKPGs1ZzpMvnHX-7fPOuAc.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Lato Light'), local('Lato-Light'), url(https://fonts.gstatic.com/s/lato/v11/22JRxvfANxSmnAhzbFH8PgLUuEpTyoUstqEm5AMlJo4.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Lato Regular'), local('Lato-Regular'), url(https://fonts.gstatic.com/s/lato/v11/8qcEw_nrk_5HEcCpYdJu8BTbgVql8nDJpwnrE27mub0.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Lato Regular'), local('Lato-Regular'), url(https://fonts.gstatic.com/s/lato/v11/MDadn8DQ_3oT6kvnUq_2r_esZW2xOQ-xsNqO47m55DA.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Lato Bold'), local('Lato-Bold'), url(https://fonts.gstatic.com/s/lato/v11/rZPI2gHXi8zxUjnybc2ZQFKPGs1ZzpMvnHX-7fPOuAc.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Lato Bold'), local('Lato-Bold'), url(https://fonts.gstatic.com/s/lato/v11/MgNNr5y1C_tIEuLEmicLmwLUuEpTyoUstqEm5AMlJo4.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+*/
+/****** NEW FONTS *****/
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 'Hairline';
+  src: local("Montserrat Hairline"), local("Montserrat-Hairline"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-hairline-webfont.eot) format("eot"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-hairline-webfont.woff2) format("woff2"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-hairline-webfont.woff) format("woff"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-hairline-webfont.ttf) format("truetype"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-hairline-webfont.svg) format("svg"); }
+@font-face {
+  font-family: 'Montserrat-Ultralight';
+  font-style: normal;
+  src: local("Montserrat Ultralight"), local("Montserrat-Ultralight"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-ultralight-webfont.eot) format("eot"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-ultralight-webfont.woff2) format("woff2"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-ultralight-webfont.woff) format("woff"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-ultralight-webfont.ttf) format("truetype"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-ultralight-webfont.svg) format("svg"); }
+@font-face {
+  font-family: 'Montserrat-Light';
+  font-style: normal;
+  src: local("Montserrat Light"), local("Montserrat-Light"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-light-webfont.eot) format("eot"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-light-webfont.woff2) format("woff2"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-light-webfont.woff) format("woff"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-light-webfont.ttf) format("truetype"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-light-webfont.svg) format("svg"); }
+@font-face {
+  font-family: 'Montserrat-Regular';
+  font-style: normal;
+  src: local("Montserrat Regular"), local("Montserrat-Regular"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-regular-webfont.eot) format("eot"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-regular-webfont.woff2) format("woff2"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-regular-webfont.woff) format("woff"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-regular-webfont.ttf) format("truetype"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-regular-webfont.svg#montserrat-regular) format("svg"); }
+@font-face {
+  font-family: 'Montserrat-Semibold';
+  font-style: normal;
+  src: local("Montserrat Semibold"), local("Montserrat-Semibold"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-semibold-webfont.eot) format("eot"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-semibold-webfont.woff2) format("woff2"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-semibold-webfont.woff) format("woff"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-semibold-webfont.ttf) format("truetype"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-semibold-webfont.svg) format("svg"); }
+@font-face {
+  font-family: 'Montserrat-Bold';
+  font-style: normal;
+  src: local("Montserrat Bold"), local("Montserrat-Bold"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-bold-webfont.eot) format("eot"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-bold-webfont.woff2) format("woff2"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-bold-webfont.woff) format("woff"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-bold-webfont.ttf) format("truetype"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-bold-webfont.svg) format("svg"); }
+@font-face {
+  font-family: 'Montserrat-Extrabold';
+  font-style: normal;
+  src: local("Montserrat Extrabold"), local("Montserrat-Extrabold"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-extrabold-webfont.eot) format("eot"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-extrabold-webfont.woff2) format("woff2"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-extrabold-webfont.woff) format("woff"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-extrabold-webfont.ttf) format("truetype"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-extrabold-webfont.svg) format("svg"); }
+@font-face {
+  font-family: 'Montserrat-Black';
+  font-style: normal;
+  src: local("Montserrat Black"), local("Montserrat-Black"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-black-webfont.eot) format("eot"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-black-webfont.woff2) format("woff2"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-black-webfont.woff) format("woff"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-black-webfont.ttf) format("truetype"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-black-webfont.svg) format("svg"); }
 html,
 body,
 .Map {
@@ -54,7 +220,7 @@ body {
   font-size: 16px;
   line-height: 1.5;
   color: #222326;
-  font-family: 'Open sans', sans-serif;
+  font-family: "Monsterrat-regular", "Gotham", "Proxima Nova", "Proxima-Nova", "Helvetica", "Helvetica-Neue", Helvetica, Arial, sans-serif;
   background-color: #f8f8f8;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -138,16 +304,11 @@ a {
     padding-bottom: 0;
     border: none; }
 
-.CommentList-item p {
-  line-height: 120%;
-  font-size: 14px; }
-
 .CommentList-itemDate {
-  text-align: left;
+  text-align: right;
   display: block;
-  padding: 12px 0 0 0;
   margin: 0 0 3px 0;
-  font-size: 10px;
+  font-size: 12px;
   color: #666; }
 
 .Comments-inner {
@@ -160,7 +321,7 @@ a {
   margin: 0 0 20px 0; }
 
 .Comments-form .InputArea {
-  height: 150px; }
+  height: 200px; }
 
 .Comments-content {
   flex: 1;
@@ -168,15 +329,8 @@ a {
 
 .Comments .scroll-pane {
   width: 100%;
-  height: 325px;
-  overflow: auto;
-  outline: none; }
-
-.CommentList-username {
-  padding: 2px 0 8px 0;
-  font-size: 11px;
-  text-align: left;
-  color: #666; }
+  height: 300px;
+  overflow: auto; }
 
 /*# sourceMappingURL=comment.css.map */
 
@@ -242,51 +396,258 @@ a {
 
 /*# sourceMappingURL=dialog.css.map */
 
-/* latin-ext */
+/*
 @font-face {
   font-family: 'Lato';
   font-style: normal;
   font-weight: 300;
-  src: local("Lato Light"), local("Lato-Light"), url(https://fonts.gstatic.com/s/lato/v11/IY9HZVvI1cMoAHxvl0w9LVKPGs1ZzpMvnHX-7fPOuAc.woff2) format("woff2");
-  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF; }
-/* latin */
+  src: local('Lato Light'), local('Lato-Light'), url(https://fonts.gstatic.com/s/lato/v11/IY9HZVvI1cMoAHxvl0w9LVKPGs1ZzpMvnHX-7fPOuAc.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+
 @font-face {
   font-family: 'Lato';
   font-style: normal;
   font-weight: 300;
-  src: local("Lato Light"), local("Lato-Light"), url(https://fonts.gstatic.com/s/lato/v11/22JRxvfANxSmnAhzbFH8PgLUuEpTyoUstqEm5AMlJo4.woff2) format("woff2");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000; }
-/* latin-ext */
+  src: local('Lato Light'), local('Lato-Light'), url(https://fonts.gstatic.com/s/lato/v11/22JRxvfANxSmnAhzbFH8PgLUuEpTyoUstqEm5AMlJo4.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+
 @font-face {
   font-family: 'Lato';
   font-style: normal;
   font-weight: 400;
-  src: local("Lato Regular"), local("Lato-Regular"), url(https://fonts.gstatic.com/s/lato/v11/8qcEw_nrk_5HEcCpYdJu8BTbgVql8nDJpwnrE27mub0.woff2) format("woff2");
-  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF; }
-/* latin */
+  src: local('Lato Regular'), local('Lato-Regular'), url(https://fonts.gstatic.com/s/lato/v11/8qcEw_nrk_5HEcCpYdJu8BTbgVql8nDJpwnrE27mub0.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+
 @font-face {
   font-family: 'Lato';
   font-style: normal;
   font-weight: 400;
-  src: local("Lato Regular"), local("Lato-Regular"), url(https://fonts.gstatic.com/s/lato/v11/MDadn8DQ_3oT6kvnUq_2r_esZW2xOQ-xsNqO47m55DA.woff2) format("woff2");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000; }
-/* latin-ext */
+  src: local('Lato Regular'), local('Lato-Regular'), url(https://fonts.gstatic.com/s/lato/v11/MDadn8DQ_3oT6kvnUq_2r_esZW2xOQ-xsNqO47m55DA.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+
 @font-face {
   font-family: 'Lato';
   font-style: normal;
   font-weight: 700;
-  src: local("Lato Bold"), local("Lato-Bold"), url(https://fonts.gstatic.com/s/lato/v11/rZPI2gHXi8zxUjnybc2ZQFKPGs1ZzpMvnHX-7fPOuAc.woff2) format("woff2");
-  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF; }
-/* latin */
+  src: local('Lato Bold'), local('Lato-Bold'), url(https://fonts.gstatic.com/s/lato/v11/rZPI2gHXi8zxUjnybc2ZQFKPGs1ZzpMvnHX-7fPOuAc.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+
 @font-face {
   font-family: 'Lato';
   font-style: normal;
   font-weight: 700;
-  src: local("Lato Bold"), local("Lato-Bold"), url(https://fonts.gstatic.com/s/lato/v11/MgNNr5y1C_tIEuLEmicLmwLUuEpTyoUstqEm5AMlJo4.woff2) format("woff2");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000; }
+  src: local('Lato Bold'), local('Lato-Bold'), url(https://fonts.gstatic.com/s/lato/v11/MgNNr5y1C_tIEuLEmicLmwLUuEpTyoUstqEm5AMlJo4.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+*/
+/****** NEW FONTS *****/
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 'Hairline';
+  src: local("Montserrat Hairline"), local("Montserrat-Hairline"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-hairline-webfont.eot) format("eot"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-hairline-webfont.woff2) format("woff2"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-hairline-webfont.woff) format("woff"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-hairline-webfont.ttf) format("truetype"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-hairline-webfont.svg) format("svg"); }
+@font-face {
+  font-family: 'Montserrat-Ultralight';
+  font-style: normal;
+  src: local("Montserrat Ultralight"), local("Montserrat-Ultralight"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-ultralight-webfont.eot) format("eot"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-ultralight-webfont.woff2) format("woff2"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-ultralight-webfont.woff) format("woff"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-ultralight-webfont.ttf) format("truetype"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-ultralight-webfont.svg) format("svg"); }
+@font-face {
+  font-family: 'Montserrat-Light';
+  font-style: normal;
+  src: local("Montserrat Light"), local("Montserrat-Light"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-light-webfont.eot) format("eot"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-light-webfont.woff2) format("woff2"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-light-webfont.woff) format("woff"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-light-webfont.ttf) format("truetype"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-light-webfont.svg) format("svg"); }
+@font-face {
+  font-family: 'Montserrat-Regular';
+  font-style: normal;
+  src: local("Montserrat Regular"), local("Montserrat-Regular"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-regular-webfont.eot) format("eot"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-regular-webfont.woff2) format("woff2"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-regular-webfont.woff) format("woff"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-regular-webfont.ttf) format("truetype"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-regular-webfont.svg#montserrat-regular) format("svg"); }
+@font-face {
+  font-family: 'Montserrat-Semibold';
+  font-style: normal;
+  src: local("Montserrat Semibold"), local("Montserrat-Semibold"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-semibold-webfont.eot) format("eot"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-semibold-webfont.woff2) format("woff2"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-semibold-webfont.woff) format("woff"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-semibold-webfont.ttf) format("truetype"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-semibold-webfont.svg) format("svg"); }
+@font-face {
+  font-family: 'Montserrat-Bold';
+  font-style: normal;
+  src: local("Montserrat Bold"), local("Montserrat-Bold"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-bold-webfont.eot) format("eot"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-bold-webfont.woff2) format("woff2"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-bold-webfont.woff) format("woff"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-bold-webfont.ttf) format("truetype"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-bold-webfont.svg) format("svg"); }
+@font-face {
+  font-family: 'Montserrat-Extrabold';
+  font-style: normal;
+  src: local("Montserrat Extrabold"), local("Montserrat-Extrabold"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-extrabold-webfont.eot) format("eot"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-extrabold-webfont.woff2) format("woff2"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-extrabold-webfont.woff) format("woff"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-extrabold-webfont.ttf) format("truetype"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-extrabold-webfont.svg) format("svg"); }
+@font-face {
+  font-family: 'Montserrat-Black';
+  font-style: normal;
+  src: local("Montserrat Black"), local("Montserrat-Black"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-black-webfont.eot) format("eot"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-black-webfont.woff2) format("woff2"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-black-webfont.woff) format("woff"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-black-webfont.ttf) format("truetype"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-black-webfont.svg) format("svg"); }
 
 /*# sourceMappingURL=font.css.map */
 
+/*
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Lato Light'), local('Lato-Light'), url(https://fonts.gstatic.com/s/lato/v11/IY9HZVvI1cMoAHxvl0w9LVKPGs1ZzpMvnHX-7fPOuAc.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Lato Light'), local('Lato-Light'), url(https://fonts.gstatic.com/s/lato/v11/22JRxvfANxSmnAhzbFH8PgLUuEpTyoUstqEm5AMlJo4.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Lato Regular'), local('Lato-Regular'), url(https://fonts.gstatic.com/s/lato/v11/8qcEw_nrk_5HEcCpYdJu8BTbgVql8nDJpwnrE27mub0.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Lato Regular'), local('Lato-Regular'), url(https://fonts.gstatic.com/s/lato/v11/MDadn8DQ_3oT6kvnUq_2r_esZW2xOQ-xsNqO47m55DA.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Lato Bold'), local('Lato-Bold'), url(https://fonts.gstatic.com/s/lato/v11/rZPI2gHXi8zxUjnybc2ZQFKPGs1ZzpMvnHX-7fPOuAc.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Lato Bold'), local('Lato-Bold'), url(https://fonts.gstatic.com/s/lato/v11/MgNNr5y1C_tIEuLEmicLmwLUuEpTyoUstqEm5AMlJo4.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+*/
+/****** NEW FONTS *****/
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 'Hairline';
+  src: local("Montserrat Hairline"), local("Montserrat-Hairline"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-hairline-webfont.eot) format("eot"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-hairline-webfont.woff2) format("woff2"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-hairline-webfont.woff) format("woff"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-hairline-webfont.ttf) format("truetype"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-hairline-webfont.svg) format("svg"); }
+@font-face {
+  font-family: 'Montserrat-Ultralight';
+  font-style: normal;
+  src: local("Montserrat Ultralight"), local("Montserrat-Ultralight"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-ultralight-webfont.eot) format("eot"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-ultralight-webfont.woff2) format("woff2"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-ultralight-webfont.woff) format("woff"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-ultralight-webfont.ttf) format("truetype"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-ultralight-webfont.svg) format("svg"); }
+@font-face {
+  font-family: 'Montserrat-Light';
+  font-style: normal;
+  src: local("Montserrat Light"), local("Montserrat-Light"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-light-webfont.eot) format("eot"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-light-webfont.woff2) format("woff2"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-light-webfont.woff) format("woff"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-light-webfont.ttf) format("truetype"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-light-webfont.svg) format("svg"); }
+@font-face {
+  font-family: 'Montserrat-Regular';
+  font-style: normal;
+  src: local("Montserrat Regular"), local("Montserrat-Regular"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-regular-webfont.eot) format("eot"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-regular-webfont.woff2) format("woff2"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-regular-webfont.woff) format("woff"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-regular-webfont.ttf) format("truetype"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-regular-webfont.svg#montserrat-regular) format("svg"); }
+@font-face {
+  font-family: 'Montserrat-Semibold';
+  font-style: normal;
+  src: local("Montserrat Semibold"), local("Montserrat-Semibold"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-semibold-webfont.eot) format("eot"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-semibold-webfont.woff2) format("woff2"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-semibold-webfont.woff) format("woff"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-semibold-webfont.ttf) format("truetype"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-semibold-webfont.svg) format("svg"); }
+@font-face {
+  font-family: 'Montserrat-Bold';
+  font-style: normal;
+  src: local("Montserrat Bold"), local("Montserrat-Bold"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-bold-webfont.eot) format("eot"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-bold-webfont.woff2) format("woff2"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-bold-webfont.woff) format("woff"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-bold-webfont.ttf) format("truetype"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-bold-webfont.svg) format("svg"); }
+@font-face {
+  font-family: 'Montserrat-Extrabold';
+  font-style: normal;
+  src: local("Montserrat Extrabold"), local("Montserrat-Extrabold"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-extrabold-webfont.eot) format("eot"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-extrabold-webfont.woff2) format("woff2"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-extrabold-webfont.woff) format("woff"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-extrabold-webfont.ttf) format("truetype"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-extrabold-webfont.svg) format("svg"); }
+@font-face {
+  font-family: 'Montserrat-Black';
+  font-style: normal;
+  src: local("Montserrat Black"), local("Montserrat-Black"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-black-webfont.eot) format("eot"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-black-webfont.woff2) format("woff2"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-black-webfont.woff) format("woff"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-black-webfont.ttf) format("truetype"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-black-webfont.svg) format("svg"); }
+/*
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Lato Light'), local('Lato-Light'), url(https://fonts.gstatic.com/s/lato/v11/IY9HZVvI1cMoAHxvl0w9LVKPGs1ZzpMvnHX-7fPOuAc.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Lato Light'), local('Lato-Light'), url(https://fonts.gstatic.com/s/lato/v11/22JRxvfANxSmnAhzbFH8PgLUuEpTyoUstqEm5AMlJo4.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Lato Regular'), local('Lato-Regular'), url(https://fonts.gstatic.com/s/lato/v11/8qcEw_nrk_5HEcCpYdJu8BTbgVql8nDJpwnrE27mub0.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Lato Regular'), local('Lato-Regular'), url(https://fonts.gstatic.com/s/lato/v11/MDadn8DQ_3oT6kvnUq_2r_esZW2xOQ-xsNqO47m55DA.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Lato Bold'), local('Lato-Bold'), url(https://fonts.gstatic.com/s/lato/v11/rZPI2gHXi8zxUjnybc2ZQFKPGs1ZzpMvnHX-7fPOuAc.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Lato Bold'), local('Lato-Bold'), url(https://fonts.gstatic.com/s/lato/v11/MgNNr5y1C_tIEuLEmicLmwLUuEpTyoUstqEm5AMlJo4.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+*/
+/****** NEW FONTS *****/
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 'Hairline';
+  src: local("Montserrat Hairline"), local("Montserrat-Hairline"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-hairline-webfont.eot) format("eot"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-hairline-webfont.woff2) format("woff2"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-hairline-webfont.woff) format("woff"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-hairline-webfont.ttf) format("truetype"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-hairline-webfont.svg) format("svg"); }
+@font-face {
+  font-family: 'Montserrat-Ultralight';
+  font-style: normal;
+  src: local("Montserrat Ultralight"), local("Montserrat-Ultralight"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-ultralight-webfont.eot) format("eot"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-ultralight-webfont.woff2) format("woff2"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-ultralight-webfont.woff) format("woff"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-ultralight-webfont.ttf) format("truetype"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-ultralight-webfont.svg) format("svg"); }
+@font-face {
+  font-family: 'Montserrat-Light';
+  font-style: normal;
+  src: local("Montserrat Light"), local("Montserrat-Light"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-light-webfont.eot) format("eot"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-light-webfont.woff2) format("woff2"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-light-webfont.woff) format("woff"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-light-webfont.ttf) format("truetype"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-light-webfont.svg) format("svg"); }
+@font-face {
+  font-family: 'Montserrat-Regular';
+  font-style: normal;
+  src: local("Montserrat Regular"), local("Montserrat-Regular"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-regular-webfont.eot) format("eot"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-regular-webfont.woff2) format("woff2"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-regular-webfont.woff) format("woff"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-regular-webfont.ttf) format("truetype"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-regular-webfont.svg#montserrat-regular) format("svg"); }
+@font-face {
+  font-family: 'Montserrat-Semibold';
+  font-style: normal;
+  src: local("Montserrat Semibold"), local("Montserrat-Semibold"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-semibold-webfont.eot) format("eot"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-semibold-webfont.woff2) format("woff2"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-semibold-webfont.woff) format("woff"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-semibold-webfont.ttf) format("truetype"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-semibold-webfont.svg) format("svg"); }
+@font-face {
+  font-family: 'Montserrat-Bold';
+  font-style: normal;
+  src: local("Montserrat Bold"), local("Montserrat-Bold"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-bold-webfont.eot) format("eot"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-bold-webfont.woff2) format("woff2"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-bold-webfont.woff) format("woff"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-bold-webfont.ttf) format("truetype"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-bold-webfont.svg) format("svg"); }
+@font-face {
+  font-family: 'Montserrat-Extrabold';
+  font-style: normal;
+  src: local("Montserrat Extrabold"), local("Montserrat-Extrabold"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-extrabold-webfont.eot) format("eot"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-extrabold-webfont.woff2) format("woff2"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-extrabold-webfont.woff) format("woff"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-extrabold-webfont.ttf) format("truetype"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-extrabold-webfont.svg) format("svg"); }
+@font-face {
+  font-family: 'Montserrat-Black';
+  font-style: normal;
+  src: local("Montserrat Black"), local("Montserrat-Black"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-black-webfont.eot) format("eot"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-black-webfont.woff2) format("woff2"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-black-webfont.woff) format("woff"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-black-webfont.ttf) format("truetype"), url(http://www.marcorighetto.it/Typography/Monserrat-Webkit/montserrat-black-webfont.svg) format("svg"); }
 .Header {
   display: flex;
   position: absolute;
@@ -296,20 +657,27 @@ a {
   flex-flow: space-around;
   flex-wrap: nowrap;
   align-items: flex-start;
-  width: 100%;
-  padding: 20px;
+  width: 100vw;
+  padding: 2vh;
   background: #333333;
   color: #FFFFFF;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Monsterrat-regular", "Gotham", "Proxima Nova", "Proxima-Nova", "Helvetica", "Helvetica-Neue", Helvetica, Arial, sans-serif;
   box-sizing: border-box; }
 
 .HeaderTitle {
   flex: 1;
   color: #FFFFFF;
-  font-size: 20px;
+  padding: 0.7vh;
   text-decoration: none;
   text-transform: none;
-  font-family: 'Open Sans', sans-serif; }
+  font-family: "Monsterrat-regular", "Gotham", "Proxima Nova", "Proxima-Nova", "Helvetica", "Helvetica-Neue", Helvetica, Arial, sans-serif;
+  font-weight: 400; }
+  @media screen and (min-width: 768px) {
+    .HeaderTitle {
+      font-size: 24px; } }
+  @media screen and (max-width: 768px) {
+    .HeaderTitle {
+      font-size: 19.2px; } }
 
 .HeaderItems {
   flex: 1;
@@ -320,16 +688,15 @@ a {
   color: #FFFFFF; }
 
 .HeaderItem-link {
-  text-decoration: none;
-  display: block;
-  padding: 3px 5px;
   border: none;
   outline: none;
   background: none;
   color: #FFFFFF;
   font-size: 14px;
   text-transform: uppercase;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Monsterrat-regular", "Gotham", "Proxima Nova", "Proxima-Nova", "Helvetica", "Helvetica-Neue", Helvetica, Arial, sans-serif;
+  text-decoration: none;
+  padding: 5px;
   font-weight: lighter; }
   .HeaderItem-link:hover {
     text-decoration: none;
@@ -480,15 +847,10 @@ a {
 /*# sourceMappingURL=jquery.css.map */
 
 .LikeButtons {
-  margin: 0 0 20px 0; }
+  margin: 0 0 10px 0; }
 
 .LikeButtons-title {
   margin: 0 0 3px 0;
-  font-size: 12px; }
-
-.LikeButtons-response {
-  margin: -2px 0 0 0;
-  padding: 0 0 0 14px;
   font-size: 12px; }
 
 .LikeButtons-list {
@@ -496,8 +858,7 @@ a {
 
 .LikeButtons-listItem {
   display: inline-block;
-  margin: 0 5px 0 0;
-  padding: 8px 25px 8px 0px; }
+  margin: 0 5px 0 0; }
 
 .LikeButton {
   display: block;
@@ -509,8 +870,6 @@ a {
   outline: none;
   opacity: 0.7;
   background: transparent url(/img/hand_up.png) no-repeat; }
-  .LikeButton:hover {
-    opacity: 1; }
 
 .LikeButton--dislike {
   background: transparent url(/img/hand_down.png) no-repeat; }
@@ -630,40 +989,69 @@ a {
 
 /*# sourceMappingURL=location.css.map */
 
-.LocationInformation {
-  font-family: 'Open Sans', sans-serif;
+.LocationForm-fields {
+  font-family: 'Open Sans', sans-serif; }
+
+.LocationForm-field {
+  margin: 0 0 20px 0; }
+
+.LocationForm-label {
+  display: block;
+  font-weight: bold;
+  margin: 0 0 10px 0;
+  padding: 0 0 5px 0;
+  border-bottom: 1px solid #ccc; }
+
+.LocationForm {
   position: absolute;
+  box-sizing: border-box;
+  background: #fff;
+  width: 500px;
+  height: 550px;
+  margin-left: -250px;
+  margin-top: -275px;
+  top: 50%;
+  left: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  border-radius: 2px;
+  z-index: 1000; }
+
+.LocationForm-inner {
+  position: relative;
+  padding: 20px;
   width: 100%;
   height: 100%;
-  top: 0;
+  box-sizing: border-box; }
+
+.LocationForm-fields {
+  font-family: 'Open sans', sans-serif; }
+
+.LocationForm-field {
+  margin: 0 0 20px 0; }
+
+.LocationForm-label {
+  display: block;
+  font-weight: bold;
+  margin: 0 0 10px 0;
+  padding: 0 0 5px 0;
+  border-bottom: 1px solid #ccc; }
+
+.LocationForm.is-hidden {
+  display: none; }
+
+.LocationForm .Footer {
+  position: absolute;
+  bottom: 0;
   left: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 1000; }
-
-.LocationInformation-inner {
-  background: #FFF;
-  border-radius: 2px;
-  border: 1px solid transparent;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  text-align: center;
   box-sizing: border-box;
-  padding: 20px 0 0 0;
-  position: relative;
-  text-align: left;
-  width: 750px;
-  z-index: 1000; }
+  width: 100%; }
 
-.LocationInformation-content {
-  margin: auto;
-  font-family: 'Open sans', sans-serif;
-  font-size: 15px;
-  font-weight: 300;
-  line-height: normal; }
+/*# sourceMappingURL=location_form.css.map */
 
-.LocationInformation-content a {
-  color: #00D5A5; }
+.LocationInformation {
+  font-family: 'Open Sans', sans-serif; }
 
 .LocationInformation-title {
   border-bottom: 1px solid #ccc;
@@ -691,9 +1079,35 @@ a {
 .LocationInformation-label {
   display: block;
   font-weight: bold;
-  margin: 0 0 5px 0;
+  margin: 0 0 10px 0;
   padding: 0 0 5px 0;
-  font-size: 14px; }
+  font-size: 15px; }
+
+.LocationInformation .Button--close {
+  top: -32px; }
+
+.LocationInformation {
+  padding: 20px 0 0 0;
+  position: absolute;
+  box-sizing: border-box;
+  background: #fff;
+  width: 700px;
+  margin-left: -350px;
+  margin-top: -225px;
+  top: 50%;
+  left: 50%;
+  z-index: 10;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  border-radius: 2px; }
+
+.LocationInformation-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box; }
+
+.LocationInformation.is-hidden {
+  display: none; }
 
 /*# sourceMappingURL=location_information.css.map */
 
@@ -754,112 +1168,27 @@ a {
 .Page.is-hidden {
   display: none; }
 
-.Page-content {
+.Page-inner {
   position: relative;
-  width: 700px;
-  height: 500px;
+  width: 80%;
+  height: 400px;
   background: #FFF;
   border: 1px solid transparent;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   border-radius: 3px;
-  padding: 25px 10px 20px 20px;
-  box-sizing: border-box; }
+  padding: 12px; }
 
-.Page-inner {
-  width: 100%;
-  height: 450px;
+.Page-content {
+  width: 400px;
+  height: 200px;
   font-family: 'Open sans', sans-serif;
   font-size: 15px;
-  font-weight: 300;
-  overflow: auto; }
+  font-weight: 300; }
 
 .Page .scroll-pane {
   width: 100%;
-  height: 100%;
+  height: 200px;
   overflow: auto; }
-
-.Page-content p {
-  margin: 0 0 10px 0; }
-
-.StaticPage {
-  margin: 60px 0 0 0;
-  text-align: left;
-  box-sizing: border-box;
-  font-family: 'Open sans', sans-serif;
-  font-size: 16px;
-  line-height: 1.5;
-  overflow: auto;
-  height: 100%;
-  padding-bottom: 10%; }
-
-.StaticPage-title {
-  margin: 0 0 10px 0;
-  font-weight: bold;
-  font-size: 18px;
-  color: #333;
-  line-height: normal; }
-
-.StaticPage p {
-  margin: 0 0 5px 0;
-  max-width: 60%;
-  padding-left: 20%;
-  padding-bottom: 1%; }
-
-.StaticPage h2 {
-  margin: 3% 0 5px 0;
-  max-width: 60%;
-  padding-left: 20%;
-  padding-bottom: 1%;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  font-size: 32px;
-  font-weight: bold; }
-
-.StaticPage h3 {
-  margin: 0 0 5px 0;
-  max-width: 60%;
-  padding-left: 20%;
-  padding-bottom: 1%;
-  font-weight: lighter;
-  font-size: 32px; }
-
-.StaticPage h4 {
-  margin: 2% 0 -5px 0;
-  max-width: 60%;
-  padding-left: 20%;
-  padding-bottom: 1%;
-  font-size: 14px;
-  font-weight: bold;
-  text-transform: uppercase;
-  letter-spacing: 1px; }
-
-.StaticPage h5 {
-  margin: 0 0 5px 0;
-  max-width: 40%;
-  padding-left: 20%;
-  padding-bottom: 1%;
-  font-weight: bold;
-  text-transform: uppercase;
-  letter-spacing: 0.7px;
-  font-size: 14px;
-  color: #444444; }
-
-.StaticPage a {
-  max-width: 60%;
-  padding-bottom: 1%;
-  font-weight: lighter;
-  font-size: 12px;
-  color: #444444;
-  line-height: 0px; }
-
-.Outreach {
-  background: transparent url(/img/charities.png) no-repeat;
-  margin-left: 18%;
-  width: 770px;
-  height: 94px;
-  background-size: cover;
-  background-color: #F8F8F8;
-  background-blend-mode: multiply; }
 
 /*# sourceMappingURL=page.css.map */
 

@@ -1,3 +1,10 @@
+@import 'font';
+@import '_typography';
+@import "_mediaqueries";
+
+$header-spacing: 2vh;
+$header-padding: 0.7vh;
+
 .Header {
   display: flex;
   position: absolute;
@@ -7,21 +14,30 @@
   flex-flow: space-around;
   flex-wrap: nowrap;
   align-items: flex-start;
-  width: 100%;
-  padding: 20px;
+  width: 100vw;
+  padding: $header-spacing;
   background: #333333;
   color: #FFFFFF;
-  font-family: 'Open Sans', sans-serif;
+  font-family: $Monsterrat-regular;
   box-sizing: border-box;
 }
 .HeaderTitle {
   flex: 1;
   color: #FFFFFF;
-  font-size: 20px;
+  padding: $header-padding;
+  @media screen and (min-width: $break-tablet) {
+  font-size: $h1-size;
+}
+
+  @media screen and (max-width: $break-tablet) {
+  font-size: $h1-size/5*4;
+}
   text-decoration: none;
   text-transform: none;
-  font-family: 'Open Sans', sans-serif;
+  font-family: $Monsterrat-regular;
+  font-weight: $regular;
 }
+
 .HeaderItems {
   flex: 1;
   text-align: right;
@@ -30,18 +46,16 @@
   display: inline-block;
   color: #FFFFFF;
 }
-
 .HeaderItem-link {
-  text-decoration: none;
-  display: block;
-  padding: 3px 5px;
   border: none;
   outline: none;
   background: none;
   color: #FFFFFF;
   font-size: 14px;
   text-transform: uppercase;
-  font-family: 'Open Sans', sans-serif;
+  font-family: $Monsterrat-regular;
+  text-decoration: none;
+  padding: 5px;
   font-weight: lighter;
   &:hover {
     text-decoration: none;
@@ -56,13 +70,13 @@
 }
 
 @keyframes navBar-hover {
-  0% {color: #FFFFFF;}
-  100% {color: #00D5A5;}  
+ 0% {color: #FFFFFF;}
+ 100% {color: #00D5A5;}  
 }
 
 @-webkit-keyframes navBar-hover {
-  0% {color: #FFFFFF;}
-  100% {color: #00D5A5;}
+ 0% {color: #FFFFFF;}
+ 100% {color: #00D5A5;}  
 }
 
 @keyframes btnInfo-hover{

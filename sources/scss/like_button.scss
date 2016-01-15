@@ -1,14 +1,8 @@
 .LikeButtons {
-  margin: 0 0 20px 0;
+  margin: 0 0 10px 0;
 }
 .LikeButtons-title {
   margin: 0 0 3px 0;
-  font-size: 12px;
-}
-
-.LikeButtons-response {
-  margin: -2px 0 0 0;
-  padding: 0 0 0 14px;
   font-size: 12px;
 }
 
@@ -19,7 +13,6 @@
 .LikeButtons-listItem {
   display: inline-block;
   margin: 0 5px 0 0;
-  padding: 8px 25px 8px 0px;
 }
 
 .LikeButton {
@@ -35,7 +28,6 @@
   background: transparent url(/img/hand_up.png) no-repeat;
 
   &:hover {
-    opacity: 1;
   }
 }
 
