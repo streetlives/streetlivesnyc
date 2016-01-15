@@ -1,14 +1,14 @@
-![](https://travis-ci.org/javierarce/streetlives.svg?branch=master)
+![](https://travis-ci.org/streetlives/streetlivesnyc.svg?branch=master)
 
 #### How to run Streetlives locally:
 
 1. Clone the repo:
 
-`git clone git@github.com:javierarce/streetlives.git`
+`git clone git@github.com:streetlives/streetlivesnyc.git`
 
 3. Install the dependencies:
 
-`cd streetlives`
+`cd streetlivesnyc`
 `npm install`
 
 4. Install grunt:
