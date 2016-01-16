@@ -1,0 +1,19 @@
+@import '_mediaqueries';
+@import 'font';
+
+$h1-size: 24px;
+$h1-linehight: $h1-size*1.4;
+
+//Font weights in numbers
+$hairline: 100;
+$ultralight: 200;
+$light: 300;
+$regular: 400;
+$semi-bold: 500;
+$bold: 600;
+$extra-bold: 700;
+$black: 800;
+
+//Font families
+$Monsterrat-regular: 'Monsterrat-regular', 'Gotham', 'Proxima Nova', 'Proxima-Nova', 'Helvetica', 'Helvetica-Neue', Helvetica, Arial, sans-serif !default;
+
