@@ -24,13 +24,14 @@ var Header = SL.View.extend({
   },
 
   render: function() {
-    var options = {
+    ReactDom.render(React.createElement(ReactHeader, {title: 'hello', url: 'asd'}), this.$el);
+    /*var options = {
       title: 'StreetlivesNYC',
       url: 'http://beta.streetlives.nyc'
     };
 
     this.$el.append(this.template(options));
-    return this;
+    return this;*/
   },
 
   _onOpenMap: function() {
