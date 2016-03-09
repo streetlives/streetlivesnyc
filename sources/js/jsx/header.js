@@ -1,7 +1,6 @@
 var ReactHeader = React.createClass({
     render: function() {
-        return 
-        (<div>
+        return (<div>
             <a href={this.props.url} className="HeaderTitle">
                 {this.props.title}
             </a>

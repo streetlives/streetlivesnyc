@@ -79,8 +79,8 @@ module.exports = function (grunt) {
         src: [
           'sources/js/vendor/underscore-min.js',
           'sources/js/vendor/backbone-min.js',
-          'sources/js/vendor/react-with-addons.min.js',
-          'sources/js/vendor/react-dom.min.js',
+          'sources/js/vendor/react.js',
+          'sources/js/vendor/react-dom.js',
           'sources/js/vendor/jquery.mousewheel.js',
           'sources/js/vendor/moment.min.js',
           'sources/js/vendor/jquery.jscrollpane.min.js',
@@ -140,5 +140,5 @@ module.exports = function (grunt) {
   grunt.registerTask('default', ['jshint', 'mochaTest']);
   grunt.registerTask('js', ['jst', 'concat:js']);
   grunt.registerTask('css', ['sass', 'concat:css']);
-  grunt.registerTask('build', ['sass', 'babel', 'concat']);
+  grunt.registerTask('build', ['sass', 'babel', 'concat', 'uglify']);
 };

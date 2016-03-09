@@ -24,7 +24,8 @@ var Header = SL.View.extend({
   },
 
   render: function() {
-    ReactDom.render(React.createElement(ReactHeader, {title: 'hello', url: 'asd'}), this.$el);
+    ReactDOM.render(React.createElement(ReactHeader, {title: 'hello', url: 'asd'}), this.$el[0]);
+    return this;
     /*var options = {
       title: 'StreetlivesNYC',
       url: 'http://beta.streetlives.nyc'
