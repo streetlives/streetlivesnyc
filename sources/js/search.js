@@ -11,11 +11,7 @@ var Search = SL.View.extend({
   },
 
   render: function() {
-    this.$el.append(this.template());
-
-    this._initAutoComplete();
-    this._focus();
-
+    ReactDOM.render(React.createElement(ReactSearch), this.$el[0]);
     return this;
   },
 
@@ -28,24 +24,6 @@ var Search = SL.View.extend({
     }
 
     this.trigger('goto_place', place, this);
-  },
-
-  _focus: function() {
-    var self = this;
-
-    setTimeout(function() {
-      self.$('.js-field').focus();
-    }, 500);
-  },
-
-  _initAutoComplete: function() {
-    var input = this.$('.js-field')[0];
-
-    this.autocomplete = new google.maps.places.Autocomplete(input, {
-      componentRestrictions: { country: 'USA' }
-    });
-
-    google.maps.event.addListener(this.autocomplete, 'place_changed', this._onPlaceChange);
   }
 });
 

@@ -19696,6 +19696,57 @@ var CommentsView = SL.View.extend({
   }
 });
 
+"use strict";
+
+var ReactHeader = React.createClass({
+    displayName: "ReactHeader",
+
+
+    render: function render() {
+        return React.createElement(
+            "header",
+            { className: "Header" },
+            React.createElement(
+                "a",
+                { href: this.props.url, className: "HeaderTitle" },
+                this.props.title
+            ),
+            React.createElement(
+                "ul",
+                { className: "HeaderItems" },
+                React.createElement(
+                    "li",
+                    { className: "HeaderItem" },
+                    React.createElement(
+                        "a",
+                        { href: "/", className: "HeaderItem-link is-selected js-item js-map" },
+                        "Map"
+                    )
+                ),
+                React.createElement(
+                    "li",
+                    { className: "HeaderItem" },
+                    React.createElement(
+                        "a",
+                        { href: "/about", className: "HeaderItem-link js-item js-about" },
+                        "About"
+                    )
+                ),
+                React.createElement(
+                    "li",
+                    { className: "HeaderItem" },
+                    React.createElement(
+                        "a",
+                        { href: "/privacy", className: "HeaderItem-link js-item js-privacy" },
+                        "Privacy"
+                    )
+                )
+            )
+        );
+    }
+});
+//# sourceMappingURL=components.js.map
+
 'use strict';
 
 SL.Dialog = SL.View.extend({
@@ -20389,6 +20440,50 @@ var ReactHeader = React.createClass({
 
 'use strict';
 
+var ReactSearch = React.createClass({
+  displayName: 'ReactSearch',
+
+  _focus: function _focus() {
+    var self = this;
+
+    setTimeout(function () {
+      self.refs.searchBar.focus();
+    }, 500);
+  },
+
+  _initAutoComplete: function _initAutoComplete() {
+    var input = this.refs.searchBar;
+    this.autocomplete = new google.maps.places.Autocomplete(input, {
+      componentRestrictions: { country: 'USA' }
+    });
+
+    google.maps.event.addListener(this.autocomplete, 'place_changed', this._onPlaceChange);
+  },
+
+  _onPlaceChange: function _onPlaceChange() {
+
+    var place = this.autocomplete.getPlace();
+
+    if (!place.geometry || !place.geometry.location) {
+      return;
+    }
+
+    this.trigger('goto_place', place, this);
+  },
+
+  componentDidMount: function componentDidMount() {
+    this._initAutoComplete();
+    this._focus();
+  },
+
+  render: function render() {
+    return React.createElement('input', { type: 'text', placeholder: 'Search', ref: 'searchBar', className: 'Input SearchInput js-field' });
+  }
+});
+//# sourceMappingURL=react-search.js.map
+
+'use strict';
+
 var Router = Backbone.Router.extend({
 
   routes: {
@@ -20423,11 +20518,7 @@ var Search = SL.View.extend({
   },
 
   render: function() {
-    this.$el.append(this.template());
-
-    this._initAutoComplete();
-    this._focus();
-
+    ReactDOM.render(React.createElement(ReactSearch), this.$el[0]);
     return this;
   },
 
@@ -20440,24 +20531,6 @@ var Search = SL.View.extend({
     }
 
     this.trigger('goto_place', place, this);
-  },
-
-  _focus: function() {
-    var self = this;
-
-    setTimeout(function() {
-      self.$('.js-field').focus();
-    }, 500);
-  },
-
-  _initAutoComplete: function() {
-    var input = this.$('.js-field')[0];
-
-    this.autocomplete = new google.maps.places.Autocomplete(input, {
-      componentRestrictions: { country: 'USA' }
-    });
-
-    google.maps.event.addListener(this.autocomplete, 'place_changed', this._onPlaceChange);
   }
 });
 

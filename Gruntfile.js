@@ -15,9 +15,10 @@ module.exports = function (grunt) {
           presets: ['es2015', 'react']
       },
       dist: {
-          files: {
-              'sources/js/react-header.js': 'sources/js/jsx/header.js'
-          }
+        files: {
+            'sources/js/react-header.js': 'sources/js/jsx/header.js',
+            'sources/js/react-search.js': 'sources/js/jsx/search.js'
+        }
       }
     },
 
