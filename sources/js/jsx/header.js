@@ -1,6 +1,6 @@
 var ReactHeader = React.createClass({
     render: function() {
-        return (<div>
+        return (<header className="Header">
             <a href={this.props.url} className="HeaderTitle">
                 {this.props.title}
             </a>
@@ -10,6 +10,6 @@ var ReactHeader = React.createClass({
               <li className="HeaderItem"><a href='/about' className="HeaderItem-link js-item js-about">About</a></li>
               <li className="HeaderItem"><a href='/privacy' className="HeaderItem-link js-item js-privacy">Privacy</a></li>
             </ul>
-        </div>)
+        </header>)
     }
 });

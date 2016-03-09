@@ -19805,8 +19805,7 @@ SL.Dialog = SL.View.extend({
 
 var Header = SL.View.extend({
 
-  tagName: 'header',
-  className: 'Header',
+  tagName: 'div',
 
   events: {
     'click .js-map': '_onClickMap',
@@ -19827,15 +19826,13 @@ var Header = SL.View.extend({
   },
 
   render: function() {
-    ReactDOM.render(React.createElement(ReactHeader, {title: 'hello', url: 'asd'}), this.$el[0]);
-    return this;
-    /*var options = {
+    var options = {
       title: 'StreetlivesNYC',
       url: 'http://beta.streetlives.nyc'
     };
 
-    this.$el.append(this.template(options));
-    return this;*/
+    ReactDOM.render(React.createElement(ReactHeader, options), this.$el[0]);
+    return this;
   },
 
   _onOpenMap: function() {
@@ -20390,8 +20387,8 @@ var ReactHeader = React.createClass({
 
     render: function render() {
         return React.createElement(
-            "div",
-            null,
+            "header",
+            { className: "Header" },
             React.createElement(
                 "a",
                 { href: this.props.url, className: "HeaderTitle" },

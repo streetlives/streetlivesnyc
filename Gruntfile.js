@@ -138,7 +138,7 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('default', ['jshint', 'mochaTest']);
-  grunt.registerTask('js', ['jst', 'concat:js']);
+  grunt.registerTask('js', ['babel', 'jst', 'concat:js']);
   grunt.registerTask('css', ['sass', 'concat:css']);
   grunt.registerTask('build', ['sass', 'babel', 'concat', 'uglify']);
 };
