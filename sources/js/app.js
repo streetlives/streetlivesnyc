@@ -4,8 +4,6 @@ var App = SL.View.extend({
   el: 'body',
 
   initialize: function() {
-    this.map = new MapView({ el: this.$('.Map') });
-
     this._setupRouter();
 
     this.header = new Header({
@@ -16,7 +14,7 @@ var App = SL.View.extend({
   },
 
   render: function() {
-    this.map.render();
+    ReactDOM.render(React.createElement(ReactMap), this.$el[0]);
     this.$el.append(this.header.render().$el);
   },
 

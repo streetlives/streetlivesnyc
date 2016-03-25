@@ -33,7 +33,11 @@ var ReactSearch = React.createClass({
     },
 
     render: function() {
-        return <input type='text' placeholder='Search' ref="searchBar" className="Input SearchInput js-field" />
+        return (
+            <div className='InputField SearchField'>
+                <input type='text' placeholder='Search' ref="searchBar" className="Input SearchInput js-field" />
+            </div>
+        )
     }
 });
 
