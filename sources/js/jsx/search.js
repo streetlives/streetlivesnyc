@@ -24,7 +24,7 @@ var ReactSearch = React.createClass({
         return;
       }
     
-      this.trigger('goto_place', place, this);
+      this.props.gotoPlace(place);
     },
 
     componentDidMount: function() {

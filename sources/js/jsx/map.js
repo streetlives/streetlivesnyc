@@ -10,9 +10,6 @@ var ReactMap = React.createClass({
         const offerings = new Offerings();
         offerings.fetch();
 
-        const search = new Search();
-        search.bind('goto_place', this._gotoPlace, this);
-
         const addLocation = new Button({ title: 'Add Location' });
         addLocation.bind('click', this._onClickAddLocation, this);
 
@@ -20,7 +17,6 @@ var ReactMap = React.createClass({
             model: model,
             geocoder: geocoder,
             offerings: offerings,
-            search: search,
             addLocation: addLocation,
             viz: {
                 templateURL: '//<%- username %>.cartodb.com/api/v2/viz/<%-id %>/viz.json'
@@ -140,10 +136,29 @@ var ReactMap = React.createClass({
         return (
             <div>
                 <div id="map" className="Map"></div>
-                <ReactSearch />
+                <ReactSearch gotoPlace={this._gotoPlace}/>
             </div>
         )
     },
+
+    _gotoPlace: function(place) {
+        var coordinates = [place.geometry.location.lat(), place.geometry.location.lng()];
+        var latLng = new google.maps.LatLng(coordinates[0], coordinates[1]);
+
+        var self = this;
+
+        this.state.geocoder.geocode({ 'latLng': latLng }, function(results, status) {
+            self._onFinishedGeocoding(coordinates, place, results, status);
+        });
+
+        this.map.panTo(coordinates);
+
+        setTimeout(function() {
+            self.map.setZoom(17);
+            self._addMarker(coordinates);
+        }, 500);
+    },
+
 
     _getVizJSONURL() {
         var tpl = _.template(this.state.viz.templateURL);
