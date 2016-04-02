@@ -132,15 +132,6 @@ var ReactMap = React.createClass({
         this.state.addLocation.show();
     },
 
-    render() {
-        return (
-            <div>
-                <div id="map" className="Map"></div>
-                <ReactSearch gotoPlace={this._gotoPlace}/>
-            </div>
-        )
-    },
-
     _gotoPlace: function(place) {
         var coordinates = [place.geometry.location.lat(), place.geometry.location.lng()];
         var latLng = new google.maps.LatLng(coordinates[0], coordinates[1]);
@@ -167,6 +158,15 @@ var ReactMap = React.createClass({
             id: window.Config.map_id,
             username: window.Config.username
         });
+    },
+
+    render() {
+        return (
+            <div>
+                <div id="map" className="Map"></div>
+                <ReactSearch gotoPlace={this._gotoPlace}/>
+            </div>
+        )
     }
 
 });
