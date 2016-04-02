@@ -52,7 +52,6 @@ var ReactMap = React.createClass({
     },
 
     _onVisLoaded(vis, layers) {
-        console.log("loaded!");
         var layer = layers[1];
         layer.setInteraction(true);
         var query = "SELECT l.*, string_agg(o.name, ', ') as offerings " +
@@ -79,9 +78,31 @@ var ReactMap = React.createClass({
 
         this.map = vis.getNativeMap();
 
-        //TODO: fix this
         this.map.on('click', this._onClickMap);
     },
+
+    _onMouseOut: function() {
+        $('.leaflet-container').css('cursor', 'auto');
+    },
+
+    _onMouseOver: function() {
+        $('.leaflet-container').css('cursor', 'pointer');
+    },
+
+    _onFeatureClick: function(e, latlng, pos, data) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        if (this.t) {
+            clearTimeout(this.t);
+        }
+
+        this.map.closePopup();
+
+        this.locationInformation = new LocationInformation(data);
+        this.locationInformation.open();
+    },
+
 
     _onClickMap: function(e) {
         var geocoder = this.state.geocoder;
