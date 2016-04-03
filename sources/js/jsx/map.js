@@ -10,14 +10,10 @@ var ReactMap = React.createClass({
         const offerings = new Offerings();
         offerings.fetch();
 
-        const addLocation = new Button({ title: 'Add Location' });
-        addLocation.bind('click', this._onClickAddLocation, this);
-
         return {
             model: model,
             geocoder: geocoder,
             offerings: offerings,
-            addLocation: addLocation,
             viz: {
                 templateURL: '//<%- username %>.cartodb.com/api/v2/viz/<%-id %>/viz.json'
             },
@@ -61,7 +57,6 @@ var ReactMap = React.createClass({
             "GROUP BY l.cartodb_id";
         layer.setQuery(query);
 
-        //TODO: fix these
         layer.on('mouseover',    this._onMouseOver);
         layer.on('mouseout',     this._onMouseOut);
         layer.on('featureClick', this._onFeatureClick);
@@ -70,7 +65,6 @@ var ReactMap = React.createClass({
         sublayer.setInteraction(true);
         sublayer.setInteractivity('cartodb_id, name, description, offerings, address');
 
-        //TODO: fix this
         sublayer.on('featureClick', function(e, latlng, pos, data) {
             e.preventDefault();
             e.stopPropagation();
@@ -150,7 +144,68 @@ var ReactMap = React.createClass({
 
         this.currentMarker = L.circleMarker(coordinates, style);
         this.currentMarker.addTo(this.map);
-        this.state.addLocation.show();
+
+        /**
+         * This element is INSIDE the content of the popup generated from the template. No better
+         * ideas on how to attach the handler to it. Hopefully React/leaflet thing can help here.
+         */
+        $('.js-add-location').click(this._onClickAddLocation);
+    },
+
+    _onClickAddLocation: function(e) {
+        this._killEvent(e);
+        this.map.removeLayer(this.popup);
+
+        this.locationForm = new LocationForm({
+            offerings: this.state.offerings,
+            name: this.state.model.get('name'),
+            coordinates: this.state.model.get('coordinates'),
+            address: this.state.model.get('address')
+        });
+
+        this.locationForm.bind('add_location', this._onAddLocation, this);
+        this.locationForm.open();
+    },
+
+    _killEvent: function(e) {
+        if (e) {
+            if (e.preventDefault) {
+                e.preventDefault();
+            }
+            if (e.stopPropagation) {
+                e.stopPropagation();
+            }
+        }
+    },
+
+    _onKeyUp: function(e) {
+        if (e.keyCode === 27) {
+            this.map.closePopup();
+        }
+    },
+
+    _onAddLocation: function() {
+        var marker = L.circleMarker(this.model.get('coordinates'), this.defaults.style.marker);
+
+        marker.on('click', function() {
+            console.log('click');
+        });
+
+        marker.addTo(this.map);
+
+        var success = new SL.Dialog({ title: 'Thank your for helping the community with your knowledge', text: '', ok_button: 'Ok, thanks' });
+        success.open();
+
+        this._removeCurrentSelection();
+    },
+
+    _removeCurrentSelection: function() {
+        if (this.currentMarker) {
+            this.map.removeLayer(this.currentMarker);
+            this.state.model.set({ address: null });
+            this.locationForm.close();
+            this.addLocation.hide();
+        }
     },
 
     _gotoPlace: function(place) {
@@ -171,7 +226,6 @@ var ReactMap = React.createClass({
         }, 500);
     },
 
-
     _getVizJSONURL() {
         var tpl = _.template(this.state.viz.templateURL);
 
@@ -183,7 +237,7 @@ var ReactMap = React.createClass({
 
     render() {
         return (
-            <div>
+            <div onkeyup={this._onKeyUp}>
                 <div id="map" className="Map"></div>
                 <ReactSearch gotoPlace={this._gotoPlace}/>
             </div>
