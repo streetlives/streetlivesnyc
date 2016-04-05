@@ -17,7 +17,9 @@ module.exports = function (grunt) {
       dist: {
         files: {
             'sources/js/react-header.js': 'sources/js/jsx/header.js',
-            'sources/js/react-search.js': 'sources/js/jsx/search.js'
+            'sources/js/react-search.js': 'sources/js/jsx/search.js',
+            'sources/js/react-map.js': 'sources/js/jsx/map.js',
+            'sources/js/react-app.js': 'sources/js/jsx/app.js'
         }
       }
     },
@@ -80,8 +82,8 @@ module.exports = function (grunt) {
         src: [
           'sources/js/vendor/underscore-min.js',
           'sources/js/vendor/backbone-min.js',
-          'sources/js/vendor/react.js',
-          'sources/js/vendor/react-dom.js',
+          'sources/js/vendor/react-with-addons.min.js',
+          'sources/js/vendor/react-dom.min.js',
           'sources/js/vendor/jquery.mousewheel.js',
           'sources/js/vendor/moment.min.js',
           'sources/js/vendor/jquery.jscrollpane.min.js',

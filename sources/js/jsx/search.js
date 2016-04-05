@@ -24,7 +24,7 @@ var ReactSearch = React.createClass({
         return;
       }
     
-      this.trigger('goto_place', place, this);
+      this.props.gotoPlace(place);
     },
 
     componentDidMount: function() {
@@ -33,7 +33,11 @@ var ReactSearch = React.createClass({
     },
 
     render: function() {
-        return <input type='text' placeholder='Search' ref="searchBar" className="Input SearchInput js-field" />
+        return (
+            <div className='InputField SearchField'>
+                <input type='text' placeholder='Search' ref="searchBar" className="Input SearchInput js-field" />
+            </div>
+        )
     }
 });
 
