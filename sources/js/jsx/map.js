@@ -47,6 +47,22 @@ var ReactMap = React.createClass({
         cartodb.createVis('map', url, options).done(this._onVisLoaded);
     },
 
+    isMobile() {
+        if( navigator.userAgent.match(/Android/i)
+         || navigator.userAgent.match(/webOS/i)
+         || navigator.userAgent.match(/iPhone/i)
+         || navigator.userAgent.match(/iPad/i)
+         || navigator.userAgent.match(/iPod/i)
+         || navigator.userAgent.match(/BlackBerry/i)
+         || navigator.userAgent.match(/Windows Phone/i)
+         ){
+            return true;
+          }
+         else {
+            return false;
+          }
+    },
+
     _onVisLoaded(vis, layers) {
         var layer = layers[1];
         layer.setInteraction(true);
@@ -65,6 +81,21 @@ var ReactMap = React.createClass({
         sublayer.setInteraction(true);
         sublayer.setInteractivity('cartodb_id, name, description, offerings, address');
 
+        var markerWidth = this.isMobile() ? 20 : 10;
+        var locationCSS = '#locations {' + 
+             'marker-fill-opacity: 0.9;' +
+             'marker-line-color: #FFF;' +
+             'marker-line-width: 1;' +
+             'marker-line-opacity: 1;' +
+             'marker-placement: point;' +
+             'marker-type: ellipse;' +
+             'marker-width: ' + markerWidth + ';' +
+             'marker-fill: #FF6600;' +
+             'marker-allow-overlap: true; }';
+
+        sublayer.setCartoCSS(locationCSS);
+
+        //TODO: fix this
         sublayer.on('featureClick', function(e, latlng, pos, data) {
             e.preventDefault();
             e.stopPropagation();
