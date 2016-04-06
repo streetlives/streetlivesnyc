@@ -216,7 +216,7 @@ var ReactMap = React.createClass({
     },
 
     _onAddLocation: function() {
-        var marker = L.circleMarker(this.model.get('coordinates'), this.defaults.style.marker);
+        var marker = L.circleMarker(this.state.model.get('coordinates'), this.state.style.marker);
 
         marker.on('click', function() {
             console.log('click');
