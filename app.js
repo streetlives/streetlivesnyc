@@ -6,13 +6,16 @@ var App = require('./lib/server')(Config);
 
 var returnJSON = function(response, err, data) {
   if (err) {
-    return console.log(err);
+      console.log(err);
+      response.writeHead('400');
+      response.end();
+  } else {
+      response.writeHead('200', {
+        'Content-Type': 'application/json'
+      });
+      response.write(JSON.stringify(data));
+      response.end();
   }
-  response.writeHead('200', {
-    'Content-Type': 'application/json'
-  });
-  response.write(JSON.stringify(data));
-  response.end();
 };
 
 App.get('/', function(request, response) {
@@ -34,6 +37,7 @@ App.post('/location', function(request, response) {
 });
 
 App.get('/offerings', function(request, response) {
+  console.log("hi im here");
   SL.getOfferings(function(err, data) {
     returnJSON(response, err, data);
   });
