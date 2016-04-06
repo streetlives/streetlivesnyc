@@ -7,6 +7,24 @@
   z-index: 10;
 }
 
+@media screen and (max-width: 470px) {
+    .SearchField {
+        width: 80%; 
+        left: 0;
+        margin-left: 10%;
+    }
+}
+
+@media screen and (max-width: 360px) {
+    .HeaderItem-link {
+        font-size: 11px;
+    }
+
+    .HeaderTitle {
+        font-size: 18px;
+    }
+}
+
 .SearchInput {
   border: 1px solid transparent;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
