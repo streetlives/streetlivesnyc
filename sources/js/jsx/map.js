@@ -162,7 +162,8 @@ var ReactMap = React.createClass({
             address: this.state.model.get('address' )
         });
 
-        this.popup = SL.Popup({ autoPanPaddingTopLeft: [10, 75], offset: [0, -5] })
+        var panCoords = (this.isMobile()) ? [0, 150] : [10, 75];
+        this.popup = SL.Popup({ autoPanPaddingTopLeft: panCoords, offset: [0, -5] })
             .setLatLng(coordinates)
             .setContent(content)
             .openOn(this.map);
