@@ -174,6 +174,20 @@ a {
   text-align: left;
   color: #666; }
 
+@media screen and (max-width: 470px) {
+  .Dialog-inner.js-content {
+    width: 300px;
+    padding: 50px 20px 100px 20px; }
+
+  div.Dialog-logo {
+    margin: auto auto 20px auto; }
+
+  div.Dialog-content {
+    width: 250px;
+    margin: 0 auto; }
+
+  div.Dialog-message {
+    font-size: 18px; } }
 .Dialog {
   position: absolute;
   width: 100%;
@@ -199,6 +213,9 @@ a {
   padding: 50px 50px 100px 50px;
   box-sizing: border-box;
   text-align: center; }
+
+.Dialog-message {
+  font-size: 25px; }
 
 .Dialog-content {
   width: 300px;
@@ -546,6 +563,10 @@ a {
   height: 14px;
   background: transparent url(/img/total.png) no-repeat; }
 
+@media screen and (max-width: 360px) {
+  .LocationForm-inner.js-content {
+    top: 120px;
+    width: 290px; } }
 .LocationForm {
   position: absolute;
   width: 100%;
@@ -618,6 +639,18 @@ a {
   padding: 0 0 5px 0;
   border-bottom: 1px solid #ccc; }
 
+@media screen and (max-width: 470px) {
+  .LocationInformation-inner.js-content {
+    width: 320px;
+    top: 180px; }
+
+  .LocationInformation-title {
+    margin: 0px 20px 8px;
+    padding: 0 0px 5px 0; } }
+@media screen and (max-width: 360px) {
+  .LocationInformation-inner.js-content {
+    top: 240px;
+    width: 290px; } }
 .LocationInformation {
   font-family: 'Open Sans', sans-serif;
   position: absolute;
@@ -845,6 +878,9 @@ a {
   background-color: #F8F8F8;
   background-blend-mode: multiply; }
 
+@media screen and (max-width: 470px) {
+  .Popup {
+    width: 300px; } }
 .Popup .leaflet-popup-content-wrapper {
   font-family: 'Open Sans', sans-serif;
   text-align: center;
@@ -929,6 +965,17 @@ table {
   left: 55px;
   z-index: 10; }
 
+@media screen and (max-width: 470px) {
+  .SearchField {
+    width: 80%;
+    left: 0;
+    margin-left: 10%; } }
+@media screen and (max-width: 360px) {
+  .HeaderItem-link {
+    font-size: 11px; }
+
+  .HeaderTitle {
+    font-size: 18px; } }
 .SearchInput {
   border: 1px solid transparent;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
