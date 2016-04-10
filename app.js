@@ -6,7 +6,7 @@ var Config = {};
  */
 if (process.env.MAP_ID && process.env.DB_USER && process.env.API_KEY) {
     Config = {
-        port: 7000,
+        port: process.env.PORT,
         log: 'responses.log',
         MAP_ID: process.env.MAP_ID,
         DB: {
