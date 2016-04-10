@@ -1,6 +1,23 @@
 'use strict';
 
-var Config = require('./lib/config')();
+var Config = {};
+/**
+ * Get configs from env if available. Used on Heroku deploy.
+ */
+if (process.env.MAP_ID && process.env.DB_USER && process.env.API_KEY) {
+    Config = {
+        port: 7000,
+        log: 'responses.log',
+        MAP_ID: process.env.MAP_ID,
+        DB: {
+            USER: process.env.DB_USER,
+            API_KEY: process.env.API_KEY
+        }
+    }
+} else {
+    Config = require('./lib/config')();
+}
+
 var SL = require('./lib/streetlives')(Config);
 var App = require('./lib/server')(Config);
 
