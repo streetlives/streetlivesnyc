@@ -14,6 +14,7 @@ var ReactMap = React.createClass({
             model: model,
             geocoder: geocoder,
             offerings: offerings,
+            locationForm: false,
             viz: {
                 templateURL: '//<%- username %>.cartodb.com/api/v2/viz/<%-id %>/viz.json'
             },
@@ -188,15 +189,10 @@ var ReactMap = React.createClass({
         this._killEvent(e);
         this.map.removeLayer(this.popup);
 
-        this.locationForm = new LocationForm({
-            offerings: this.state.offerings,
-            name: this.state.model.get('name'),
-            coordinates: this.state.model.get('coordinates'),
-            address: this.state.model.get('address')
+        this.setState({
+            locationForm: true
         });
-
-        this.locationForm.bind('add_location', this._onAddLocation, this);
-        this.locationForm.open();
+        console.log(this.state);
     },
 
     _killEvent: function(e) {
@@ -235,8 +231,9 @@ var ReactMap = React.createClass({
         if (this.currentMarker) {
             this.map.removeLayer(this.currentMarker);
             this.state.model.set({ address: null });
-            this.locationForm.close();
-            this.addLocation.hide();
+            this.setState({
+                locationForm: false
+            });
         }
     },
 
@@ -267,11 +264,34 @@ var ReactMap = React.createClass({
         });
     },
 
+    removeLocationForm() {
+        this.setState({
+            locationForm: false
+        })
+    },
+
+    renderLocationForm() {
+      if (this.state.locationForm) {
+          return (
+              <LocationForm onAddLocation={this._onAddLocation}
+                            onClickCancel={this.removeLocationForm}
+                            offerings={this.state.offerings}
+                            name={this.state.model.get('name')}
+                            coordinates={this.state.model.get('coordinates')}
+                            address={this.state.model.get('address')}
+              />
+          )
+      } else {
+          return null;
+      }
+    },
+
     render() {
         return (
             <div onkeyup={this._onKeyUp}>
                 <div id="map" className="Map"></div>
                 <ReactSearch gotoPlace={this._gotoPlace}/>
+                {this.renderLocationForm()}
             </div>
         )
     }
