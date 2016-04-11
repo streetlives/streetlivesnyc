@@ -894,156 +894,6 @@ SL.Dialog = SL.View.extend({
 
 'use strict';
 
-var LocationForm = SL.Dialog.extend({
-
-  _TEXT: {
-    title: 'Add location'
-  },
-
-  events: {
-    'click .js-ok': '_onClickOk',
-    'click .js-cancel': 'close',
-    'keyup .js-name': '_onKeyUpName'
-  },
-
-  templateName: 'location_form',
-  templateContentName: 'location_form_content',
-
-  className: 'LocationForm is-hidden',
-
-  initialize: function(options) {
-    this._super('initialize', arguments);
-    this._setupLocation();
-  },
-
-  render_content: function() {
-    var attributes = _.extend({ title: this._TEXT.title }, this.location.attributes);
-    this.$('.js-content').append(this.templateContent(attributes));
-    return this;
-  },
-
-  _setupModel: function() {
-    this.model = new SL.Model(_.extend({
-      enabled: false,
-      hidden: true
-    }, this.options));
-
-    this.model.bind('change:enabled', this._onChangeEnabled, this);
-    this.model.bind('change:hidden', this._onChangeHidden, this);
-  },
-
-  _setupLocation: function() {
-    this.location = new Location(this.options);
-    this.location.bind('change:address', this._onChangeAddress, this);
-    this.location.bind('change:name', this._onChangeName, this);
-
-    this.location.on("invalid", function(model, error) {
-      if (error === 'name') {
-        this.$(".js-field").addClass('has-error');
-      }
-    }, this);
-  },
-
-  _onChangeHidden: function() {
-    this.$el.toggleClass('is-hidden', this.model.get('hidden'));
-  },
-
-  _onChangeName: function() {
-    this.$('.js-name').val(this.location.get('name'));
-  },
-
-  _onChangeEnabled: function() {
-    this.$('.js-ok').toggleClass('is-disabled', !this.model.get('enabled'));
-  },
-
-  _onChangeAddress: function() {
-    this.$('.js-address').text(this.location.get('address'));
-  },
-
-  _onKeyUpName: function() {
-    this.model.set('enabled', this.$('.js-name').val().length > 0);
-  },
-
-  _onKeyUp: function(e) {
-    if (e.keyCode === 27) {
-      this.close();
-    }
-  },
-
-  _isEnabled: function() {
-    return this.model.get('enabled');
-  },
-
-  _onClickOk: function() {
-    if (!this._isEnabled()) {
-      return;
-    }
-
-    var ids = _.map(this.$('input:checked'), function(el) {
-      return +$(el).val();
-    });
-
-    var name = this.$('.js-name').val();
-    var username = this.$('.js-username').val();
-    var comment = this.$('.js-comment').val();
-
-    var self = this;
-
-    this.location.save({ name: name, comment: comment, username: username, offerings: ids }, {
-      success: function() {
-      self.trigger('add_location', this.location, this);
-      self.close();
-    }});
-  },
-
-  _clear: function() {
-    this.model.set({ enabled: false });
-    this.$('.js-checkbox').attr('checked', false);
-    this.$(".js-field").removeClass('has-error');
-    this.$('.js-name').val('');
-    this.$('.js-ok').addClass('is-disabled');
-    this.$('.js-comment').val('');
-  },
-
-  _show: function() {
-    var self = this;
-    this.$('.js-content').fadeIn(150, function() {
-      self.model.set('hidden', false);
-    });
-  },
-
-  _hide: function() {
-    var self = this;
-    this.$('.js-content').fadeOut(150, function() {
-      self.model.set('hidden', true);
-    });
-  },
-
-  _focus: function() {
-    var self = this;
-
-    setTimeout(function() {
-      self.$('.js-name').focus();
-    }, 200);
-  },
-
-  open: function() {
-    $(document).on("keyup", this._onKeyUp);
-    $('body').append(this.render().$el);
-    this._show();
-    this._focus();
-  },
-
-  close: function() {
-    $(document).off("keyup", this._onKeyUp);
-    this._clear();
-    this._hide();
-  }
-});
-
-
-'use strict';
-
 var LocationInformation = SL.Dialog.extend({
 
   _TEXT: {
@@ -1230,6 +1080,175 @@ var ReactHeader = React.createClass({
     }
 });
 //# sourceMappingURL=react-header.js.map
+
+'use strict';
+
+var LocationForm = React.createClass({
+    displayName: 'LocationForm',
+
+
+    getInitialState: function getInitialState() {
+        return {
+            enableSubmit: false
+        };
+    },
+
+    addLocation: function addLocation() {
+        var ids = _.filter(this.refs.offerings.children, function (child) {
+            return child.children[0].children[0].checked;
+        }).map(function (child) {
+            return child.children[0].children[0].value;
+        });
+
+        var name = this.refs.name.value;
+        var username = this.refs.username.value;
+        var comment = this.refs.comment.value;
+
+        var location = new Location(this.props);
+        var onAddLocation = this.props.onAddLocation;
+        var onClickCancel = this.props.onClickCancel;
+        location.save({ name: name, comment: comment, username: username, offerings: ids }, {
+            success: function success() {
+                onAddLocation(location);
+                onClickCancel();
+            }
+        });
+    },
+
+    checkSubmitButton: function checkSubmitButton() {
+        this.setState({
+            enableSubmit: this.refs.name.value.length > 0
+        });
+    },
+
+    renderOfferingList: function renderOfferingList(offering) {
+        var id = offering.get('cartodb_id');
+        return React.createElement(
+            'li',
+            { className: 'OfferingList-item', key: id },
+            React.createElement(
+                'label',
+                { 'for': 'offering_' + id, className: 'InputCheck-label' },
+                React.createElement('input', { type: 'checkbox',
+                    value: id,
+                    id: 'offering_' + id,
+                    className: 'InputCheck js-checkbox' }),
+                offering.get('name')
+            )
+        );
+    },
+
+    render: function render() {
+        return React.createElement(
+            'div',
+            { className: 'LocationForm' },
+            React.createElement(
+                'div',
+                { className: 'LocationForm-inner js-content' },
+                React.createElement(
+                    'div',
+                    { className: 'LocationForm-content js-content' },
+                    React.createElement(
+                        'ul',
+                        { className: 'LocationForm-fields' },
+                        React.createElement(
+                            'li',
+                            { className: 'LocationForm-field' },
+                            React.createElement(
+                                'label',
+                                { className: 'LocationForm-label' },
+                                'Address'
+                            ),
+                            React.createElement(
+                                'span',
+                                { className: 'js-address' },
+                                this.props.address
+                            )
+                        ),
+                        React.createElement(
+                            'li',
+                            { className: 'LocationForm-field' },
+                            React.createElement(
+                                'label',
+                                { className: 'LocationForm-label' },
+                                'Name'
+                            ),
+                            React.createElement(
+                                'div',
+                                { className: 'InputField js-field' },
+                                React.createElement('input', { type: 'text', placeholder: 'Name of this location',
+                                    className: 'Input js-name',
+                                    ref: 'name',
+                                    defaultValue: this.props.name,
+                                    onChange: this.checkSubmitButton })
+                            )
+                        ),
+                        React.createElement(
+                            'li',
+                            { className: 'LocationForm-field' },
+                            React.createElement(
+                                'label',
+                                { className: 'LocationForm-label' },
+                                'What does it offer?'
+                            ),
+                            React.createElement(
+                                'ul',
+                                { className: 'OfferingList', ref: 'offerings' },
+                                this.props.offerings.map(this.renderOfferingList)
+                            )
+                        ),
+                        React.createElement(
+                            'li',
+                            { className: 'LocationForm-field' },
+                            React.createElement(
+                                'label',
+                                { className: 'LocationForm-label' },
+                                'Add something to the conversation!'
+                            ),
+                            React.createElement(
+                                'div',
+                                { className: 'InputField js-field' },
+                                React.createElement('textarea', { placeholder: 'Feel free to add tips, warnings, comments or review about this place',
+                                    className: 'Input InputArea js-comment', ref: 'comment' })
+                            )
+                        ),
+                        React.createElement(
+                            'li',
+                            { className: 'LocationForm-field' },
+                            React.createElement(
+                                'label',
+                                { className: 'LocationForm-label' },
+                                'Your name or initials (optional)'
+                            ),
+                            React.createElement(
+                                'div',
+                                { className: 'InputField js-field' },
+                                React.createElement('input', { type: 'text', className: 'Input js-username', ref: 'username' })
+                            )
+                        )
+                    ),
+                    React.createElement(
+                        'footer',
+                        { className: 'Footer' },
+                        React.createElement(
+                            'button',
+                            { className: this.props.name || this.state.enableSubmit ? 'Button js-ok' : 'Button js-ok is-disabled',
+                                onClick: this.addLocation },
+                            'Add location'
+                        )
+                    ),
+                    React.createElement(
+                        'button',
+                        { className: 'Button Button--close js-cancel',
+                            onClick: this.props.onClickCancel },
+                        '✕'
+                    )
+                )
+            )
+        );
+    }
+});
+//# sourceMappingURL=react-locationForm.js.map
 
 'use strict';
 
