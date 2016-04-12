@@ -237,6 +237,15 @@ var ReactMap = React.createClass({
         }
     },
 
+    _reconcileCoordinates(coordinates) {
+        var locationModel = new Locations();
+        locationModel.fetch({data: $.param({ address: coordinates})}).done(function(data) {
+            console.log(data);
+        });
+
+        this._addMarker(coordinates);
+    },
+
     _gotoPlace: function(place) {
         var coordinates = [place.geometry.location.lat(), place.geometry.location.lng()];
         var latLng = new google.maps.LatLng(coordinates[0], coordinates[1]);
@@ -251,7 +260,7 @@ var ReactMap = React.createClass({
 
         setTimeout(function() {
             self.map.setZoom(17);
-            self._addMarker(coordinates);
+            self._reconcileCoordinates(coordinates);
         }, 500);
     },
 
