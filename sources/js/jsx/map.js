@@ -239,11 +239,15 @@ var ReactMap = React.createClass({
 
     _reconcileCoordinates(coordinates) {
         var locationModel = new Locations();
+        var self = this;
         locationModel.fetch({data: $.param({ address: coordinates})}).done(function(data) {
-            console.log(data);
+            if (data.rows.length > 0) {
+                self.locationInformation = new LocationInformation(data.rows[0]);
+                self.locationInformation.open();
+            } else {
+                self._addMarker(coordinates);
+            }
         });
-
-        this._addMarker(coordinates);
     },
 
     _gotoPlace: function(place) {
@@ -251,11 +255,6 @@ var ReactMap = React.createClass({
         var latLng = new google.maps.LatLng(coordinates[0], coordinates[1]);
 
         var self = this;
-
-        this.state.geocoder.geocode({ 'latLng': latLng }, function(results, status) {
-            self._onFinishedGeocoding(coordinates, place, results, status);
-        });
-
         this.map.panTo(coordinates);
 
         setTimeout(function() {
