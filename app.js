@@ -40,10 +40,17 @@ App.get('/', function(request, response) {
 });
 
 App.get('/locations', function(request, response) {
-  var queryStr = request.query.q ? request.query.q : "";
-  SL.getLocations(queryStr, function(err, data) {
-    returnJSON(response, err, data);
-  });
+  if (request.query.q) {
+      var queryStr = request.query.q ? request.query.q : "";
+      SL.getLocations(queryStr, function(err, data) {
+          returnJSON(response, err, data);
+      });
+  } else if (request.query.address) {
+      var address = request.query.address ? request.query.address : "";
+      SL.getLocationsByAddress(address, function(err, data) {
+          returnJSON(response, err, data);
+      });
+  }
 });
 
 App.get('/about', function(request, response) {
