@@ -1,6 +1,23 @@
 'use strict';
 
-var Config = require('./lib/config')();
+var Config = {};
+/**
+ * Get configs from env if available. Used on Heroku deploy.
+ */
+if (process.env.MAP_ID && process.env.DB_USER && process.env.API_KEY) {
+    Config = {
+        port: process.env.PORT,
+        log: 'responses.log',
+        MAP_ID: process.env.MAP_ID,
+        DB: {
+            USER: process.env.DB_USER,
+            API_KEY: process.env.API_KEY
+        }
+    }
+} else {
+    Config = require('./lib/config')();
+}
+
 var SL = require('./lib/streetlives')(Config);
 var App = require('./lib/server')(Config);
 
@@ -23,10 +40,17 @@ App.get('/', function(request, response) {
 });
 
 App.get('/locations', function(request, response) {
-  var queryStr = request.query.q ? request.query.q : "";
-  SL.getLocations(queryStr, function(err, data) {
-    returnJSON(response, err, data);
-  });
+  if (request.query.q) {
+      var queryStr = request.query.q ? request.query.q : "";
+      SL.getLocations(queryStr, function(err, data) {
+          returnJSON(response, err, data);
+      });
+  } else if (request.query.address) {
+      var address = request.query.address ? request.query.address : "";
+      SL.getLocationsByAddress(address, function(err, data) {
+          returnJSON(response, err, data);
+      });
+  }
 });
 
 App.get('/about', function(request, response) {

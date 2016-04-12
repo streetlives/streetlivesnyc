@@ -63,8 +63,6 @@ body {
 a {
   font-family: 'Open sans', sans-serif; }
 
-/*# sourceMappingURL=app.css.map */
-
 .Button {
   font-family: 'Open Sans', sans-serif;
   padding: 10px 16px;
@@ -117,8 +115,6 @@ a {
 
 .Button.is-hidden {
   display: none; }
-
-/*# sourceMappingURL=button.css.map */
 
 .Comments {
   background: #F1F1F1;
@@ -178,8 +174,20 @@ a {
   text-align: left;
   color: #666; }
 
-/*# sourceMappingURL=comment.css.map */
+@media screen and (max-width: 470px) {
+  .Dialog-inner.js-content {
+    width: 300px;
+    padding: 50px 20px 100px 20px; }
 
+  div.Dialog-logo {
+    margin: auto auto 20px auto; }
+
+  div.Dialog-content {
+    width: 250px;
+    margin: 0 auto; }
+
+  div.Dialog-message {
+    font-size: 18px; } }
 .Dialog {
   position: absolute;
   width: 100%;
@@ -205,6 +213,9 @@ a {
   padding: 50px 50px 100px 50px;
   box-sizing: border-box;
   text-align: center; }
+
+.Dialog-message {
+  font-size: 25px; }
 
 .Dialog-content {
   width: 300px;
@@ -240,8 +251,6 @@ a {
   height: 82px;
   margin: auto auto 10px auto; }
 
-/*# sourceMappingURL=dialog.css.map */
-
 /* latin-ext */
 @font-face {
   font-family: 'Lato';
@@ -249,6 +258,7 @@ a {
   font-weight: 300;
   src: local("Lato Light"), local("Lato-Light"), url(https://fonts.gstatic.com/s/lato/v11/IY9HZVvI1cMoAHxvl0w9LVKPGs1ZzpMvnHX-7fPOuAc.woff2) format("woff2");
   unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF; }
+
 /* latin */
 @font-face {
   font-family: 'Lato';
@@ -256,6 +266,7 @@ a {
   font-weight: 300;
   src: local("Lato Light"), local("Lato-Light"), url(https://fonts.gstatic.com/s/lato/v11/22JRxvfANxSmnAhzbFH8PgLUuEpTyoUstqEm5AMlJo4.woff2) format("woff2");
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000; }
+
 /* latin-ext */
 @font-face {
   font-family: 'Lato';
@@ -263,6 +274,7 @@ a {
   font-weight: 400;
   src: local("Lato Regular"), local("Lato-Regular"), url(https://fonts.gstatic.com/s/lato/v11/8qcEw_nrk_5HEcCpYdJu8BTbgVql8nDJpwnrE27mub0.woff2) format("woff2");
   unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF; }
+
 /* latin */
 @font-face {
   font-family: 'Lato';
@@ -270,6 +282,7 @@ a {
   font-weight: 400;
   src: local("Lato Regular"), local("Lato-Regular"), url(https://fonts.gstatic.com/s/lato/v11/MDadn8DQ_3oT6kvnUq_2r_esZW2xOQ-xsNqO47m55DA.woff2) format("woff2");
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000; }
+
 /* latin-ext */
 @font-face {
   font-family: 'Lato';
@@ -277,6 +290,7 @@ a {
   font-weight: 700;
   src: local("Lato Bold"), local("Lato-Bold"), url(https://fonts.gstatic.com/s/lato/v11/rZPI2gHXi8zxUjnybc2ZQFKPGs1ZzpMvnHX-7fPOuAc.woff2) format("woff2");
   unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF; }
+
 /* latin */
 @font-face {
   font-family: 'Lato';
@@ -284,8 +298,6 @@ a {
   font-weight: 700;
   src: local("Lato Bold"), local("Lato-Bold"), url(https://fonts.gstatic.com/s/lato/v11/MgNNr5y1C_tIEuLEmicLmwLUuEpTyoUstqEm5AMlJo4.woff2) format("woff2");
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000; }
-
-/*# sourceMappingURL=font.css.map */
 
 .Header {
   display: flex;
@@ -344,20 +356,23 @@ a {
 @keyframes navBar-hover {
   0% {
     color: #FFFFFF; }
+
   100% {
     color: #00D5A5; } }
+
 @-webkit-keyframes navBar-hover {
   0% {
     color: #FFFFFF; }
+
   100% {
     color: #00D5A5; } }
+
 @keyframes btnInfo-hover {
   0% {
     background: #00D5A5; }
+
   100% {
     background: #53F9D4; } }
-
-/*# sourceMappingURL=header.css.map */
 
 .InputField {
   font-family: 'Open Sans', sans-serif;
@@ -391,8 +406,6 @@ a {
 
 .InputCheck-label {
   cursor: pointer; }
-
-/*# sourceMappingURL=input_field.css.map */
 
 /*
  * CSS Styles that are needed by jScrollPane for it to operate correctly.
@@ -477,8 +490,6 @@ a {
 * html .jspCorner {
   margin: 0 -3px 0 0; }
 
-/*# sourceMappingURL=jquery.css.map */
-
 .LikeButtons {
   margin: 0 0 20px 0; }
 
@@ -518,8 +529,6 @@ a {
 .LikeButton.is-selected {
   opacity: 1; }
 
-/*# sourceMappingURL=like_button.css.map */
-
 .LikesList {
   padding: 4px 0 10px 0; }
 
@@ -554,8 +563,10 @@ a {
   height: 14px;
   background: transparent url(/img/total.png) no-repeat; }
 
-/*# sourceMappingURL=likes.css.map */
-
+@media screen and (max-width: 360px) {
+  .LocationForm-inner.js-content {
+    top: 120px;
+    width: 290px; } }
 .LocationForm {
   position: absolute;
   width: 100%;
@@ -584,7 +595,7 @@ a {
   box-sizing: border-box; }
 
 .LocationForm-content {
-  display: none;
+  display: block;
   margin: auto;
   font-family: 'Open sans', sans-serif;
   font-size: 15px;
@@ -628,8 +639,18 @@ a {
   padding: 0 0 5px 0;
   border-bottom: 1px solid #ccc; }
 
-/*# sourceMappingURL=location.css.map */
+@media screen and (max-width: 470px) {
+  .LocationInformation-inner.js-content {
+    width: 320px;
+    top: 180px; }
 
+  .LocationInformation-title {
+    margin: 0px 20px 8px;
+    padding: 0 0px 5px 0; } }
+@media screen and (max-width: 360px) {
+  .LocationInformation-inner.js-content {
+    top: 240px;
+    width: 290px; } }
 .LocationInformation {
   font-family: 'Open Sans', sans-serif;
   position: absolute;
@@ -695,8 +716,6 @@ a {
   padding: 0 0 5px 0;
   font-size: 14px; }
 
-/*# sourceMappingURL=location_information.css.map */
-
 .Map {
   position: absolute;
   width: 100%; }
@@ -736,8 +755,6 @@ a {
     background-position: -96px 5px; }
     .Map .cartodb-zoom > a.zoom_out:hover {
       background-position: -96px 6px; }
-
-/*# sourceMappingURL=map.css.map */
 
 .Page {
   position: absolute;
@@ -796,7 +813,7 @@ a {
   margin: 0 0 10px 0;
   font-weight: bold;
   font-size: 18px;
-  color: #333;
+  color: #333333;
   line-height: normal; }
 
 .StaticPage p {
@@ -861,8 +878,9 @@ a {
   background-color: #F8F8F8;
   background-blend-mode: multiply; }
 
-/*# sourceMappingURL=page.css.map */
-
+@media screen and (max-width: 470px) {
+  .Popup {
+    width: 300px; } }
 .Popup .leaflet-popup-content-wrapper {
   font-family: 'Open Sans', sans-serif;
   text-align: center;
@@ -895,8 +913,6 @@ a {
   font-family: 'Open Sans', sans-serif;
   font-weight: bold;
   line-height: 30px; }
-
-/*# sourceMappingURL=popup.css.map */
 
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -941,8 +957,6 @@ table {
   border-collapse: collapse;
   border-spacing: 0; }
 
-/*# sourceMappingURL=reset.css.map */
-
 .SearchField {
   position: absolute;
   width: 500px;
@@ -951,6 +965,17 @@ table {
   left: 55px;
   z-index: 10; }
 
+@media screen and (max-width: 470px) {
+  .SearchField {
+    width: 80%;
+    left: 0;
+    margin-left: 10%; } }
+@media screen and (max-width: 360px) {
+  .HeaderItem-link {
+    font-size: 11px; }
+
+  .HeaderTitle {
+    font-size: 18px; } }
 .SearchInput {
   border: 1px solid transparent;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -963,5 +988,3 @@ table {
     border: 1px solid transparent; }
   .SearchInput:hover {
     border: 1px solid transparent; }
-
-/*# sourceMappingURL=search.css.map */
