@@ -1,7 +1,6 @@
 @media screen and (max-width: 470px) {
     .LocationInformation-inner.js-content {
         width: 320px; 
-        top: 180px;
     }
 
     .LocationInformation-title {
@@ -25,10 +24,10 @@
   top: 0;
   left: 0;
   display: flex;
-  align-items: center;
   justify-content: center;
   background: rgba(0,0,0, .5);
   z-index: 1000;
+  overflow-y: scroll;
 }
 
 .LocationInformation-inner {
@@ -37,7 +36,6 @@
   border: 1px solid transparent;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   box-sizing: border-box;
-  padding: 20px 0 0 0;
   position: relative;
   text-align: left;
   width: 750px;
@@ -59,6 +57,7 @@
   border-bottom: 1px solid #ccc;
   margin: 0px 20px 20px;
   padding: 0 0px 10px 0;
+  display: flex;
 }
 
 .LocationInformation-name {

@@ -375,7 +375,7 @@ obj || (obj = {});
 var __t, __p = '', __e = _.escape, __j = Array.prototype.join;
 function print() { __p += __j.call(arguments, '') }
 with (obj) {
-__p += '<div class="LocationInformation-content">\n\n  <div class="LocationInformation-title">\n    <h2 class="LocationInformation-name">' +
+__p += '<div class="LocationInformation-content">\n  <button class="Button Button--close js-cancel">✕</button>\n  <div class="LocationInformation-title">\n    <h2 class="LocationInformation-name">' +
 __e( name ) +
 '</h2>\n    <h4 class="LocationInformation-address">' +
 __e( address ) +
@@ -391,7 +391,7 @@ __p += '\n    <li class="LocationInformation-field">\n      <label class="Locati
 __e( description ) +
 '</p>\n    </li>\n    ';
  } ;
-__p += '\n  </ul>\n\n  <button class="Button Button--close js-cancel">✕</button>\n</div>\n';
+__p += '\n  </ul>\n\n</div>\n';
 
 }
 return __p
@@ -720,57 +720,6 @@ var CommentsView = SL.View.extend({
       }});
   }
 });
-
-"use strict";
-
-var ReactHeader = React.createClass({
-    displayName: "ReactHeader",
-
-
-    render: function render() {
-        return React.createElement(
-            "header",
-            { className: "Header" },
-            React.createElement(
-                "a",
-                { href: this.props.url, className: "HeaderTitle" },
-                this.props.title
-            ),
-            React.createElement(
-                "ul",
-                { className: "HeaderItems" },
-                React.createElement(
-                    "li",
-                    { className: "HeaderItem" },
-                    React.createElement(
-                        "a",
-                        { href: "/", className: "HeaderItem-link is-selected js-item js-map" },
-                        "Map"
-                    )
-                ),
-                React.createElement(
-                    "li",
-                    { className: "HeaderItem" },
-                    React.createElement(
-                        "a",
-                        { href: "/about", className: "HeaderItem-link js-item js-about" },
-                        "About"
-                    )
-                ),
-                React.createElement(
-                    "li",
-                    { className: "HeaderItem" },
-                    React.createElement(
-                        "a",
-                        { href: "/privacy", className: "HeaderItem-link js-item js-privacy" },
-                        "Privacy"
-                    )
-                )
-            )
-        );
-    }
-});
-//# sourceMappingURL=components.js.map
 
 'use strict';
 
@@ -1471,7 +1420,7 @@ var ReactMap = React.createClass({
         this.map.panTo(coordinates);
 
         setTimeout(function () {
-            self.map.setZoom(17);
+            self._addMarker(coordinates);
             self._reconcileCoordinates(coordinates);
         }, 500);
     },
@@ -1513,45 +1462,6 @@ var ReactMap = React.createClass({
     }
 });
 //# sourceMappingURL=react-map.js.map
-
-"use strict";
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var ReactPopup = React.createClass({
-    displayName: "ReactPopup",
-
-
-    render: function render() {
-        var nameStr = this.props.name ? this.props.name + ', ' + this.props.address : this.props.address;
-        return React.createElement(
-            "div",
-            null,
-            React.createElement(
-                ReactLeaflet.Popup,
-                { position: this.props.center, map: this.props.map },
-                React.createElement(
-                    "p",
-                    null,
-                    React.createElement(
-                        "strong",
-                        { className: "Popup-addressName" },
-                        nameStr
-                    ),
-                    React.createElement("br", null),
-                    " is not part of Streetlives yet. Do you want to add this location to the map?"
-                ),
-                React.createElement(
-                    "button",
-                    { className: "Button Button--addLocationSmall js-add-location" },
-                    "Add location"
-                )
-            ),
-            React.createElement(ReactLeaflet.CircleMarker, _extends({}, this.props.style, { center: this.props.center, map: this.props.map }))
-        );
-    }
-});
-//# sourceMappingURL=react-popup.js.map
 
 'use strict';
 
