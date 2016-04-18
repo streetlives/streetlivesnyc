@@ -47,3 +47,10 @@ var Location = SL.Model.extend({
     }
   }
 });
+
+var Locations = SL.Model.extend({
+  url: '/locations',
+  parse: function(response) {
+    return response.rows;
+  }
+});
