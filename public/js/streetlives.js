@@ -332,27 +332,13 @@ this["JST"]["sources/templates/dialog_content.jst.ejs"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '<div class="Dialog-content">\n  <div class="Dialog-logo"></div>\n  <h2>' +
+__p += '<div class="Dialog-content">\n  <div class="Dialog-logo"></div>\n  <div class="Dialog-message">' +
 __e( title ) +
-'</h2>\n  <p>' +
+'</div>\n  <p>' +
 __e( text ) +
 '</p>\n</div>\n<footer class="Footer">\n  <button class="Button js-ok">' +
 __e( ok_button ) +
 '</button>\n</footer>\n<button class="Button Button--close js-cancel">✕</button>\n';
-
-}
-return __p
-};
-
-this["JST"]["sources/templates/header.jst.ejs"] = function(obj) {
-obj || (obj = {});
-var __t, __p = '', __e = _.escape;
-with (obj) {
-__p += '<a href="' +
-__e( url ) +
-'" class="HeaderTitle">\n  ' +
-__e( title ) +
-'\n</a>\n\n<ul class="HeaderItems">\n  <li class="HeaderItem"><a href=\'/\' class="HeaderItem-link is-selected js-item js-map">Map</a></li>\n  <li class="HeaderItem"><a href=\'/about\' class="HeaderItem-link js-item js-about">About</a></li>\n  <li class="HeaderItem"><a href=\'/privacy\' class="HeaderItem-link js-item js-privacy">Privacy</a></li>\n</ul>\n';
 
 }
 return __p
@@ -369,45 +355,6 @@ __e( dislikes ) +
 '</span></li>\n  <li class="LikesList-item"><span class="LikesList-item--total">' +
 __e( total ) +
 '</span></li>\n</ul>\n';
-
-}
-return __p
-};
-
-this["JST"]["sources/templates/location_form.jst.ejs"] = function(obj) {
-obj || (obj = {});
-var __t, __p = '', __e = _.escape;
-with (obj) {
-__p += '<div class="LocationForm-inner js-content"></div>\n';
-
-}
-return __p
-};
-
-this["JST"]["sources/templates/location_form_content.jst.ejs"] = function(obj) {
-obj || (obj = {});
-var __t, __p = '', __e = _.escape, __j = Array.prototype.join;
-function print() { __p += __j.call(arguments, '') }
-with (obj) {
-__p += '<div class="LocationForm-content js-content">\n  <ul class="LocationForm-fields">\n    <li class="LocationForm-field">\n      <label class="LocationForm-label">Address</label>\n      <span class="js-address">' +
-__e( address ) +
-'</span>\n    </li>\n\n    <li class="LocationForm-field">\n      <label class="LocationForm-label">Name</label>\n      <div class="InputField js-field">\n        <input type="text" placeholder="Name of this location" class="Input js-name" value="' +
-__e( name ) +
-'" />\n      </div>\n    </li>\n\n    <li class="LocationForm-field">\n      <label class="LocationForm-label">What does it offer?</label>\n      <ul class="OfferingList">\n        ';
- offerings.each(function(offering) { ;
-__p += '\n        <li class="OfferingList-item">\n          <label for="offering_' +
-__e(offering.get('cartodb_id') ) +
-'" class="InputCheck-label">\n            <input type=\'checkbox\' value="' +
-__e(offering.get('cartodb_id') ) +
-'" id="offering_' +
-__e(offering.get('cartodb_id') ) +
-'" class="InputCheck js-checkbox" /> ' +
-__e( offering.get('name') ) +
-'\n          </label>\n        </li>\n        ';
- }); ;
-__p += '\n      </ul>\n    </li>\n\n    <li class="LocationForm-field">\n      <label class="LocationForm-label">Add something to the conversation!</label>\n      <div class="InputField js-field">\n        <textarea placeholder="Feel free to add tips, warnings, comments or review about this place" class="Input InputArea js-comment"></textarea>\n      </div>\n    </li>\n\n    <li class="LocationForm-field">\n      <label class="LocationForm-label">Your name or initials (optional)</label>\n      <div class="InputField js-field">\n        <input type="text" class="Input js-username" value="" />\n      </div>\n    </li>\n\n  </ul>\n\n  <footer class="Footer">\n    <button class="Button js-ok is-disabled">' +
-__e( title ) +
-'</button>\n  </footer>\n\n  <button class="Button Button--close js-cancel">✕</button>\n\n</div>\n';
 
 }
 return __p
@@ -450,16 +397,6 @@ __p += '\n  </ul>\n\n  <button class="Button Button--close js-cancel">✕</butto
 return __p
 };
 
-this["JST"]["sources/templates/page.jst.ejs"] = function(obj) {
-obj || (obj = {});
-var __t, __p = '', __e = _.escape;
-with (obj) {
-__p += '<div class="Page-content js-content"></div>\n';
-
-}
-return __p
-};
-
 this["JST"]["sources/templates/page_content.jst.ejs"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
@@ -486,16 +423,6 @@ __e(name ) +
 __p +=
 __e( address ) +
 '</strong> <br/> is not part of Streetlives yet. Do you want to add this location to the map?\n</p>\n\n<button class="Button Button--addLocationSmall js-add-location">Add location</button>\n';
-
-}
-return __p
-};
-
-this["JST"]["sources/templates/search.jst.ejs"] = function(obj) {
-obj || (obj = {});
-var __t, __p = '', __e = _.escape;
-with (obj) {
-__p += '<input type=\'text\' placeholder=\'Search\' class="Input SearchInput js-field" />\n';
 
 }
 return __p
@@ -621,6 +548,13 @@ var Location = SL.Model.extend({
     if (!attrs.name) {
       return 'name';
     }
+  }
+});
+
+var Locations = SL.Model.extend({
+  url: '/locations',
+  parse: function(response) {
+    return response.rows;
   }
 });
 
@@ -786,6 +720,57 @@ var CommentsView = SL.View.extend({
       }});
   }
 });
+
+"use strict";
+
+var ReactHeader = React.createClass({
+    displayName: "ReactHeader",
+
+
+    render: function render() {
+        return React.createElement(
+            "header",
+            { className: "Header" },
+            React.createElement(
+                "a",
+                { href: this.props.url, className: "HeaderTitle" },
+                this.props.title
+            ),
+            React.createElement(
+                "ul",
+                { className: "HeaderItems" },
+                React.createElement(
+                    "li",
+                    { className: "HeaderItem" },
+                    React.createElement(
+                        "a",
+                        { href: "/", className: "HeaderItem-link is-selected js-item js-map" },
+                        "Map"
+                    )
+                ),
+                React.createElement(
+                    "li",
+                    { className: "HeaderItem" },
+                    React.createElement(
+                        "a",
+                        { href: "/about", className: "HeaderItem-link js-item js-about" },
+                        "About"
+                    )
+                ),
+                React.createElement(
+                    "li",
+                    { className: "HeaderItem" },
+                    React.createElement(
+                        "a",
+                        { href: "/privacy", className: "HeaderItem-link js-item js-privacy" },
+                        "Privacy"
+                    )
+                )
+            )
+        );
+    }
+});
+//# sourceMappingURL=components.js.map
 
 'use strict';
 
@@ -1464,20 +1449,30 @@ var ReactMap = React.createClass({
         }
     },
 
+    _reconcileCoordinates: function _reconcileCoordinates(coordinates) {
+        var locationModel = new Locations();
+        var self = this;
+        locationModel.fetch({ data: $.param({ address: coordinates }) }).done(function (data) {
+            if (data.rows.length > 0) {
+                self.locationInformation = new LocationInformation(data.rows[0]);
+                self.locationInformation.open();
+            } else {
+                self._addMarker(coordinates);
+            }
+        });
+    },
+
+
     _gotoPlace: function _gotoPlace(place) {
         var coordinates = [place.geometry.location.lat(), place.geometry.location.lng()];
         var latLng = new google.maps.LatLng(coordinates[0], coordinates[1]);
 
         var self = this;
-
-        this.state.geocoder.geocode({ 'latLng': latLng }, function (results, status) {
-            self._onFinishedGeocoding(coordinates, place, results, status);
-        });
-
         this.map.panTo(coordinates);
 
         setTimeout(function () {
-            self._addMarker(coordinates);
+            self.map.setZoom(17);
+            self._reconcileCoordinates(coordinates);
         }, 500);
     },
 
@@ -1518,6 +1513,45 @@ var ReactMap = React.createClass({
     }
 });
 //# sourceMappingURL=react-map.js.map
+
+"use strict";
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var ReactPopup = React.createClass({
+    displayName: "ReactPopup",
+
+
+    render: function render() {
+        var nameStr = this.props.name ? this.props.name + ', ' + this.props.address : this.props.address;
+        return React.createElement(
+            "div",
+            null,
+            React.createElement(
+                ReactLeaflet.Popup,
+                { position: this.props.center, map: this.props.map },
+                React.createElement(
+                    "p",
+                    null,
+                    React.createElement(
+                        "strong",
+                        { className: "Popup-addressName" },
+                        nameStr
+                    ),
+                    React.createElement("br", null),
+                    " is not part of Streetlives yet. Do you want to add this location to the map?"
+                ),
+                React.createElement(
+                    "button",
+                    { className: "Button Button--addLocationSmall js-add-location" },
+                    "Add location"
+                )
+            ),
+            React.createElement(ReactLeaflet.CircleMarker, _extends({}, this.props.style, { center: this.props.center, map: this.props.map }))
+        );
+    }
+});
+//# sourceMappingURL=react-popup.js.map
 
 'use strict';
 
