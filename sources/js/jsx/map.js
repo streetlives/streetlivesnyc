@@ -258,7 +258,6 @@ var ReactMap = React.createClass({
         this.map.panTo(coordinates);
 
         setTimeout(function() {
-            self._addMarker(coordinates);
             self._reconcileCoordinates(coordinates);
         }, 500);
     },
