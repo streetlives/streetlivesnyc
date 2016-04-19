@@ -25,6 +25,17 @@ module.exports = function (grunt) {
       }
     },
 
+    postcss: {
+        options: {
+            processors: [
+                require('autoprefixer')({browsers: 'last 2 versions'})
+            ]
+        },
+        dist: {
+            src: 'sources/css/*.css'
+        }
+    },
+
     mochaTest: {
       options: {
         ui: 'tdd'
@@ -76,7 +87,7 @@ module.exports = function (grunt) {
           livereload: true,
           spawn: false
         }
-      }
+      } 
     },
     concat: {
       js: {
@@ -143,6 +154,6 @@ module.exports = function (grunt) {
 
   grunt.registerTask('default', ['jshint', 'mochaTest']);
   grunt.registerTask('js', ['babel', 'jst', 'concat:js']);
-  grunt.registerTask('css', ['sass', 'concat:css']);
+  grunt.registerTask('css', ['sass', 'concat:css', 'postcss']);
   grunt.registerTask('build', ['sass', 'babel', 'concat', 'uglify']);
 };
