@@ -721,57 +721,6 @@ var CommentsView = SL.View.extend({
   }
 });
 
-"use strict";
-
-var ReactHeader = React.createClass({
-    displayName: "ReactHeader",
-
-
-    render: function render() {
-        return React.createElement(
-            "header",
-            { className: "Header" },
-            React.createElement(
-                "a",
-                { href: this.props.url, className: "HeaderTitle" },
-                this.props.title
-            ),
-            React.createElement(
-                "ul",
-                { className: "HeaderItems" },
-                React.createElement(
-                    "li",
-                    { className: "HeaderItem" },
-                    React.createElement(
-                        "a",
-                        { href: "/", className: "HeaderItem-link is-selected js-item js-map" },
-                        "Map"
-                    )
-                ),
-                React.createElement(
-                    "li",
-                    { className: "HeaderItem" },
-                    React.createElement(
-                        "a",
-                        { href: "/about", className: "HeaderItem-link js-item js-about" },
-                        "About"
-                    )
-                ),
-                React.createElement(
-                    "li",
-                    { className: "HeaderItem" },
-                    React.createElement(
-                        "a",
-                        { href: "/privacy", className: "HeaderItem-link js-item js-privacy" },
-                        "Privacy"
-                    )
-                )
-            )
-        );
-    }
-});
-//# sourceMappingURL=components.js.map
-
 'use strict';
 
 SL.Dialog = SL.View.extend({
@@ -1513,45 +1462,6 @@ var ReactMap = React.createClass({
     }
 });
 //# sourceMappingURL=react-map.js.map
-
-"use strict";
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var ReactPopup = React.createClass({
-    displayName: "ReactPopup",
-
-
-    render: function render() {
-        var nameStr = this.props.name ? this.props.name + ', ' + this.props.address : this.props.address;
-        return React.createElement(
-            "div",
-            null,
-            React.createElement(
-                ReactLeaflet.Popup,
-                { position: this.props.center, map: this.props.map },
-                React.createElement(
-                    "p",
-                    null,
-                    React.createElement(
-                        "strong",
-                        { className: "Popup-addressName" },
-                        nameStr
-                    ),
-                    React.createElement("br", null),
-                    " is not part of Streetlives yet. Do you want to add this location to the map?"
-                ),
-                React.createElement(
-                    "button",
-                    { className: "Button Button--addLocationSmall js-add-location" },
-                    "Add location"
-                )
-            ),
-            React.createElement(ReactLeaflet.CircleMarker, _extends({}, this.props.style, { center: this.props.center, map: this.props.map }))
-        );
-    }
-});
-//# sourceMappingURL=react-popup.js.map
 
 'use strict';
 
