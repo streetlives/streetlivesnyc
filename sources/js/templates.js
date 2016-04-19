@@ -102,7 +102,7 @@ obj || (obj = {});
 var __t, __p = '', __e = _.escape, __j = Array.prototype.join;
 function print() { __p += __j.call(arguments, '') }
 with (obj) {
-__p += '<div class="LocationInformation-content">\n\n  <div class="LocationInformation-title">\n    <h2 class="LocationInformation-name">' +
+__p += '<div class="LocationInformation-content">\n  <button class="Button Button--close js-cancel">✕</button>\n  <div class="LocationInformation-title">\n    <h2 class="LocationInformation-name">' +
 __e( name ) +
 '</h2>\n    <h4 class="LocationInformation-address">' +
 __e( address ) +
@@ -118,7 +118,7 @@ __p += '\n    <li class="LocationInformation-field">\n      <label class="Locati
 __e( description ) +
 '</p>\n    </li>\n    ';
  } ;
-__p += '\n  </ul>\n\n  <button class="Button Button--close js-cancel">✕</button>\n</div>\n';
+__p += '\n  </ul>\n\n</div>\n';
 
 }
 return __p

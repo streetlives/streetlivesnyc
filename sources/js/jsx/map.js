@@ -258,7 +258,7 @@ var ReactMap = React.createClass({
         this.map.panTo(coordinates);
 
         setTimeout(function() {
-            self.map.setZoom(17);
+            self._addMarker(coordinates);
             self._reconcileCoordinates(coordinates);
         }, 500);
     },
