@@ -182,12 +182,22 @@ var ReactMap = React.createClass({
 
     _addMarker: function(coordinates) {
         var style = this.state.style.marker;
-        var template = JST['sources/templates/popup.jst.ejs'];
+        var name = this.state.model.get('name');
+        var nameString = name ? name + ', ' : '';
+        var address = this.state.model.get('address');
 
-        var content = template({
-            name: this.state.model.get('name'),
-            address: this.state.model.get('address' )
-        });
+        var content =
+            '<p>' +
+              '<strong class="Popup-addressName">' +
+                 nameString + address +
+              '</strong>' +
+              '<br/>' +
+              'is not part of Streetlives yet. ' +
+              'Do you want to add this location to the map?' +
+            '</p>' +
+            '<button class="Button Button--addLocationSmall js-add-location">' +
+              'Add location' +
+            '</button>';
 
         var panCoords = (this.isMobile()) ? [0, 150] : [10, 75];
         this.popup = SL.Popup({ autoPanPaddingTopLeft: panCoords, offset: [0, -5] })
@@ -285,7 +295,12 @@ var ReactMap = React.createClass({
         var self = this;
         this.map.panTo(coordinates);
 
+        var model = this.state.model;
         setTimeout(function() {
+            model.set({
+                name: place.name,
+                address: place.formatted_address
+            });
             self._reconcileCoordinates(coordinates);
         }, 500);
     },
