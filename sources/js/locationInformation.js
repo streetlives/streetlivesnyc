@@ -1,3 +1,7 @@
+import React from 'react';
+import moment from 'moment';
+import { Comment, Likes, Comments, Location } from './models.js';
+
 var ReactComment = React.createClass({
 
     renderUsername: function() {
@@ -219,7 +223,8 @@ var ReactComments = React.createClass({
     renderComments: function() {
         const comments = [];
         this.state.comments.each(function(model) {
-            comments.push(<ReactComment comment={model.attributes} />);
+            comments.push(<ReactComment comment={model.attributes}
+                                        key={model.attributes.cartodb_id} />);
         });
         return comments;
     },
@@ -246,7 +251,7 @@ var ReactComments = React.createClass({
     }
 });
 
-var LocationInformation = React.createClass({
+module.exports.LocationInformation = React.createClass({
 
     getInitialState: function() {
         return {

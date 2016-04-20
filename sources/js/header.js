@@ -1,4 +1,6 @@
-var ReactHeader = React.createClass({
+import React from 'react';
+
+module.exports.ReactHeader = React.createClass({
 
     render: function() {
         return (

@@ -1,3 +1,10 @@
+import React from 'react';
+import Backbone from 'backbone';
+import { Offerings, Locations } from './models.js';
+import { LocationInformation } from './locationInformation.js';
+import { LocationForm } from './locationForm.js';
+import { ReactSearch } from './search.js';
+
 var ThanksDialog = React.createClass({
     render: function() {
         return (
@@ -22,7 +29,21 @@ var ThanksDialog = React.createClass({
     }
 });
 
-var ReactMap = React.createClass({
+const Popup = L.Popup.extend({
+  initialize: function (options, source) {
+    this.options.className = 'Popup';
+    L.setOptions(this, options);
+        this._source = source;
+  }
+});
+
+const SL = {
+    Popup: function(options) {
+        return new Popup(options);
+    }
+};
+
+module.exports.ReactMap = React.createClass({
 
     getInitialState() {
         const model = new Backbone.Model({

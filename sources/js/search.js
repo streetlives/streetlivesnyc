@@ -1,4 +1,6 @@
-var ReactSearch = React.createClass({
+import React from 'react';
+
+module.exports.ReactSearch = React.createClass({
     _focus: function() {
       var self = this;
     
