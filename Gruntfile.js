@@ -74,7 +74,7 @@ module.exports = function (grunt) {
         tasks: ['jshint:test', 'mochaTest']
       },
       scripts: {
-        files: ['sources/templates/**/*.jst.ejs', 'sources/js/**/*.js'],
+        files: ['sources/js/**/*.js'],
         tasks: ['js'],
         options: {
           livereload: true,
@@ -138,23 +138,11 @@ module.exports = function (grunt) {
         }]
       }
     },
-    jst: {
-      compile: {
-        options: {
-          templateSettings: {
-            interpolate : /\{\{(.+?)\}\}/g
-          }
-        },
-        files: {
-          'sources/js/templates.js': ['sources/templates/**/*.jst.ejs']
-        }
-      }
-    }
 
   });
 
   grunt.registerTask('default', ['jshint', 'mochaTest']);
-  grunt.registerTask('js', ['babel', 'jst', 'concat:js']);
+  grunt.registerTask('js', ['babel', 'concat:js']);
   grunt.registerTask('css', ['sass', 'concat:css', 'postcss']);
   grunt.registerTask('build', ['sass', 'babel', 'concat', 'uglify']);
 };
