@@ -20,7 +20,8 @@ module.exports = function (grunt) {
             'sources/js/react-search.js': 'sources/js/jsx/search.js',
             'sources/js/react-map.js': 'sources/js/jsx/map.js',
             'sources/js/react-app.js': 'sources/js/jsx/app.js',
-            'sources/js/react-locationForm.js': 'sources/js/jsx/locationForm.js'
+            'sources/js/react-locationForm.js': 'sources/js/jsx/locationForm.js',
+            'sources/js/react-locationInformation.js': 'sources/js/jsx/locationInformation.js'
         }
       }
     },

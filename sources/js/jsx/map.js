@@ -1,3 +1,27 @@
+var ThanksDialog = React.createClass({
+    render: function() {
+        return (
+            <div className="Dialog">
+                <div className="Dialog-inner js-content">
+                    <div className="Dialog-content">
+                        <div className="Dialog-logo"></div>
+                        <div className="Dialog-message">{this.props.title}</div>
+                        <p>{this.props.text}</p>
+                    </div>
+                    <footer className="Footer">
+                        <button className="Button js-ok"
+                                onClick={this.props.onClickOk}>
+                            {this.props.ok_button}
+                        </button>
+                    </footer>
+                    <button className="Button Button--close js-cancel"
+                            onClick={this.props.onClickClose}>✕</button>
+                </div>
+            </div>
+        )
+    }
+});
+
 var ReactMap = React.createClass({
 
     getInitialState() {
@@ -15,6 +39,7 @@ var ReactMap = React.createClass({
             geocoder: geocoder,
             offerings: offerings,
             locationForm: false,
+            thanksDialog: false,
             viz: {
                 templateURL: '//<%- username %>.cartodb.com/api/v2/viz/<%-id %>/viz.json'
             },
@@ -125,8 +150,9 @@ var ReactMap = React.createClass({
 
         this.map.closePopup();
 
-        this.locationInformation = new LocationInformation(data);
-        this.locationInformation.open();
+        this.setState({
+            locationInformation: data
+        })
     },
 
 
@@ -221,8 +247,9 @@ var ReactMap = React.createClass({
 
         marker.addTo(this.map);
 
-        var success = new SL.Dialog({ title: 'Thank your for helping the community with your knowledge', text: '', ok_button: 'Ok, thanks' });
-        success.open();
+        this.setState({
+            thanksDialog: true
+        });
 
         this._removeCurrentSelection();
     },
@@ -242,8 +269,9 @@ var ReactMap = React.createClass({
         var self = this;
         locationModel.fetch({data: $.param({ address: coordinates})}).done(function(data) {
             if (data.rows.length > 0) {
-                self.locationInformation = new LocationInformation(data.rows[0]);
-                self.locationInformation.open();
+                self.setState({
+                    locationInformation: data.rows[0]
+                })
             } else {
                 self._addMarker(coordinates);
             }
@@ -277,6 +305,22 @@ var ReactMap = React.createClass({
         })
     },
 
+    removeLocationInformation(addedNewComment) {
+        this.setState({
+            locationInformation: null,
+            thanksDialog: typeof(addedNewcomment) === 'boolean' ? addedNewComment : false
+        })
+    },
+
+    renderLocationInformation() {
+        if (this.state.locationInformation) {
+            return (
+                <LocationInformation options={this.state.locationInformation}
+                                     onClickClose={this.removeLocationInformation} />
+            )
+        }
+    },
+
     renderLocationForm() {
       if (this.state.locationForm) {
           return (
@@ -293,12 +337,34 @@ var ReactMap = React.createClass({
       }
     },
 
+    removeThanksDialog() {
+        this.setState({
+            thanksDialog: false
+        })
+    },
+
+    renderThanksDialog() {
+        if (this.state.thanksDialog) {
+            return (
+                <ThanksDialog onClickOk={this.removeThanksDialog}
+                              onClickClose={this.removeThanksDialog}
+                              title='Thank your for helping the community with your knowledge'
+                              text=''
+                              ok_button='Ok, thanks'/>
+            )
+        } else {
+            return null;
+        }
+    },
+
     render() {
         return (
             <div onkeyup={this._onKeyUp}>
                 <div id="map" className="Map"></div>
                 <ReactSearch gotoPlace={this._gotoPlace}/>
                 {this.renderLocationForm()}
+                {this.renderLocationInformation()}
+                {this.renderThanksDialog()}
             </div>
         )
     }
