@@ -1,3 +1,5 @@
+SL.Model = Backbone.Model.extend();
+
 var Comment = SL.Model.extend({
   validate: function(attrs, options) {
     if (!attrs.comment && attrs.liked == null) {
