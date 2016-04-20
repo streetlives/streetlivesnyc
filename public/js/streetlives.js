@@ -271,162 +271,6 @@ Nd.millisecond=Nd.milliseconds=Md,Nd.utcOffset=Na,Nd.utc=Pa,Nd.local=Qa,Nd.parse
  * Dual licensed under the MIT or GPL licenses.
  */
 !function(a){"function"==typeof define&&define.amd?define(["jquery"],a):"object"==typeof exports?module.exports=a(require("jquery")):a(jQuery)}(function(a){a.fn.jScrollPane=function(b){function c(b,c){function d(c){var f,h,j,k,l,o,p=!1,q=!1;if(N=c,void 0===O)l=b.scrollTop(),o=b.scrollLeft(),b.css({overflow:"hidden",padding:0}),P=b.innerWidth()+ra,Q=b.innerHeight(),b.width(P),O=a('<div class="jspPane" />').css("padding",qa).append(b.children()),R=a('<div class="jspContainer" />').css({width:P+"px",height:Q+"px"}).append(O).appendTo(b);else{if(b.css("width",""),p=N.stickToBottom&&A(),q=N.stickToRight&&B(),k=b.innerWidth()+ra!=P||b.outerHeight()!=Q,k&&(P=b.innerWidth()+ra,Q=b.innerHeight(),R.css({width:P+"px",height:Q+"px"})),!k&&sa==S&&O.outerHeight()==T)return void b.width(P);sa=S,O.css("width",""),b.width(P),R.find(">.jspVerticalBar,>.jspHorizontalBar").remove().end()}O.css("overflow","auto"),S=c.contentWidth?c.contentWidth:O[0].scrollWidth,T=O[0].scrollHeight,O.css("overflow",""),U=S/P,V=T/Q,W=V>1,X=U>1,X||W?(b.addClass("jspScrollable"),f=N.maintainPosition&&($||ba),f&&(h=y(),j=z()),e(),g(),i(),f&&(w(q?S-P:h,!1),v(p?T-Q:j,!1)),F(),C(),L(),N.enableKeyboardNavigation&&H(),N.clickOnTrack&&m(),J(),N.hijackInternalLinks&&K()):(b.removeClass("jspScrollable"),O.css({top:0,left:0,width:R.width()-ra}),D(),G(),I(),n()),N.autoReinitialise&&!pa?pa=setInterval(function(){d(N)},N.autoReinitialiseDelay):!N.autoReinitialise&&pa&&clearInterval(pa),l&&b.scrollTop(0)&&v(l,!1),o&&b.scrollLeft(0)&&w(o,!1),b.trigger("jsp-initialised",[X||W])}function e(){W&&(R.append(a('<div class="jspVerticalBar" />').append(a('<div class="jspCap jspCapTop" />'),a('<div class="jspTrack" />').append(a('<div class="jspDrag" />').append(a('<div class="jspDragTop" />'),a('<div class="jspDragBottom" />'))),a('<div class="jspCap jspCapBottom" />'))),ca=R.find(">.jspVerticalBar"),da=ca.find(">.jspTrack"),Y=da.find(">.jspDrag"),N.showArrows&&(ha=a('<a class="jspArrow jspArrowUp" />').bind("mousedown.jsp",k(0,-1)).bind("click.jsp",E),ia=a('<a class="jspArrow jspArrowDown" />').bind("mousedown.jsp",k(0,1)).bind("click.jsp",E),N.arrowScrollOnHover&&(ha.bind("mouseover.jsp",k(0,-1,ha)),ia.bind("mouseover.jsp",k(0,1,ia))),j(da,N.verticalArrowPositions,ha,ia)),fa=Q,R.find(">.jspVerticalBar>.jspCap:visible,>.jspVerticalBar>.jspArrow").each(function(){fa-=a(this).outerHeight()}),Y.hover(function(){Y.addClass("jspHover")},function(){Y.removeClass("jspHover")}).bind("mousedown.jsp",function(b){a("html").bind("dragstart.jsp selectstart.jsp",E),Y.addClass("jspActive");var c=b.pageY-Y.position().top;return a("html").bind("mousemove.jsp",function(a){p(a.pageY-c,!1)}).bind("mouseup.jsp mouseleave.jsp",o),!1}),f())}function f(){da.height(fa+"px"),$=0,ea=N.verticalGutter+da.outerWidth(),O.width(P-ea-ra);try{0===ca.position().left&&O.css("margin-left",ea+"px")}catch(a){}}function g(){X&&(R.append(a('<div class="jspHorizontalBar" />').append(a('<div class="jspCap jspCapLeft" />'),a('<div class="jspTrack" />').append(a('<div class="jspDrag" />').append(a('<div class="jspDragLeft" />'),a('<div class="jspDragRight" />'))),a('<div class="jspCap jspCapRight" />'))),ja=R.find(">.jspHorizontalBar"),ka=ja.find(">.jspTrack"),_=ka.find(">.jspDrag"),N.showArrows&&(na=a('<a class="jspArrow jspArrowLeft" />').bind("mousedown.jsp",k(-1,0)).bind("click.jsp",E),oa=a('<a class="jspArrow jspArrowRight" />').bind("mousedown.jsp",k(1,0)).bind("click.jsp",E),N.arrowScrollOnHover&&(na.bind("mouseover.jsp",k(-1,0,na)),oa.bind("mouseover.jsp",k(1,0,oa))),j(ka,N.horizontalArrowPositions,na,oa)),_.hover(function(){_.addClass("jspHover")},function(){_.removeClass("jspHover")}).bind("mousedown.jsp",function(b){a("html").bind("dragstart.jsp selectstart.jsp",E),_.addClass("jspActive");var c=b.pageX-_.position().left;return a("html").bind("mousemove.jsp",function(a){r(a.pageX-c,!1)}).bind("mouseup.jsp mouseleave.jsp",o),!1}),la=R.innerWidth(),h())}function h(){R.find(">.jspHorizontalBar>.jspCap:visible,>.jspHorizontalBar>.jspArrow").each(function(){la-=a(this).outerWidth()}),ka.width(la+"px"),ba=0}function i(){if(X&&W){var b=ka.outerHeight(),c=da.outerWidth();fa-=b,a(ja).find(">.jspCap:visible,>.jspArrow").each(function(){la+=a(this).outerWidth()}),la-=c,Q-=c,P-=b,ka.parent().append(a('<div class="jspCorner" />').css("width",b+"px")),f(),h()}X&&O.width(R.outerWidth()-ra+"px"),T=O.outerHeight(),V=T/Q,X&&(ma=Math.ceil(1/U*la),ma>N.horizontalDragMaxWidth?ma=N.horizontalDragMaxWidth:ma<N.horizontalDragMinWidth&&(ma=N.horizontalDragMinWidth),_.width(ma+"px"),aa=la-ma,s(ba)),W&&(ga=Math.ceil(1/V*fa),ga>N.verticalDragMaxHeight?ga=N.verticalDragMaxHeight:ga<N.verticalDragMinHeight&&(ga=N.verticalDragMinHeight),Y.height(ga+"px"),Z=fa-ga,q($))}function j(a,b,c,d){var e,f="before",g="after";"os"==b&&(b=/Mac/.test(navigator.platform)?"after":"split"),b==f?g=b:b==g&&(f=b,e=c,c=d,d=e),a[f](c)[g](d)}function k(a,b,c){return function(){return l(a,b,this,c),this.blur(),!1}}function l(b,c,d,e){d=a(d).addClass("jspActive");var f,g,h=!0,i=function(){0!==b&&ta.scrollByX(b*N.arrowButtonSpeed),0!==c&&ta.scrollByY(c*N.arrowButtonSpeed),g=setTimeout(i,h?N.initialDelay:N.arrowRepeatFreq),h=!1};i(),f=e?"mouseout.jsp":"mouseup.jsp",e=e||a("html"),e.bind(f,function(){d.removeClass("jspActive"),g&&clearTimeout(g),g=null,e.unbind(f)})}function m(){n(),W&&da.bind("mousedown.jsp",function(b){if(void 0===b.originalTarget||b.originalTarget==b.currentTarget){var c,d=a(this),e=d.offset(),f=b.pageY-e.top-$,g=!0,h=function(){var a=d.offset(),e=b.pageY-a.top-ga/2,j=Q*N.scrollPagePercent,k=Z*j/(T-Q);if(0>f)$-k>e?ta.scrollByY(-j):p(e);else{if(!(f>0))return void i();e>$+k?ta.scrollByY(j):p(e)}c=setTimeout(h,g?N.initialDelay:N.trackClickRepeatFreq),g=!1},i=function(){c&&clearTimeout(c),c=null,a(document).unbind("mouseup.jsp",i)};return h(),a(document).bind("mouseup.jsp",i),!1}}),X&&ka.bind("mousedown.jsp",function(b){if(void 0===b.originalTarget||b.originalTarget==b.currentTarget){var c,d=a(this),e=d.offset(),f=b.pageX-e.left-ba,g=!0,h=function(){var a=d.offset(),e=b.pageX-a.left-ma/2,j=P*N.scrollPagePercent,k=aa*j/(S-P);if(0>f)ba-k>e?ta.scrollByX(-j):r(e);else{if(!(f>0))return void i();e>ba+k?ta.scrollByX(j):r(e)}c=setTimeout(h,g?N.initialDelay:N.trackClickRepeatFreq),g=!1},i=function(){c&&clearTimeout(c),c=null,a(document).unbind("mouseup.jsp",i)};return h(),a(document).bind("mouseup.jsp",i),!1}})}function n(){ka&&ka.unbind("mousedown.jsp"),da&&da.unbind("mousedown.jsp")}function o(){a("html").unbind("dragstart.jsp selectstart.jsp mousemove.jsp mouseup.jsp mouseleave.jsp"),Y&&Y.removeClass("jspActive"),_&&_.removeClass("jspActive")}function p(a,b){W&&(0>a?a=0:a>Z&&(a=Z),void 0===b&&(b=N.animateScroll),b?ta.animate(Y,"top",a,q):(Y.css("top",a),q(a)))}function q(a){void 0===a&&(a=Y.position().top),R.scrollTop(0),$=a||0;var c=0===$,d=$==Z,e=a/Z,f=-e*(T-Q);(ua!=c||wa!=d)&&(ua=c,wa=d,b.trigger("jsp-arrow-change",[ua,wa,va,xa])),t(c,d),O.css("top",f),b.trigger("jsp-scroll-y",[-f,c,d]).trigger("scroll")}function r(a,b){X&&(0>a?a=0:a>aa&&(a=aa),void 0===b&&(b=N.animateScroll),b?ta.animate(_,"left",a,s):(_.css("left",a),s(a)))}function s(a){void 0===a&&(a=_.position().left),R.scrollTop(0),ba=a||0;var c=0===ba,d=ba==aa,e=a/aa,f=-e*(S-P);(va!=c||xa!=d)&&(va=c,xa=d,b.trigger("jsp-arrow-change",[ua,wa,va,xa])),u(c,d),O.css("left",f),b.trigger("jsp-scroll-x",[-f,c,d]).trigger("scroll")}function t(a,b){N.showArrows&&(ha[a?"addClass":"removeClass"]("jspDisabled"),ia[b?"addClass":"removeClass"]("jspDisabled"))}function u(a,b){N.showArrows&&(na[a?"addClass":"removeClass"]("jspDisabled"),oa[b?"addClass":"removeClass"]("jspDisabled"))}function v(a,b){var c=a/(T-Q);p(c*Z,b)}function w(a,b){var c=a/(S-P);r(c*aa,b)}function x(b,c,d){var e,f,g,h,i,j,k,l,m,n=0,o=0;try{e=a(b)}catch(p){return}for(f=e.outerHeight(),g=e.outerWidth(),R.scrollTop(0),R.scrollLeft(0);!e.is(".jspPane");)if(n+=e.position().top,o+=e.position().left,e=e.offsetParent(),/^body|html$/i.test(e[0].nodeName))return;h=z(),j=h+Q,h>n||c?l=n-N.horizontalGutter:n+f>j&&(l=n-Q+f+N.horizontalGutter),isNaN(l)||v(l,d),i=y(),k=i+P,i>o||c?m=o-N.horizontalGutter:o+g>k&&(m=o-P+g+N.horizontalGutter),isNaN(m)||w(m,d)}function y(){return-O.position().left}function z(){return-O.position().top}function A(){var a=T-Q;return a>20&&a-z()<10}function B(){var a=S-P;return a>20&&a-y()<10}function C(){R.unbind(za).bind(za,function(a,b,c,d){ba||(ba=0),$||($=0);var e=ba,f=$,g=a.deltaFactor||N.mouseWheelSpeed;return ta.scrollBy(c*g,-d*g,!1),e==ba&&f==$})}function D(){R.unbind(za)}function E(){return!1}function F(){O.find(":input,a").unbind("focus.jsp").bind("focus.jsp",function(a){x(a.target,!1)})}function G(){O.find(":input,a").unbind("focus.jsp")}function H(){function c(){var a=ba,b=$;switch(d){case 40:ta.scrollByY(N.keyboardSpeed,!1);break;case 38:ta.scrollByY(-N.keyboardSpeed,!1);break;case 34:case 32:ta.scrollByY(Q*N.scrollPagePercent,!1);break;case 33:ta.scrollByY(-Q*N.scrollPagePercent,!1);break;case 39:ta.scrollByX(N.keyboardSpeed,!1);break;case 37:ta.scrollByX(-N.keyboardSpeed,!1)}return e=a!=ba||b!=$}var d,e,f=[];X&&f.push(ja[0]),W&&f.push(ca[0]),O.bind("focus.jsp",function(){b.focus()}),b.attr("tabindex",0).unbind("keydown.jsp keypress.jsp").bind("keydown.jsp",function(b){if(b.target===this||f.length&&a(b.target).closest(f).length){var g=ba,h=$;switch(b.keyCode){case 40:case 38:case 34:case 32:case 33:case 39:case 37:d=b.keyCode,c();break;case 35:v(T-Q),d=null;break;case 36:v(0),d=null}return e=b.keyCode==d&&g!=ba||h!=$,!e}}).bind("keypress.jsp",function(a){return a.keyCode==d&&c(),!e}),N.hideFocus?(b.css("outline","none"),"hideFocus"in R[0]&&b.attr("hideFocus",!0)):(b.css("outline",""),"hideFocus"in R[0]&&b.attr("hideFocus",!1))}function I(){b.attr("tabindex","-1").removeAttr("tabindex").unbind("keydown.jsp keypress.jsp"),O.unbind(".jsp")}function J(){if(location.hash&&location.hash.length>1){var b,c,d=escape(location.hash.substr(1));try{b=a("#"+d+', a[name="'+d+'"]')}catch(e){return}b.length&&O.find(d)&&(0===R.scrollTop()?c=setInterval(function(){R.scrollTop()>0&&(x(b,!0),a(document).scrollTop(R.position().top),clearInterval(c))},50):(x(b,!0),a(document).scrollTop(R.position().top)))}}function K(){a(document.body).data("jspHijack")||(a(document.body).data("jspHijack",!0),a(document.body).delegate("a[href*=#]","click",function(b){var c,d,e,f,g,h,i=this.href.substr(0,this.href.indexOf("#")),j=location.href;if(-1!==location.href.indexOf("#")&&(j=location.href.substr(0,location.href.indexOf("#"))),i===j){c=escape(this.href.substr(this.href.indexOf("#")+1));try{d=a("#"+c+', a[name="'+c+'"]')}catch(k){return}d.length&&(e=d.closest(".jspScrollable"),f=e.data("jsp"),f.scrollToElement(d,!0),e[0].scrollIntoView&&(g=a(window).scrollTop(),h=d.offset().top,(g>h||h>g+a(window).height())&&e[0].scrollIntoView()),b.preventDefault())}}))}function L(){var a,b,c,d,e,f=!1;R.unbind("touchstart.jsp touchmove.jsp touchend.jsp click.jsp-touchclick").bind("touchstart.jsp",function(g){var h=g.originalEvent.touches[0];a=y(),b=z(),c=h.pageX,d=h.pageY,e=!1,f=!0}).bind("touchmove.jsp",function(g){if(f){var h=g.originalEvent.touches[0],i=ba,j=$;return ta.scrollTo(a+c-h.pageX,b+d-h.pageY),e=e||Math.abs(c-h.pageX)>5||Math.abs(d-h.pageY)>5,i==ba&&j==$}}).bind("touchend.jsp",function(a){f=!1}).bind("click.jsp-touchclick",function(a){return e?(e=!1,!1):void 0})}function M(){var a=z(),c=y();b.removeClass("jspScrollable").unbind(".jsp"),O.unbind(".jsp"),b.replaceWith(ya.append(O.children())),ya.scrollTop(a),ya.scrollLeft(c),pa&&clearInterval(pa)}var N,O,P,Q,R,S,T,U,V,W,X,Y,Z,$,_,aa,ba,ca,da,ea,fa,ga,ha,ia,ja,ka,la,ma,na,oa,pa,qa,ra,sa,ta=this,ua=!0,va=!0,wa=!1,xa=!1,ya=b.clone(!1,!1).empty(),za=a.fn.mwheelIntent?"mwheelIntent.jsp":"mousewheel.jsp";"border-box"===b.css("box-sizing")?(qa=0,ra=0):(qa=b.css("paddingTop")+" "+b.css("paddingRight")+" "+b.css("paddingBottom")+" "+b.css("paddingLeft"),ra=(parseInt(b.css("paddingLeft"),10)||0)+(parseInt(b.css("paddingRight"),10)||0)),a.extend(ta,{reinitialise:function(b){b=a.extend({},N,b),d(b)},scrollToElement:function(a,b,c){x(a,b,c)},scrollTo:function(a,b,c){w(a,c),v(b,c)},scrollToX:function(a,b){w(a,b)},scrollToY:function(a,b){v(a,b)},scrollToPercentX:function(a,b){w(a*(S-P),b)},scrollToPercentY:function(a,b){v(a*(T-Q),b)},scrollBy:function(a,b,c){ta.scrollByX(a,c),ta.scrollByY(b,c)},scrollByX:function(a,b){var c=y()+Math[0>a?"floor":"ceil"](a),d=c/(S-P);r(d*aa,b)},scrollByY:function(a,b){var c=z()+Math[0>a?"floor":"ceil"](a),d=c/(T-Q);p(d*Z,b)},positionDragX:function(a,b){r(a,b)},positionDragY:function(a,b){p(a,b)},animate:function(a,b,c,d){var e={};e[b]=c,a.animate(e,{duration:N.animateDuration,easing:N.animateEase,queue:!1,step:d})},getContentPositionX:function(){return y()},getContentPositionY:function(){return z()},getContentWidth:function(){return S},getContentHeight:function(){return T},getPercentScrolledX:function(){return y()/(S-P)},getPercentScrolledY:function(){return z()/(T-Q)},getIsScrollableH:function(){return X},getIsScrollableV:function(){return W},getContentPane:function(){return O},scrollToBottom:function(a){p(Z,a)},hijackInternalLinks:a.noop,destroy:function(){M()}}),d(c)}return b=a.extend({},a.fn.jScrollPane.defaults,b),a.each(["arrowButtonSpeed","trackClickSpeed","keyboardSpeed"],function(){b[this]=b[this]||b.speed}),this.each(function(){var d=a(this),e=d.data("jsp");e?e.reinitialise(b):(a("script",d).filter('[type="text/javascript"],:not([type])').remove(),e=new c(d,b),d.data("jsp",e))})},a.fn.jScrollPane.defaults={showArrows:!1,maintainPosition:!0,stickToBottom:!1,stickToRight:!1,clickOnTrack:!0,autoReinitialise:!1,autoReinitialiseDelay:500,verticalDragMinHeight:0,verticalDragMaxHeight:99999,horizontalDragMinWidth:0,horizontalDragMaxWidth:99999,contentWidth:void 0,animateScroll:!1,animateDuration:300,animateEase:"linear",hijackInternalLinks:!1,verticalGutter:4,horizontalGutter:4,mouseWheelSpeed:3,arrowButtonSpeed:0,arrowRepeatFreq:50,arrowScrollOnHover:!1,trackClickSpeed:0,trackClickRepeatFreq:70,verticalArrowPositions:"split",horizontalArrowPositions:"split",enableKeyboardNavigation:!0,hideFocus:!1,keyboardSpeed:0,initialDelay:300,speed:30,scrollPagePercent:.8}});
-this["JST"] = this["JST"] || {};
-
-this["JST"]["sources/templates/button.jst.ejs"] = function(obj) {
-obj || (obj = {});
-var __t, __p = '', __e = _.escape;
-with (obj) {
-__p +=
-__e( title ) +
-'\n';
-
-}
-return __p
-};
-
-this["JST"]["sources/templates/comment.jst.ejs"] = function(obj) {
-obj || (obj = {});
-var __t, __p = '', __e = _.escape, __j = Array.prototype.join;
-function print() { __p += __j.call(arguments, '') }
-with (obj) {
-__p += '<p>\n  <span class=\'CommentList-itemDate\'>' +
-__e( moment(created_at).format('MMMM Do YYYY') ) +
-'</span>\n  ' +
-__e( comment ) +
-'\n  ';
- if (username) { ;
-__p += ' <div class="CommentList-username">' +
-__e( username ) +
-'</div> ';
- } ;
-__p += '\n</p>\n';
-
-}
-return __p
-};
-
-this["JST"]["sources/templates/comments.jst.ejs"] = function(obj) {
-obj || (obj = {});
-var __t, __p = '', __e = _.escape;
-with (obj) {
-__p += '<div class="Comments-inner">\n  <div class="Comments-content js-comments">\n    <label class="LocationInformation-label">Comments</label>\n    <div class="js-likes"></div>\n    <ul class="CommentList js-comment-list scroll-pane"></ul>\n  </div>\n  <div class="Comments-form">\n    <label class="LocationInformation-label">Add something to the conversation!</label>\n    <div class="InputField InputField-area js-field">\n      <textarea placeholder="Feel free to add tips, warnings, comments or review about \'' +
-__e( name ) +
-'\'" class="Input InputArea js-comment"></textarea>\n    </div>\n\n    <li class="LocationForm-field">\n      <label class="LocationForm-label">Your name or initials (optional)</label>\n      <div class="InputField js-field">\n        <input type="text" class="Input js-username" value="" />\n      </div>\n    </li>\n\n    <div class="LikeButtons">\n      <p class="LikeButtons-title">Would you recommend this location to others?</p>\n      <ul class="LikeButtons-list">\n        <li class="LikeButtons-listItem"><button class="LikeButton js-like" data-value="1"><p class="LikeButtons-response">Yes</p></button></li>\n        <li class="LikeButtons-listItem"><button class="LikeButton LikeButton--dislike js-like" data-value="0"><p class="LikeButtons-response">No</p></button></li>\n      </ul>\n    </div>\n    \n    <button class="Button is-disabled js-ok">Add comment</button>\n  </div>\n</div>\n';
-
-}
-return __p
-};
-
-this["JST"]["sources/templates/dialog.jst.ejs"] = function(obj) {
-obj || (obj = {});
-var __t, __p = '', __e = _.escape;
-with (obj) {
-__p += '<div class="Dialog-inner js-content"></div>\n';
-
-}
-return __p
-};
-
-this["JST"]["sources/templates/dialog_content.jst.ejs"] = function(obj) {
-obj || (obj = {});
-var __t, __p = '', __e = _.escape;
-with (obj) {
-__p += '<div class="Dialog-content">\n  <div class="Dialog-logo"></div>\n  <div class="Dialog-message">' +
-__e( title ) +
-'</div>\n  <p>' +
-__e( text ) +
-'</p>\n</div>\n<footer class="Footer">\n  <button class="Button js-ok">' +
-__e( ok_button ) +
-'</button>\n</footer>\n<button class="Button Button--close js-cancel">✕</button>\n';
-
-}
-return __p
-};
-
-this["JST"]["sources/templates/likes.jst.ejs"] = function(obj) {
-obj || (obj = {});
-var __t, __p = '', __e = _.escape;
-with (obj) {
-__p += '<ul class="LikesList">\n  <li class="LikesList-item"><span class="LikesList-item--like">' +
-__e( likes ) +
-'</span></li>\n  <li class="LikesList-item"><span class="LikesList-item--dislike">' +
-__e( dislikes ) +
-'</span></li>\n  <li class="LikesList-item"><span class="LikesList-item--total">' +
-__e( total ) +
-'</span></li>\n</ul>\n';
-
-}
-return __p
-};
-
-this["JST"]["sources/templates/location_information.jst.ejs"] = function(obj) {
-obj || (obj = {});
-var __t, __p = '', __e = _.escape;
-with (obj) {
-__p += '<div class="LocationInformation-inner js-content"></div>\n';
-
-}
-return __p
-};
-
-this["JST"]["sources/templates/location_information_content.jst.ejs"] = function(obj) {
-obj || (obj = {});
-var __t, __p = '', __e = _.escape, __j = Array.prototype.join;
-function print() { __p += __j.call(arguments, '') }
-with (obj) {
-__p += '<div class="LocationInformation-content">\n  <button class="Button Button--close js-cancel">✕</button>\n  <div class="LocationInformation-title">\n    <h2 class="LocationInformation-name">' +
-__e( name ) +
-'</h2>\n    <h4 class="LocationInformation-address">' +
-__e( address ) +
-'</h4>\n  </div>\n\n  <ul class="LocationInformation-fields js-fields">\n    ';
- if (offerings) { ;
-__p += '\n    <li class="LocationInformation-field">\n      <label class="LocationInformation-label">Can offer help with</label>\n      <p>' +
-__e( offerings ) +
-'</p>\n    </li>\n    ';
- } ;
-__p += '\n    ';
- if (description) { ;
-__p += '\n    <li class="LocationInformation-field">\n      <label class="LocationInformation-label">Description and tips</label>\n      <p class=\'js-description\'>' +
-__e( description ) +
-'</p>\n    </li>\n    ';
- } ;
-__p += '\n  </ul>\n\n</div>\n';
-
-}
-return __p
-};
-
-this["JST"]["sources/templates/page_content.jst.ejs"] = function(obj) {
-obj || (obj = {});
-var __t, __p = '', __e = _.escape;
-with (obj) {
-__p += '<div class="Page-inner">\n  <div class="scroll-pane js-scroll">\n    <p>' +
-__e( text ) +
-'</p>\n    <p>Elit veniam nam dicta maiores enim laboriosam minima sed! Repellendus autem sunt esse eos at nulla officia! Id dolores rerum nulla nostrum totam ducimus tempora nihil voluptatum aspernatur perspiciatis temporibus!</p>\n    <p>Elit veniam nam dicta maiores enim laboriosam minima sed! Repellendus autem sunt esse eos at nulla officia! Id dolores rerum nulla nostrum totam ducimus tempora nihil voluptatum aspernatur perspiciatis temporibus!</p>\n    <p>Elit veniam nam dicta maiores enim laboriosam minima sed! Repellendus autem sunt esse eos at nulla officia! Id dolores rerum nulla nostrum totam ducimus tempora nihil voluptatum aspernatur perspiciatis temporibus!</p>\n    <p>Elit veniam nam dicta maiores enim laboriosam minima sed! Repellendus autem sunt esse eos at nulla officia! Id dolores rerum nulla nostrum totam ducimus tempora nihil voluptatum aspernatur perspiciatis temporibus!</p>\n    <p>Elit veniam nam dicta maiores enim laboriosam minima sed! Repellendus autem sunt esse eos at nulla officia! Id dolores rerum nulla nostrum totam ducimus tempora nihil voluptatum aspernatur perspiciatis temporibus!</p>\n    <p>Elit veniam nam dicta maiores enim laboriosam minima sed! Repellendus autem sunt esse eos at nulla officia! Id dolores rerum nulla nostrum totam ducimus tempora nihil voluptatum aspernatur perspiciatis temporibus!</p>\n    <p>Elit veniam nam dicta maiores enim laboriosam minima sed! Repellendus autem sunt esse eos at nulla officia! Id dolores rerum nulla nostrum totam ducimus tempora nihil voluptatum aspernatur perspiciatis temporibus!</p>\n    <p>Elit veniam nam dicta maiores enim laboriosam minima sed! Repellendus autem sunt esse eos at nulla officia! Id dolores rerum nulla nostrum totam ducimus tempora nihil voluptatum aspernatur perspiciatis temporibus!</p>\n    <p>Elit veniam nam dicta maiores enim laboriosam minima sed! Repellendus autem sunt esse eos at nulla officia! Id dolores rerum nulla nostrum totam ducimus tempora nihil voluptatum aspernatur perspiciatis temporibus!</p>\n    <p>Elit veniam nam dicta maiores enim laboriosam minima sed! Repellendus autem sunt esse eos at nulla officia! Id dolores rerum nulla nostrum totam ducimus tempora nihil voluptatum aspernatur perspiciatis temporibus!</p>\n    <p>Elit veniam nam dicta maiores enim laboriosam minima sed! Repellendus autem sunt esse eos at nulla officia! Id dolores rerum nulla nostrum totam ducimus tempora nihil voluptatum aspernatur perspiciatis temporibus!</p>\n    <p>Elit veniam nam dicta maiores enim laboriosam minima sed! Repellendus autem sunt esse eos at nulla officia! Id dolores rerum nulla nostrum totam ducimus tempora nihil voluptatum aspernatur perspiciatis temporibus!</p>\n    <p>Elit veniam nam dicta maiores enim laboriosam minima sed! Repellendus autem sunt esse eos at nulla officia! Id dolores rerum nulla nostrum totam ducimus tempora nihil voluptatum aspernatur perspiciatis temporibus!</p>\n    <p>Elit veniam nam dicta maiores enim laboriosam minima sed! Repellendus autem sunt esse eos at nulla officia! Id dolores rerum nulla nostrum totam ducimus tempora nihil voluptatum aspernatur perspiciatis temporibus!</p>\n    <p>Elit veniam nam dicta maiores enim laboriosam minima sed! Repellendus autem sunt esse eos at nulla officia! Id dolores rerum nulla nostrum totam ducimus tempora nihil voluptatum aspernatur perspiciatis temporibus!</p>\n    <p>Elit veniam nam dicta maiores enim laboriosam minima sed! Repellendus autem sunt esse eos at nulla officia! Id dolores rerum nulla nostrum totam ducimus tempora nihil voluptatum aspernatur perspiciatis temporibus!</p>\n  </div>\n  <button class="Button Button--close js-cancel">✕</button>\n</div>\n';
-
-}
-return __p
-};
-
-this["JST"]["sources/templates/popup.jst.ejs"] = function(obj) {
-obj || (obj = {});
-var __t, __p = '', __e = _.escape, __j = Array.prototype.join;
-function print() { __p += __j.call(arguments, '') }
-with (obj) {
-__p += '<p>\n  <strong class="Popup-addressName">';
- if (name) { ;
-__p +=
-__e(name ) +
-', ';
- } ;
-__p +=
-__e( address ) +
-'</strong> <br/> is not part of Streetlives yet. Do you want to add this location to the map?\n</p>\n\n<button class="Button Button--addLocationSmall js-add-location">Add location</button>\n';
-
-}
-return __p
-};
 'use strict';
 
 ;(function(Backbone) {
@@ -566,380 +410,6 @@ $(function() {
       document.getElementById('app')
   );
 });
-
-'use strict';
-
-var CommentView = SL.View.extend({
-
-  tagName: 'li',
-
-  className: 'CommentList-item',
-
-  initialize: function(options) {
-    this.options = options;
-    this.model = this.options.model;
-    this.template = this._getTemplate('comment');
-  },
-
-  render: function() {
-    this.$el.append(this.template(this.model.attributes));
-    return this;
-  }
-});
-
-var CommentsView = SL.View.extend({
-
-  className: 'Comments',
-
-  events: {
-    'click .js-ok': '_onSubmit',
-    'keyup .js-comment': '_onKeyUp',
-    'click .js-like': '_onClickLike'
-  },
-
-  initialize: function(options) {
-    _.bindAll(this, '_renderComments', '_renderLikes');
-
-    this.options = options;
-    this.template = this._getTemplate('comments');
-    this.templateLikes = this._getTemplate('likes');
-
-    this.comment = new Comment({ location_id: this.options.location_id });
-    this.comment.bind('change:liked', this._onChangeLiked, this);
-    this.comment.bind('change', this._checkEnabled, this);
-
-    this.commentsTemplate = this._getTemplate('comments_list');
-
-    this._setupModel();
-
-    this.likes = new Likes();
-
-    this.likes.fetch({
-      data: { location_id: this.options.location_id },
-      success: this._renderLikes
-    });
-
-    this.comments = new Comments();
-
-    this.comments.fetch({
-      data: { location_id: this.options.location_id },
-      success: this._renderComments
-    });
-  },
-
-  render: function() {
-    this.$el.append(this.template({ name: this.options.name, comments: this.comments }));
-    return this;
-  },
-
-  _renderLikes: function() {
-    var likes = this.likes.at(0);
-    if (likes) {
-      this.$('.js-likes').append(this.templateLikes(likes.attributes));
-    }
-  },
-
-  _renderComments: function() {
-    this.comments.each(function(model) {
-      var comment = new CommentView({ model: model });
-      this.$(".js-comment-list").append(comment.render().$el);
-    }, this);
-
-    var api = this.$('.js-comment-list').jScrollPane().data('jsp');
-
-    if (api) {
-      api.reinitialise();
-    }
-
-    this.$('.js-comment-list').animate({ opacity: 1 }, 150);
-  },
-
-  _setupModel: function() {
-    this.model = new SL.Model({
-      enabled: false
-    });
-
-    this.model.bind('change:enabled', this._onChangeEnabled, this);
-  },
-
-  _onChangeLiked: function() {
-    this.$('.js-like').removeClass('is-selected');
-    var liked = this.comment.get('liked');
-    if (liked !== null) {
-      this.$('[data-value="' + (liked ? 1 : 0) + '"]').addClass('is-selected');
-    }
-  },
-
-  _onChangeEnabled: function() {
-    this.$('.js-ok').toggleClass('is-disabled', !this.model.get('enabled'));
-  },
-
-  _isEnabled: function() {
-    return this.model.get('enabled');
-  },
-
-  _onClickLike: function(e) {
-    this._killEvent(e);
-    var like = $(e.target).data('value');
-    var liked = this.comment.get('liked');
-    this.comment.set({ liked: (like == liked) ? null : like });
-  },
-
-  _checkEnabled: function() {
-    var enabled = this.$('.js-comment').val().length > 0 || this.comment.get('liked') !== null;
-    this.model.set('enabled', enabled);
-  },
-
-  _onKeyUp: function() {
-    this.comment.set({ comment: this.$('.js-comment').val() });
-  },
-
-  _onSubmit: function(e) {
-    if (!this._isEnabled()) {
-      return;
-    }
-
-    this._killEvent(e);
-
-    this.comment.on("invalid", function(model, error) {
-      if (error === 'comment') {
-        this.$(".js-comment").parent().addClass('has-error');
-      }
-    }, this);
-
-
-    this.comment.set({ comment: this.$('.js-comment').val(), username: this.$('.js-username').val() });
-    this.comments.add(this.comment);
-
-    var self = this;
-
-    this.comment.save({}, {
-      success: function() {
-        self.$(".js-ok").addClass(".is-disabled");
-        self.trigger('comment', this);
-      }});
-  }
-});
-
-'use strict';
-
-SL.Dialog = SL.View.extend({
-  className: 'Dialog is-hidden',
-
-  events: {
-    'click .js-ok': 'close',
-    'click .js-cancel': 'close'
-  },
-
-  templateName: 'dialog',
-  templateContentName: 'dialog_content',
-
-  initialize: function(options) {
-
-    _.bindAll(this, '_onKeyUp');
-
-    $(document).on("keyup", this._onKeyUp);
-
-    this.options = options;
-    this.template = this._getTemplate(this.templateName);
-    this.templateContent = this._getTemplate(this.templateContentName);
-
-    this._setupModel();
-  },
-
-  render_content: function() {
-    var attributes = this.model.attributes;
-    this.$('.js-content').append(this.templateContent(attributes));
-    this._initScroll();
-    return this;
-  },
-
-  render: function() {
-    this.$el.append(this.template());
-    this.render_content();
-    return this;
-  },
-
-  _onChangeHidden: function() {
-    this.$el.toggleClass('is-hidden', this.model.get('hidden'));
-  },
-
-  _setupModel: function() {
-    this.model = new SL.Model(_.extend({
-      hidden: true
-    }, this.options));
-
-    this.model.bind('change:hidden', this._onChangeHidden, this);
-  },
-
-  toggle: function() {
-    this.model.set('hidden', !this.model.get('hidden'));
-  },
-
-  _initScroll: function() {
-    if (this.api) {
-      this.api.reinitialise();
-      return;
-    }
-
-    this.api = this.$('.js-scroll').jScrollPane().data('jsp');
-
-    if (this.api) {
-      var self = this;
-      setTimeout(function() {
-        self.api.reinitialise();
-      }, 500);
-    }
-  },
-
-  open: function() {
-    $('body').append(this.render().$el);
-    this.show();
-  },
-
-  show: function() {
-    this.model.set('hidden', false);
-
-    this._initScroll();
-  },
-
-  hide: function() {
-    this.model.set('hidden', true);
-  },
-
-  isOpen: function() {
-    return !this.model.get('hidden');
-  },
-
-  close: function() {
-    this.hide();
-    this.trigger('close', this);
-    this.$el.remove();
-  },
-
-  _onKeyUp: function(e) {
-    if (e.keyCode === 27) {
-      this.close();
-    }
-  }
-
-});
-
-
-'use strict';
-
-var LocationInformation = SL.Dialog.extend({
-
-  _TEXT: {
-    title: 'Add location'
-  },
-
-  events: {
-    'click .js-cancel': 'close'
-  },
-
-  templateName: 'location_information',
-  templateContentName: 'location_information_content',
-
-  className: 'LocationInformation is-hidden',
-
-  initialize: function(options) {
-    this._super('initialize', arguments);
-    this._setupLocation();
-  },
-
-  render_content: function() {
-    var options = _.extend({ title: this._TEXT.title, description: '' }, this.location.attributes);
-
-    this.$('.js-content').append(this.templateContent(options));
-    this.$('.js-description').html(options.description);
-
-    this.comments = new CommentsView({ name: options.name, location_id: options.cartodb_id });
-    this.comments.render();
-    this.comments.bind('comment', this._onComment, this);
-
-    if (this.comments) {
-      this.$('.js-fields').append(this.comments.$el);
-    }
-    return this;
-  },
-
-  _setupLocation: function() {
-    this.location = new Location(this.options);
-    this.location.bind('change:address', this._onChangeAddress, this);
-    this.location.bind('change:name', this._onChangeName, this);
-
-    this.location.on("invalid", function(model, error) {
-      if (error === 'name') {
-        this.$(".js-field").addClass('has-error');
-      }
-    }, this);
-  },
-
-  _setupModel: function() {
-    this.model = new SL.Model({
-      hidden: true
-    });
-
-    this.model.bind('change:hidden', this._onChangeHidden, this);
-  },
-
-  _onChangeEnabled: function() {
-    this.$('.js-ok').toggleClass('is-disabled', !this.model.get('enabled'));
-  },
-
-  _onChangeHidden: function() {
-    this.$el.toggleClass('is-hidden', this.model.get('hidden'));
-  },
-
-  _onChangeName: function() {
-    this.$('.js-name').val(this.location.get('name'));
-  },
-
-  _onChangeAddress: function() {
-    this.$('.js-address').text(this.location.get('address'));
-  },
-
-  _clear: function() {
-    this.$('.js-checkbox').attr('checked', false);
-    this.$(".js-field").removeClass('has-error');
-    this.$('.js-name').val('');
-  },
-
-  _show: function() {
-    var self = this;
-    this.$('.js-content').fadeIn(150, function() {
-      self.model.set('hidden', false);
-    });
-  },
-
-  _hide: function() {
-    var self = this;
-    this.$('.js-content').fadeOut(150, function() {
-      self.model.set('hidden', true);
-    });
-  },
-
-  _onComment: function() {
-    this.close();
-    var success = new SL.Dialog({ title: 'Thank your for helping the community with your knowledge', text: '', ok_button: 'Ok, thanks' });
-    success.open();
-  },
-
-  open: function(options) {
-    $(document).on("keyup", this._onKeyUp);
-    $('body').append(this.render().$el);
-    this._show();
-  },
-
-  close: function() {
-    $(document).off("keyup", this._onKeyUp);
-    this._hide();
-    this._clear();
-    this.$el.remove();
-  }
-});
-
 
 'use strict';
 
@@ -1184,10 +654,471 @@ var LocationForm = React.createClass({
 });
 //# sourceMappingURL=react-locationForm.js.map
 
-'use strict';
+"use strict";
+
+var ReactComment = React.createClass({
+    displayName: "ReactComment",
+
+
+    renderUsername: function renderUsername() {
+        if (this.props.comment.username) {
+            return React.createElement(
+                "div",
+                { className: "CommentList-username" },
+                this.props.comment.username
+            );
+        }
+    },
+
+    render: function render() {
+        return React.createElement(
+            "li",
+            { className: "CommentList-item" },
+            React.createElement(
+                "p",
+                null,
+                React.createElement(
+                    "span",
+                    { className: "CommentList-itemDate" },
+                    moment(this.props.comment.created_at).format('MMMM Do YYYY')
+                ),
+                this.props.comment.comment,
+                this.renderUsername()
+            )
+        );
+    }
+});
+
+var ReactLikes = React.createClass({
+    displayName: "ReactLikes",
+
+
+    getInitialState: function getInitialState() {
+        return {
+            likes: 0,
+            dislikes: 0,
+            total: 0
+        };
+    },
+
+    updateLikes: function updateLikes(likes) {
+        likes = likes.at(0);
+        if (likes) {
+            this.setState({
+                likes: likes.attributes.likes,
+                dislikes: likes.attributes.dislikes,
+                total: likes.attributes.total
+            });
+        }
+    },
+
+    componentDidMount: function componentDidMount() {
+        var likes = new Likes();
+        likes.fetch({
+            data: { location_id: this.props.location_id },
+            success: this.updateLikes
+        });
+    },
+
+    render: function render() {
+        return React.createElement(
+            "ul",
+            { className: "LikesList" },
+            React.createElement(
+                "li",
+                { className: "LikesList-item" },
+                React.createElement(
+                    "span",
+                    { className: "LikesList-item--like" },
+                    this.state.likes
+                )
+            ),
+            React.createElement(
+                "li",
+                { className: "LikesList-item" },
+                React.createElement(
+                    "span",
+                    { className: "LikesList-item--dislike" },
+                    this.state.dislikes
+                )
+            ),
+            React.createElement(
+                "li",
+                { className: "LikesList-item" },
+                React.createElement(
+                    "span",
+                    { className: "LikesList-item--total" },
+                    this.state.total
+                )
+            )
+        );
+    }
+});
+
+var CommentForm = React.createClass({
+    displayName: "CommentForm",
+
+
+    getInitialState: function getInitialState() {
+        return {
+            liked: 'neither',
+            typedStuff: false
+        };
+    },
+
+    typedComments: function typedComments() {
+        if (this.refs.comment_text.value !== "") {
+            this.setState({
+                typedStuff: true
+            });
+        } else {
+            this.setState({
+                typedStuff: false
+            });
+        }
+    },
+
+    liked: function liked() {
+        this.setState({
+            liked: true
+        });
+    },
+
+    disliked: function disliked() {
+        this.setState({
+            liked: false
+        });
+    },
+
+    addComment: function addComment() {
+        var newComment = new Comment({
+            location_id: this.props.location_id,
+            comment: this.refs.comment_text.value,
+            username: this.refs.username.value,
+            liked: this.state.liked === 'neither' ? null : this.state.liked
+        });
+        this.props.addComment(newComment);
+    },
+
+    render: function render() {
+        var placeholder = "Feel free to add tips, warnings, comments or review about " + this.props.name;
+        var buttonClass = this.state.typedStuff ? "Button js-ok" : "Button is-disabled js-ok";
+
+        var likeButtonClass;
+        var dislikeButtonClass;
+        if (this.state.liked === true) {
+            likeButtonClass = "LikeButton js-like is-selected";
+            dislikeButtonClass = "LikeButton LikeButton--dislike js-like";
+        } else if (this.state.liked === false) {
+            likeButtonClass = "LikeButton js-like";
+            dislikeButtonClass = "LikeButton LikeButton--dislike js-like is-selected";
+        } else {
+            likeButtonClass = "LikeButton js-like";
+            dislikeButtonClass = "LikeButton LikeButton--dislike js-like";
+        }
+
+        return React.createElement(
+            "div",
+            { className: "Comments-form" },
+            React.createElement(
+                "label",
+                { className: "LocationInformation-label" },
+                "Add something to the conversation!"
+            ),
+            React.createElement(
+                "div",
+                { className: "InputField InputField-area js-field" },
+                React.createElement("textarea", { placeholder: placeholder,
+                    className: "Input InputArea js-comment",
+                    ref: "comment_text",
+                    onChange: this.typedComments })
+            ),
+            React.createElement(
+                "li",
+                { className: "LocationForm-field" },
+                React.createElement(
+                    "label",
+                    { className: "LocationForm-label" },
+                    "Your name or initials (optional)"
+                ),
+                React.createElement(
+                    "div",
+                    { className: "InputField js-field" },
+                    React.createElement("input", { type: "text", className: "Input js-username", ref: "username" })
+                )
+            ),
+            React.createElement(
+                "div",
+                { className: "LikeButtons" },
+                React.createElement(
+                    "p",
+                    { className: "LikeButtons-title" },
+                    "Would you recommend this location to others?"
+                ),
+                React.createElement(
+                    "ul",
+                    { className: "LikeButtons-list" },
+                    React.createElement(
+                        "li",
+                        { className: "LikeButtons-listItem" },
+                        React.createElement(
+                            "button",
+                            { className: likeButtonClass,
+                                "data-value": "1",
+                                onClick: this.liked },
+                            React.createElement(
+                                "p",
+                                { className: "LikeButtons-response" },
+                                "Yes"
+                            )
+                        )
+                    ),
+                    React.createElement(
+                        "li",
+                        { className: "LikeButtons-listItem" },
+                        React.createElement(
+                            "button",
+                            { className: dislikeButtonClass,
+                                "data-value": "0",
+                                onClick: this.disliked },
+                            React.createElement(
+                                "p",
+                                { className: "LikeButtons-response" },
+                                "No"
+                            )
+                        )
+                    )
+                )
+            ),
+            React.createElement(
+                "button",
+                { className: buttonClass, onClick: this.addComment },
+                "Add comment"
+            )
+        );
+    }
+});
+
+var ReactComments = React.createClass({
+    displayName: "ReactComments",
+
+    getInitialState: function getInitialState() {
+        return {
+            comments: new Comments()
+        };
+    },
+
+    updateComments: function updateComments(comments) {
+        this.setState({
+            comments: comments
+        });
+    },
+
+    addComment: function addComment(newComment) {
+        this.state.comments.add(newComment);
+        var onClickClose = this.props.onClickClose;
+        newComment.save({}, {
+            success: function success() {
+                onClickClose(true);
+            }
+        });
+    },
+
+    componentDidMount: function componentDidMount() {
+        this.state.comments.fetch({
+            data: { location_id: this.props.location_id },
+            success: this.updateComments
+        });
+    },
+
+    renderComments: function renderComments() {
+        var comments = [];
+        this.state.comments.each(function (model) {
+            comments.push(React.createElement(ReactComment, { comment: model.attributes }));
+        });
+        return comments;
+    },
+
+    render: function render() {
+        return React.createElement(
+            "div",
+            { className: "Comments" },
+            React.createElement(
+                "div",
+                { className: "Comments-inner" },
+                React.createElement(
+                    "div",
+                    { className: "Comments-content js-comments" },
+                    React.createElement(
+                        "label",
+                        { className: "LocationInformation-label" },
+                        "Comments"
+                    ),
+                    React.createElement(
+                        "div",
+                        { className: "js-likes" },
+                        React.createElement(ReactLikes, { location_id: this.props.location_id })
+                    ),
+                    React.createElement(
+                        "ul",
+                        { className: "CommentList js-comment-list scroll-pane" },
+                        this.renderComments()
+                    )
+                ),
+                React.createElement(CommentForm, { name: this.props.name,
+                    location_id: this.props.location_id,
+                    addComment: this.addComment })
+            )
+        );
+    }
+});
+
+var LocationInformation = React.createClass({
+    displayName: "LocationInformation",
+
+
+    getInitialState: function getInitialState() {
+        return {
+            location: new Location(this.props.options),
+            title: 'Add location'
+        };
+    },
+
+    renderOfferings: function renderOfferings() {
+        if (this.props.options.offerings) {
+            return React.createElement(
+                "li",
+                { className: "LocationInformation-field" },
+                React.createElement(
+                    "label",
+                    { className: "LocationInformation-label" },
+                    "Can offer help with"
+                ),
+                React.createElement(
+                    "p",
+                    null,
+                    this.props.options.offerings
+                )
+            );
+        } else {
+            return null;
+        }
+    },
+
+    renderDescription: function renderDescription() {
+        if (this.props.options.description) {
+            return React.createElement(
+                "li",
+                { className: "LocationInformation-field" },
+                React.createElement(
+                    "label",
+                    { className: "LocationInformation-label" },
+                    "Description and tips"
+                ),
+                React.createElement("p", { className: "js-description",
+                    dangerouslySetInnerHTML: { __html: this.props.options.description } })
+            );
+        } else {
+            return null;
+        }
+    },
+
+    render: function render() {
+        return React.createElement(
+            "div",
+            { className: "LocationInformation" },
+            React.createElement(
+                "div",
+                { className: "LocationInformation-inner js-content" },
+                React.createElement(
+                    "div",
+                    { className: "LocationInformation-content" },
+                    React.createElement(
+                        "button",
+                        { className: "Button Button--close js-cancel",
+                            onClick: this.props.onClickClose },
+                        "✕"
+                    ),
+                    React.createElement(
+                        "div",
+                        { className: "LocationInformation-title" },
+                        React.createElement(
+                            "h2",
+                            { className: "LocationInformation-name" },
+                            this.props.options.name
+                        ),
+                        React.createElement(
+                            "h4",
+                            { className: "LocationInformation-address" },
+                            this.props.options.address
+                        )
+                    ),
+                    React.createElement(
+                        "ul",
+                        { className: "LocationInformation-fields js-fields" },
+                        this.renderOfferings(),
+                        this.renderDescription(),
+                        React.createElement(ReactComments, { name: this.props.options.name,
+                            location_id: this.props.options.cartodb_id,
+                            onClickClose: this.props.onClickClose })
+                    )
+                )
+            )
+        );
+    }
+});
+//# sourceMappingURL=react-locationInformation.js.map
+
+"use strict";
+
+var ThanksDialog = React.createClass({
+    displayName: "ThanksDialog",
+
+    render: function render() {
+        return React.createElement(
+            "div",
+            { className: "Dialog" },
+            React.createElement(
+                "div",
+                { className: "Dialog-inner js-content" },
+                React.createElement(
+                    "div",
+                    { className: "Dialog-content" },
+                    React.createElement("div", { className: "Dialog-logo" }),
+                    React.createElement(
+                        "div",
+                        { className: "Dialog-message" },
+                        this.props.title
+                    ),
+                    React.createElement(
+                        "p",
+                        null,
+                        this.props.text
+                    )
+                ),
+                React.createElement(
+                    "footer",
+                    { className: "Footer" },
+                    React.createElement(
+                        "button",
+                        { className: "Button js-ok",
+                            onClick: this.props.onClickOk },
+                        this.props.ok_button
+                    )
+                ),
+                React.createElement(
+                    "button",
+                    { className: "Button Button--close js-cancel",
+                        onClick: this.props.onClickClose },
+                    "✕"
+                )
+            )
+        );
+    }
+});
 
 var ReactMap = React.createClass({
-    displayName: 'ReactMap',
+    displayName: "ReactMap",
     getInitialState: function getInitialState() {
         var model = new Backbone.Model({
             marker: null
@@ -1203,6 +1134,7 @@ var ReactMap = React.createClass({
             geocoder: geocoder,
             offerings: offerings,
             locationForm: false,
+            thanksDialog: false,
             viz: {
                 templateURL: '//<%- username %>.cartodb.com/api/v2/viz/<%-id %>/viz.json'
             },
@@ -1290,8 +1222,9 @@ var ReactMap = React.createClass({
 
         this.map.closePopup();
 
-        this.locationInformation = new LocationInformation(data);
-        this.locationInformation.open();
+        this.setState({
+            locationInformation: data
+        });
     },
 
     _onClickMap: function _onClickMap(e) {
@@ -1320,12 +1253,11 @@ var ReactMap = React.createClass({
 
     _addMarker: function _addMarker(coordinates) {
         var style = this.state.style.marker;
-        var template = JST['sources/templates/popup.jst.ejs'];
+        var name = this.state.model.get('name');
+        var nameString = name ? name + ', ' : '';
+        var address = this.state.model.get('address');
 
-        var content = template({
-            name: this.state.model.get('name'),
-            address: this.state.model.get('address')
-        });
+        var content = '<p>' + '<strong class="Popup-addressName">' + nameString + address + '</strong>' + '<br/>' + 'is not part of Streetlives yet. ' + 'Do you want to add this location to the map?' + '</p>' + '<button class="Button Button--addLocationSmall js-add-location">' + 'Add location' + '</button>';
 
         var panCoords = this.isMobile() ? [0, 150] : [10, 75];
         this.popup = SL.Popup({ autoPanPaddingTopLeft: panCoords, offset: [0, -5] }).setLatLng(coordinates).setContent(content).openOn(this.map);
@@ -1382,8 +1314,9 @@ var ReactMap = React.createClass({
 
         marker.addTo(this.map);
 
-        var success = new SL.Dialog({ title: 'Thank your for helping the community with your knowledge', text: '', ok_button: 'Ok, thanks' });
-        success.open();
+        this.setState({
+            thanksDialog: true
+        });
 
         this._removeCurrentSelection();
     },
@@ -1403,8 +1336,9 @@ var ReactMap = React.createClass({
         var self = this;
         locationModel.fetch({ data: $.param({ address: coordinates }) }).done(function (data) {
             if (data.rows.length > 0) {
-                self.locationInformation = new LocationInformation(data.rows[0]);
-                self.locationInformation.open();
+                self.setState({
+                    locationInformation: data.rows[0]
+                });
             } else {
                 self._addMarker(coordinates);
             }
@@ -1419,7 +1353,12 @@ var ReactMap = React.createClass({
         var self = this;
         this.map.panTo(coordinates);
 
+        var model = this.state.model;
         setTimeout(function () {
+            model.set({
+                name: place.name,
+                address: place.formatted_address
+            });
             self._reconcileCoordinates(coordinates);
         }, 500);
     },
@@ -1437,6 +1376,18 @@ var ReactMap = React.createClass({
             locationForm: false
         });
     },
+    removeLocationInformation: function removeLocationInformation(addedNewComment) {
+        this.setState({
+            locationInformation: null,
+            thanksDialog: typeof addedNewcomment === 'boolean' ? addedNewComment : false
+        });
+    },
+    renderLocationInformation: function renderLocationInformation() {
+        if (this.state.locationInformation) {
+            return React.createElement(LocationInformation, { options: this.state.locationInformation,
+                onClickClose: this.removeLocationInformation });
+        }
+    },
     renderLocationForm: function renderLocationForm() {
         if (this.state.locationForm) {
             return React.createElement(LocationForm, { onAddLocation: this._onAddLocation,
@@ -1450,13 +1401,31 @@ var ReactMap = React.createClass({
             return null;
         }
     },
+    removeThanksDialog: function removeThanksDialog() {
+        this.setState({
+            thanksDialog: false
+        });
+    },
+    renderThanksDialog: function renderThanksDialog() {
+        if (this.state.thanksDialog) {
+            return React.createElement(ThanksDialog, { onClickOk: this.removeThanksDialog,
+                onClickClose: this.removeThanksDialog,
+                title: "Thank your for helping the community with your knowledge",
+                text: "",
+                ok_button: "Ok, thanks" });
+        } else {
+            return null;
+        }
+    },
     render: function render() {
         return React.createElement(
-            'div',
+            "div",
             { onkeyup: this._onKeyUp },
-            React.createElement('div', { id: 'map', className: 'Map' }),
+            React.createElement("div", { id: "map", className: "Map" }),
             React.createElement(ReactSearch, { gotoPlace: this._gotoPlace }),
-            this.renderLocationForm()
+            this.renderLocationForm(),
+            this.renderLocationInformation(),
+            this.renderThanksDialog()
         );
     }
 });
