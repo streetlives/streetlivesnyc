@@ -5,6 +5,13 @@ import { LocationInformation } from './locationInformation.js';
 import { LocationForm } from './locationForm.js';
 import { ReactSearch } from './search.js';
 
+import '../scss/map.scss';
+import '../scss/dialog.scss';
+import '../scss/like_button.scss';
+import '../scss/likes.scss';
+import '../scss/popup.scss';
+import '../scss/button.scss';
+
 var ThanksDialog = React.createClass({
     render: function() {
         return (

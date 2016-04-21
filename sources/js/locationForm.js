@@ -1,6 +1,10 @@
 import React from 'react';
 import { Location } from './models.js';
 
+import '../scss/location.scss';
+import '../scss/input_field.scss';
+import '../scss/button.scss';
+
 module.exports.LocationForm = React.createClass({
 
     getInitialState: function() {

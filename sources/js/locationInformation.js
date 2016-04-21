@@ -2,6 +2,12 @@ import React from 'react';
 import moment from 'moment';
 import { Comment, Likes, Comments, Location } from './models.js';
 
+import '../scss/comment.scss';
+import '../scss/location_information.scss';
+import '../scss/like_button.scss';
+import '../scss/input_field.scss';
+import '../scss/button.scss';
+
 var ReactComment = React.createClass({
 
     renderUsername: function() {
