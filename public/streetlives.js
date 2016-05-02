@@ -64,6 +64,10 @@
 
 	var _privacy = __webpack_require__(359);
 
+	var _guidelines = __webpack_require__(368);
+
+	var _tos = __webpack_require__(369);
+
 	__webpack_require__(360);
 
 	__webpack_require__(362);
@@ -95,7 +99,9 @@
 	  { history: _reactRouter.browserHistory },
 	  _react2.default.createElement(_reactRouter.Route, { path: '/', component: ReactApp }),
 	  _react2.default.createElement(_reactRouter.Route, { path: '/about', component: _about.About }),
-	  _react2.default.createElement(_reactRouter.Route, { path: '/privacy', component: _privacy.Privacy })
+	  _react2.default.createElement(_reactRouter.Route, { path: '/privacy', component: _privacy.Privacy }),
+	  _react2.default.createElement(_reactRouter.Route, { path: '/tos', component: _tos.TermsOfService }),
+	  _react2.default.createElement(_reactRouter.Route, { path: '/guidelines', component: _guidelines.ContentGuidelines })
 	), document.getElementById('app'));
 
 /***/ },
@@ -53866,6 +53872,731 @@
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 367 */,
+/* 368 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _header = __webpack_require__(294);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	module.exports.ContentGuidelines = _react2.default.createClass({
+	  displayName: 'ContentGuidelines',
+
+	  render: function render() {
+	    return _react2.default.createElement(
+	      'div',
+	      null,
+	      _react2.default.createElement(
+	        'h2',
+	        { 'class': 'c4', id: 'h.25y61obj4qur' },
+	        _react2.default.createElement(
+	          'span',
+	          null,
+	          'Content Guidelines'
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'h3',
+	        { 'class': 'c4', id: 'h.u5l9qhrsnlik' },
+	        _react2.default.createElement(
+	          'span',
+	          null,
+	          'What they are'
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'p',
+	        { 'class': 'c10' },
+	        _react2.default.createElement(
+	          'span',
+	          { 'class': 'c1' },
+	          'These are the community rules we apply to moderate content. Comments, posts, pins, and any and all user created information, including types not yet defined, that appear on StreetlivesNYC are all called “Content”.'
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'h3',
+	        { 'class': 'c4', id: 'h.ews8ditje2z5' },
+	        _react2.default.createElement(
+	          'span',
+	          null,
+	          'Removal of inappropriate content'
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'p',
+	        { 'class': 'c10' },
+	        _react2.default.createElement(
+	          'span',
+	          { 'class': 'c1' },
+	          'Content that falls foul of community rules may be removed once identified by StreetlivesNYC. The decision about what qualifies as inappropriate content is determined solely by StreetlivesNYC, its staff or agents, who follow the guidelines listed below. There are links included to further define certain sections.'
+	        )
+	      ),
+	      _react2.default.createElement('p', { 'class': 'c8' }),
+	      _react2.default.createElement(
+	        'p',
+	        { 'class': 'c10' },
+	        _react2.default.createElement(
+	          'span',
+	          { 'class': 'c6 c1' },
+	          'Any objectionable or illegal content that remains on the site due to an error in application of the guidelines does not invalidate the guidelines or lend StreetlivesNYC’s approval of any kind to said content. Please notify us about content we have overlooked at rights@streetlives.nyc. We do our best to apply guidelines equally to all content.'
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'h3',
+	        { 'class': 'c4', id: 'h.8u1nm8whkfsc' },
+	        _react2.default.createElement(
+	          'span',
+	          null,
+	          'Latest Revision'
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'p',
+	        { 'class': 'c10' },
+	        _react2.default.createElement(
+	          'span',
+	          { 'class': 'c1' },
+	          'These guidelines will change over time, depending on the development of StreetlivesNYC, legal requirements, and the needs of the community. Your continued use of StreetlivesNYC is deemed an acceptance of the most recent version of these guidelines.'
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'h4',
+	        { 'class': 'c4', id: 'h.qgcbapkabqrs' },
+	        _react2.default.createElement(
+	          'span',
+	          null,
+	          'Be considerate and respectful of other users and their privacy'
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'ol',
+	        { 'class': 'c3 lst-kix_xn870oy34waz-1 start', start: '1' },
+	        _react2.default.createElement(
+	          'li',
+	          { 'class': 'c2' },
+	          _react2.default.createElement(
+	            'span',
+	            { 'class': 'c1' },
+	            'Content including foul or offensive language may be removed'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'li',
+	          { 'class': 'c2' },
+	          _react2.default.createElement(
+	            'span',
+	            { 'class': 'c1' },
+	            'Content including abusive &/or discriminatory language will be removed'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'li',
+	          { 'class': 'c2' },
+	          _react2.default.createElement(
+	            'span',
+	            { 'class': 'c1' },
+	            'Content including or linking to pornography (explicitly illegal by national law – see link below – or'
+	          ),
+	          _react2.default.createElement(
+	            'span',
+	            { 'class': 'c9 c1' },
+	            _react2.default.createElement(
+	              'a',
+	              { 'class': 'c7', href: 'https://www.google.com/url?q=https://docs.google.com/document/d/1AbMU2Tvc-8Gaxld5y59iwT8-JOxAckewrDbKG1ekMPA/edit%23heading%3Dh.qxdr1qmbknji&sa=D&ust=1462236460283000&usg=AFQjCNFw0WLRaytYJy_RUSZfSKSVVq4umA' },
+	              'unintended'
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'span',
+	            { 'class': 'c1' },
+	            ') will be removed'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'li',
+	          { 'class': 'c2' },
+	          _react2.default.createElement(
+	            'span',
+	            { 'class': 'c1' },
+	            'Content may not refer to any individual by name'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'li',
+	          { 'class': 'c2' },
+	          _react2.default.createElement(
+	            'span',
+	            { 'class': 'c1' },
+	            'Content may not identify the location or contact details of individuals or families'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'li',
+	          { 'class': 'c2' },
+	          _react2.default.createElement(
+	            'span',
+	            { 'class': 'c1' },
+	            'Content may not identify the location of properties intended for the safe and private residence or treatment of its occupants'
+	          )
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'h4',
+	        { 'class': 'c4', id: 'h.1nda01ag80y8' },
+	        _react2.default.createElement(
+	          'span',
+	          null,
+	          'Please be honest and don’t troll'
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'ol',
+	        { 'class': 'c3 lst-kix_xn870oy34waz-1', start: '7' },
+	        _react2.default.createElement(
+	          'li',
+	          { 'class': 'c2' },
+	          _react2.default.createElement(
+	            'span',
+	            { 'class': 'c1' },
+	            'Please provide firsthand information, not information you heard about from others'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'li',
+	          { 'class': 'c2' },
+	          _react2.default.createElement(
+	            'span',
+	            { 'class': 'c1' },
+	            'Content found to be malicious, untruthful, or factually incorrect (regarding access to services) will be removed'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'li',
+	          { 'class': 'c2' },
+	          _react2.default.createElement(
+	            'span',
+	            { 'class': 'c1' },
+	            'Repetitive negative comment or bullying will be removed'
+	          )
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'h4',
+	        { 'class': 'c4', id: 'h.g9evpjswypkx' },
+	        _react2.default.createElement(
+	          'span',
+	          null,
+	          'Please don’t use StreetlivesNYC to pursue ongoing grievances against Service Providers'
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'ol',
+	        { 'class': 'c3 lst-kix_xn870oy34waz-1', start: '10' },
+	        _react2.default.createElement(
+	          'li',
+	          { 'class': 'c2' },
+	          _react2.default.createElement(
+	            'span',
+	            { 'class': 'c1' },
+	            'Content which details specifics of an ongoing or settled grievance process will be removed'
+	          )
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'h4',
+	        { 'class': 'c4', id: 'h.pwxg5ntm7psy' },
+	        _react2.default.createElement(
+	          'span',
+	          null,
+	          'Please don’t use StreetlivesNYC to make arrangements to meet up'
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'ol',
+	        { 'class': 'c3 lst-kix_xn870oy34waz-1', start: '11' },
+	        _react2.default.createElement(
+	          'li',
+	          { 'class': 'c2' },
+	          _react2.default.createElement(
+	            'span',
+	            { 'class': 'c1' },
+	            'Content may not be used to make arrangement for private user interaction on or off site or include email, time, or street addresses indicating the same'
+	          )
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'h4',
+	        { 'class': 'c4', id: 'h.3e24e12d3ury' },
+	        _react2.default.createElement(
+	          'span',
+	          null,
+	          'Please don’t offer items or services for sale'
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'ol',
+	        { 'class': 'c3 lst-kix_xn870oy34waz-1', start: '12' },
+	        _react2.default.createElement(
+	          'li',
+	          { 'class': 'c2' },
+	          _react2.default.createElement(
+	            'span',
+	            { 'class': 'c1' },
+	            'Content that directly or indirectly involves commerce, solicitation or financial gain will be removed'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'li',
+	          { 'class': 'c2' },
+	          _react2.default.createElement(
+	            'span',
+	            { 'class': 'c1' },
+	            'Content that constitutes advertising, junk or bulk e-mail ("'
+	          ),
+	          _react2.default.createElement(
+	            'span',
+	            { 'class': 'c1 c9' },
+	            _react2.default.createElement(
+	              'a',
+	              { 'class': 'c7', href: 'https://www.google.com/url?q=https://docs.google.com/document/d/1QYtYL2ql55aUb7AvHYh5njC8Ogy9cVWdZq-YnlykBkM/edit?usp%3Dsharing&sa=D&ust=1462236460287000&usg=AFQjCNHtpmz5yYzAkRVnVNG6l5HB6Qek3Q' },
+	              'spam'
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'span',
+	            { 'class': 'c1' },
+	            '") will be removed'
+	          )
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'h4',
+	        { 'class': 'c4', id: 'h.h6ciz4xmbkb0' },
+	        _react2.default.createElement(
+	          'span',
+	          null,
+	          'Do not make financial demands of others'
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'ol',
+	        { 'class': 'c3 lst-kix_xn870oy34waz-1', start: '14' },
+	        _react2.default.createElement(
+	          'li',
+	          { 'class': 'c2' },
+	          _react2.default.createElement(
+	            'span',
+	            { 'class': 'c1' },
+	            'Do not ask or demand money from other users'
+	          )
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'h4',
+	        { 'class': 'c4', id: 'h.dg3rnyhed4y' },
+	        _react2.default.createElement(
+	          'span',
+	          null,
+	          'Do not use StreetlivesNYC to break the Law'
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'ol',
+	        { 'class': 'c3 lst-kix_xn870oy34waz-1', start: '15' },
+	        _react2.default.createElement(
+	          'li',
+	          { 'class': 'c2' },
+	          _react2.default.createElement(
+	            'span',
+	            { 'class': 'c1' },
+	            'Content including or linking out to acts or images of criminal activity will be removed, and appropriate authorities will be notified'
+	          )
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'ol',
+	        { 'class': 'c3 lst-kix_xn870oy34waz-2 start', start: '1' },
+	        _react2.default.createElement(
+	          'li',
+	          { 'class': 'c0' },
+	          _react2.default.createElement(
+	            'span',
+	            { 'class': 'c1' },
+	            'Criminal activity in New York State is defined'
+	          ),
+	          _react2.default.createElement(
+	            'span',
+	            { 'class': 'c9 c1' },
+	            _react2.default.createElement(
+	              'a',
+	              { 'class': 'c7', href: 'https://www.google.com/url?q=http://ypdcrime.com/penal.law/penal-law-offense.htm&sa=D&ust=1462236460289000&usg=AFQjCNEJSyXiYqfPdi5XDfSOkyfMRTCUoQ' },
+	              'here'
+	            )
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'li',
+	          { 'class': 'c0' },
+	          _react2.default.createElement(
+	            'span',
+	            { 'class': 'c1' },
+	            'A list of Hate Crimes in New York State is'
+	          ),
+	          _react2.default.createElement(
+	            'span',
+	            { 'class': 'c9 c1' },
+	            _react2.default.createElement(
+	              'a',
+	              { 'class': 'c7', href: 'https://www.google.com/url?q=http://ypdcrime.com/penal.law/hate_crimes.htm&sa=D&ust=1462236460289000&usg=AFQjCNFTeP20bknU5SaftpqHHW3e5A7peg' },
+	              'here'
+	            )
+	          )
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'h4',
+	        { 'class': 'c4', id: 'h.5hl1i0cm23g3' },
+	        _react2.default.createElement(
+	          'span',
+	          null,
+	          'Do not post someone else’s music, art, words or other intellectual creation without their permission'
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'ol',
+	        { 'class': 'c3 lst-kix_xn870oy34waz-1', start: '16' },
+	        _react2.default.createElement(
+	          'li',
+	          { 'class': 'c2' },
+	          _react2.default.createElement(
+	            'span',
+	            { 'class': 'c1' },
+	            'Content including or pointing to copyright infringements will be removed'
+	          )
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'ol',
+	        { 'class': 'c3 lst-kix_xn870oy34waz-2 start', start: '1' },
+	        _react2.default.createElement(
+	          'li',
+	          { 'class': 'c0' },
+	          _react2.default.createElement(
+	            'span',
+	            { 'class': 'c1' },
+	            'Online Copyright infringement in America is defined'
+	          ),
+	          ' ',
+	          _react2.default.createElement(
+	            'span',
+	            { 'class': 'c9 c1' },
+	            _react2.default.createElement(
+	              'a',
+	              { 'class': 'c7', href: 'https://www.google.com/url?q=http://www.copyright.gov/title17/92chap5.html&sa=D&ust=1462236460290000&usg=AFQjCNFBs6oGDGlHrCpEr35ytZ1BRRw_jg' },
+	              'here'
+	            )
+	          )
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'h4',
+	        { 'class': 'c4', id: 'h.yj7nwz7mrq2k' },
+	        _react2.default.createElement(
+	          'span',
+	          null,
+	          'Do not try and break the site:'
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'ol',
+	        { 'class': 'c3 lst-kix_xn870oy34waz-1', start: '17' },
+	        _react2.default.createElement(
+	          'li',
+	          { 'class': 'c2' },
+	          _react2.default.createElement(
+	            'span',
+	            { 'class': 'c1' },
+	            'Content that contains or links to software viruses or any other computer codes, files, worms, logic bombs or programs as yet undefined that are designed or intended to disrupt, disable, damage, limit or interfere with the proper function of any software, hardware, or telecommunications equipment or to damage or obtain unauthorized access to any system, data, password or other information of StreetlivesNYC or any third party will be removed'
+	          )
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'h4',
+	        { 'class': 'c4', id: 'h.6sc834yaglht' },
+	        _react2.default.createElement(
+	          'span',
+	          null,
+	          'You own your original content'
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'ol',
+	        { 'class': 'c3 lst-kix_xn870oy34waz-1', start: '18' },
+	        _react2.default.createElement(
+	          'li',
+	          { 'class': 'c2' },
+	          _react2.default.createElement(
+	            'span',
+	            { 'class': 'c1' },
+	            'You retain full intellectual rights to your content. StreetlivesNYC and its creators will not exploit your posts for any personal or corporate financial gain'
+	          )
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'h4',
+	        { 'class': 'c4', id: 'h.huirwihp7h5g' },
+	        _react2.default.createElement(
+	          'span',
+	          null,
+	          'Other people see what you post'
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'ol',
+	        { 'class': 'c3 lst-kix_xn870oy34waz-1', start: '19' },
+	        _react2.default.createElement(
+	          'li',
+	          { 'class': 'c2' },
+	          _react2.default.createElement(
+	            'span',
+	            { 'class': 'c1' },
+	            'You acknowledge and accept that by providing content to StreetlivesNYC that your content will be visible to all other visitors to StreetlivesNYC and appear in the public domain. StreetlivesNYC cannot be liable for your content being shared without your permission. If StreetlivesNYC are informed about your intellectual property being shared without your consent, StreetlivesNYC will make all possible attempts to contact you in relation to your pursuing the result of that sharing'
+	          )
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'h4',
+	        { 'class': 'c4', id: 'h.dzp1t4rsv198' },
+	        _react2.default.createElement(
+	          'span',
+	          null,
+	          'We will respect your wishes to have any content you post removed'
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'ol',
+	        { 'class': 'c3 lst-kix_xn870oy34waz-1', start: '20' },
+	        _react2.default.createElement(
+	          'li',
+	          { 'class': 'c2' },
+	          _react2.default.createElement(
+	            'span',
+	            { 'class': 'c1' },
+	            'Please contact'
+	          ),
+	          ' ',
+	          _react2.default.createElement(
+	            'span',
+	            { 'class': 'c6 c1' },
+	            'rights@streetlives.nyc'
+	          ),
+	          _react2.default.createElement(
+	            'span',
+	            { 'class': 'c1' },
+	            ' to identify content you have posted and ask for it to be removed. You will be required to meet a'
+	          ),
+	          _react2.default.createElement(
+	            'span',
+	            { 'class': 'c9 c1' },
+	            _react2.default.createElement(
+	              'a',
+	              { 'class': 'c7', href: 'https://www.google.com/url?q=https://docs.google.com/document/d/17-8CLZAWajlNt73qE_rGGJbOSvA7Y1-TKpb2MXsE8mI/edit&sa=D&ust=1462236460292000&usg=AFQjCNH7h0Xnof_JeXcizTHwOsTOflmTlQ' },
+	              'reasonable standard of evidence'
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'span',
+	            { 'class': 'c1' },
+	            ' that the content you are asking to have removed was posted by you'
+	          )
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'h4',
+	        { 'class': 'c4', id: 'h.kesoigr6dsuk' },
+	        _react2.default.createElement(
+	          'span',
+	          null,
+	          'Service Provider Guidelines'
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'ol',
+	        { 'class': 'c3 lst-kix_xn870oy34waz-1', start: '21' },
+	        _react2.default.createElement(
+	          'li',
+	          { 'class': 'c2' },
+	          _react2.default.createElement(
+	            'span',
+	            { 'class': 'c1' },
+	            'If you have specific issues with comments made regarding your services or programs please write to us at'
+	          ),
+	          ' ',
+	          _react2.default.createElement(
+	            'span',
+	            { 'class': 'c1 c6' },
+	            'provider@streetlives.nyc'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'li',
+	          { 'class': 'c2' },
+	          _react2.default.createElement(
+	            'span',
+	            { 'class': 'c1' },
+	            'Please comment in line to correct times of operation and location and write to us at'
+	          ),
+	          ' ',
+	          _react2.default.createElement(
+	            'span',
+	            { 'class': 'c6 c1' },
+	            'provider@streetlives.nyc'
+	          ),
+	          ' ',
+	          _react2.default.createElement(
+	            'span',
+	            { 'class': 'c1' },
+	            'if no update has been made in a timely manner'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'li',
+	          { 'class': 'c2' },
+	          _react2.default.createElement(
+	            'span',
+	            { 'class': 'c1' },
+	            'Please do not ask clients to post reviews about your programs or services on StreetlivesNYC'
+	          )
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'h4',
+	        { 'class': 'c4', id: 'h.dxjpw94tltg3' },
+	        _react2.default.createElement(
+	          'span',
+	          null,
+	          'Guidelines specific to Ali Forney Center User Testing'
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'ol',
+	        { 'class': 'c3 lst-kix_xn870oy34waz-1', start: '24' },
+	        _react2.default.createElement(
+	          'li',
+	          { 'class': 'c2' },
+	          _react2.default.createElement(
+	            'span',
+	            { 'class': 'c1' },
+	            'StreetlivesNYC will remove any content that includes the address of Ali Forney Center residential sites'
+	          )
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'ol',
+	        { 'class': 'c3 lst-kix_xn870oy34waz-2 start', start: '1' },
+	        _react2.default.createElement(
+	          'li',
+	          { 'class': 'c0' },
+	          _react2.default.createElement(
+	            'span',
+	            { 'class': 'c1' },
+	            'Only the location of the AFC Drop-In Center can be identified'
+	          )
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'ol',
+	        { 'class': 'c3 lst-kix_xn870oy34waz-1', start: '25' },
+	        _react2.default.createElement(
+	          'li',
+	          { 'class': 'c2' },
+	          _react2.default.createElement(
+	            'span',
+	            { 'class': 'c1' },
+	            'StreetlivesNYC will remove any posts that include the names of any clients (other than the creator of the post) or staff of Ali Forney Center. Anything that identifies a client or staff or breaks the AFC Confidentiality Policy will also be removed'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'li',
+	          { 'class': 'c2' },
+	          _react2.default.createElement(
+	            'span',
+	            { 'class': 'c1' },
+	            'StreetlivesNYC reserve the right to remove false information about Ali Forney Center’s agency practices'
+	          ),
+	          _react2.default.createElement(
+	            'span',
+	            { 'class': 'c1' },
+	            ', when such information is identified'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'li',
+	          { 'class': 'c2' },
+	          _react2.default.createElement(
+	            'span',
+	            { 'class': 'c1' },
+	            'If you are a client of the Ali Forney Center, you have the right to file a grievance as per the Grievance Policy signed at intake'
+	          )
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'h4',
+	        { 'class': 'c4', id: 'h.x16wxtujks9i' },
+	        _react2.default.createElement(
+	          'span',
+	          null,
+	          'Complaints or Queries'
+	        )
+	      ),
+	      _react2.default.createElement('p', { 'class': 'c8' }),
+	      _react2.default.createElement(
+	        'p',
+	        { 'class': 'c10' },
+	        _react2.default.createElement(
+	          'span',
+	          { 'class': 'c1' },
+	          'If you believe your content is being removed without justification or have any queries or complaints you have regarding these terms of use, or any aspect of the StreetlivesNYC site please write to us at rights@streetlives.nyc'
+	        )
+	      )
+	    );
+	  }
+	});
+
+/***/ },
+/* 369 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _header = __webpack_require__(294);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	module.exports.TermsOfService = _react2.default.createClass({
+	  displayName: 'TermsOfService',
+
+	  render: function render() {
+	    return _react2.default.createElement(
+	      'div',
+	      null,
+	      'Terms Of Service'
+	    );
+	  }
+	});
 
 /***/ }
 /******/ ]);

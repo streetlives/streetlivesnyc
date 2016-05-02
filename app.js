@@ -90,3 +90,8 @@ App.post('/comments', function(request, response) {
     returnJSON(response, err, data);
   });
 });
+
+
+App.get('*', function(request, response) {
+  response.render('layout', { map_id: Config.MAP_ID, username: Config.DB.USER });
+});

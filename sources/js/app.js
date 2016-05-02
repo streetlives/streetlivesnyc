@@ -7,6 +7,9 @@ import { ReactHeader } from './header.js';
 import { Router, Route, browserHistory } from 'react-router';
 import { About} from './about.js';
 import { Privacy } from './privacy.js';
+import { ContentGuidelines } from './guidelines.js';
+import { TermsOfService } from './tos.js';
+
 
 import '../scss/reset.scss';
 import '../scss/app.scss';
@@ -32,5 +35,7 @@ ReactDOM.render(
       <Route path="/" component={ReactApp} />
       <Route path="/about" component={About} />
       <Route path="/privacy" component={Privacy} />
+      <Route path="/tos" component={TermsOfService} />
+      <Route path="/guidelines" component={ContentGuidelines} />
     </Router>
   , document.getElementById('app'));
