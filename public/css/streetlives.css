@@ -63,8 +63,6 @@ body {
 a {
   font-family: 'Open sans', sans-serif; }
 
-/*# sourceMappingURL=app.css.map */
-
 .Button {
   font-family: 'Open Sans', sans-serif;
   padding: 10px 16px;
@@ -115,15 +113,12 @@ a {
 .Button.is-hidden {
   display: none; }
 
-/*# sourceMappingURL=button.css.map */
-
 .Comments {
   background: #F1F1F1;
   border-top: 1px solid #DDD;
   padding: 20px; }
 
 .CommentList {
-  opacity: 0;
   margin: 0 10px 20px 0; }
 
 .CommentList-item {
@@ -174,8 +169,6 @@ a {
   font-size: 11px;
   text-align: left;
   color: #666; }
-
-/*# sourceMappingURL=comment.css.map */
 
 @media screen and (max-width: 470px) {
   .Dialog-inner.js-content {
@@ -254,8 +247,6 @@ a {
   height: 82px;
   margin: auto auto 10px auto; }
 
-/*# sourceMappingURL=dialog.css.map */
-
 /* latin-ext */
 @font-face {
   font-family: 'Lato';
@@ -263,6 +254,7 @@ a {
   font-weight: 300;
   src: local("Lato Light"), local("Lato-Light"), url(https://fonts.gstatic.com/s/lato/v11/IY9HZVvI1cMoAHxvl0w9LVKPGs1ZzpMvnHX-7fPOuAc.woff2) format("woff2");
   unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF; }
+
 /* latin */
 @font-face {
   font-family: 'Lato';
@@ -270,6 +262,7 @@ a {
   font-weight: 300;
   src: local("Lato Light"), local("Lato-Light"), url(https://fonts.gstatic.com/s/lato/v11/22JRxvfANxSmnAhzbFH8PgLUuEpTyoUstqEm5AMlJo4.woff2) format("woff2");
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000; }
+
 /* latin-ext */
 @font-face {
   font-family: 'Lato';
@@ -277,6 +270,7 @@ a {
   font-weight: 400;
   src: local("Lato Regular"), local("Lato-Regular"), url(https://fonts.gstatic.com/s/lato/v11/8qcEw_nrk_5HEcCpYdJu8BTbgVql8nDJpwnrE27mub0.woff2) format("woff2");
   unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF; }
+
 /* latin */
 @font-face {
   font-family: 'Lato';
@@ -284,6 +278,7 @@ a {
   font-weight: 400;
   src: local("Lato Regular"), local("Lato-Regular"), url(https://fonts.gstatic.com/s/lato/v11/MDadn8DQ_3oT6kvnUq_2r_esZW2xOQ-xsNqO47m55DA.woff2) format("woff2");
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000; }
+
 /* latin-ext */
 @font-face {
   font-family: 'Lato';
@@ -291,6 +286,7 @@ a {
   font-weight: 700;
   src: local("Lato Bold"), local("Lato-Bold"), url(https://fonts.gstatic.com/s/lato/v11/rZPI2gHXi8zxUjnybc2ZQFKPGs1ZzpMvnHX-7fPOuAc.woff2) format("woff2");
   unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF; }
+
 /* latin */
 @font-face {
   font-family: 'Lato';
@@ -298,8 +294,6 @@ a {
   font-weight: 700;
   src: local("Lato Bold"), local("Lato-Bold"), url(https://fonts.gstatic.com/s/lato/v11/MgNNr5y1C_tIEuLEmicLmwLUuEpTyoUstqEm5AMlJo4.woff2) format("woff2");
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000; }
-
-/*# sourceMappingURL=font.css.map */
 
 .Header {
   display: flex;
@@ -358,20 +352,23 @@ a {
 @keyframes navBar-hover {
   0% {
     color: #FFFFFF; }
+
   100% {
     color: #00D5A5; } }
+
 @-webkit-keyframes navBar-hover {
   0% {
     color: #FFFFFF; }
+
   100% {
     color: #00D5A5; } }
+
 @keyframes btnInfo-hover {
   0% {
     background: #00D5A5; }
+
   100% {
     background: #53F9D4; } }
-
-/*# sourceMappingURL=header.css.map */
 
 .InputField {
   font-family: 'Open Sans', sans-serif;
@@ -405,8 +402,6 @@ a {
 
 .InputCheck-label {
   cursor: pointer; }
-
-/*# sourceMappingURL=input_field.css.map */
 
 /*
  * CSS Styles that are needed by jScrollPane for it to operate correctly.
@@ -491,8 +486,6 @@ a {
 * html .jspCorner {
   margin: 0 -3px 0 0; }
 
-/*# sourceMappingURL=jquery.css.map */
-
 .LikeButtons {
   margin: 0 0 20px 0; }
 
@@ -532,8 +525,6 @@ a {
 .LikeButton.is-selected {
   opacity: 1; }
 
-/*# sourceMappingURL=like_button.css.map */
-
 .LikesList {
   padding: 4px 0 10px 0; }
 
@@ -567,8 +558,6 @@ a {
   width: 16px;
   height: 14px;
   background: transparent url(/img/total.png) no-repeat; }
-
-/*# sourceMappingURL=likes.css.map */
 
 @media screen and (max-width: 360px) {
   .LocationForm-inner.js-content {
@@ -646,8 +635,6 @@ a {
   padding: 0 0 5px 0;
   border-bottom: 1px solid #ccc; }
 
-/*# sourceMappingURL=location.css.map */
-
 .LocationInformation {
   font-family: 'Open Sans', sans-serif;
   position: absolute;
@@ -693,8 +680,7 @@ a {
 .LocationInformation-title {
   border-bottom: 1px solid #ccc;
   margin: 0px 20px 20px;
-  padding: 0 0px 10px 0;
-  display: flex; }
+  padding: 0 0px 10px 0; }
 
 .LocationInformation-name {
   display: block;
@@ -720,8 +706,6 @@ a {
   margin: 0 0 5px 0;
   padding: 0 0 5px 0;
   font-size: 14px; }
-
-/*# sourceMappingURL=location_information.css.map */
 
 .Map {
   position: absolute;
@@ -762,8 +746,6 @@ a {
     background-position: -96px 5px; }
     .Map .cartodb-zoom > a.zoom_out:hover {
       background-position: -96px 6px; }
-
-/*# sourceMappingURL=map.css.map */
 
 .Page {
   position: absolute;
@@ -822,7 +804,7 @@ a {
   margin: 0 0 10px 0;
   font-weight: bold;
   font-size: 18px;
-  color: #333;
+  color: #333333;
   line-height: normal; }
 
 .StaticPage p {
@@ -887,8 +869,6 @@ a {
   background-color: #F8F8F8;
   background-blend-mode: multiply; }
 
-/*# sourceMappingURL=page.css.map */
-
 @media screen and (max-width: 470px) {
   .Popup {
     width: 300px; } }
@@ -924,8 +904,6 @@ a {
   font-family: 'Open Sans', sans-serif;
   font-weight: bold;
   line-height: 30px; }
-
-/*# sourceMappingURL=popup.css.map */
 
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -970,8 +948,6 @@ table {
   border-collapse: collapse;
   border-spacing: 0; }
 
-/*# sourceMappingURL=reset.css.map */
-
 .SearchField {
   position: absolute;
   width: 500px;
@@ -1003,5 +979,3 @@ table {
     border: 1px solid transparent; }
   .SearchInput:hover {
     border: 1px solid transparent; }
-
-/*# sourceMappingURL=search.css.map */
