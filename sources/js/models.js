@@ -1,4 +1,6 @@
-var Comment = SL.Model.extend({
+import Backbone from 'backbone';
+
+module.exports.Comment = Backbone.Model.extend({
   validate: function(attrs, options) {
     if (!attrs.comment && attrs.liked == null) {
       return 'comment';
@@ -6,8 +8,8 @@ var Comment = SL.Model.extend({
   }
 });
 
-var Comments = SL.Collection.extend({
-  model: Comment,
+module.exports.Comments = Backbone.Collection.extend({
+  model: module.exports.Comment,
   url: '/comments',
 
   parse: function(response) {
@@ -15,7 +17,7 @@ var Comments = SL.Collection.extend({
   }
 });
 
-var Likes = SL.Collection.extend({
+module.exports.Likes = Backbone.Collection.extend({
   url: '/likes',
 
   parse: function(response) {
@@ -23,10 +25,10 @@ var Likes = SL.Collection.extend({
   }
 });
 
-var Offering = SL.Model.extend();
+module.exports.Offering = Backbone.Model.extend();
 
-var Offerings = SL.Collection.extend({
-  model: Offering,
+module.exports.Offerings = Backbone.Collection.extend({
+  model: module.exports.Offering,
   url: '/offerings',
 
   parse: function(response) {
@@ -34,7 +36,7 @@ var Offerings = SL.Collection.extend({
   }
 });
 
-var Location = SL.Model.extend({
+module.exports.Location = Backbone.Model.extend({
   url: '/location',
   defaults: {
     offerings: '',
@@ -48,7 +50,7 @@ var Location = SL.Model.extend({
   }
 });
 
-var Locations = SL.Model.extend({
+module.exports.Locations = Backbone.Model.extend({
   url: '/locations',
   parse: function(response) {
     return response.rows;

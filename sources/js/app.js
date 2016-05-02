@@ -1,8 +1,28 @@
 'use strict';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { ReactMap } from './map.js';
+import { ReactHeader } from './header.js';
 
-$(function() {
-  ReactDOM.render(
-      React.createElement(ReactApp),
-      document.getElementById('app')
-  );
+import '../scss/reset.scss';
+import '../scss/app.scss';
+import '../scss/font.scss';
+import '../scss/page.scss';
+
+var ReactApp = React.createClass({
+
+  render: function() {
+    return (
+        <div>
+          <ReactMap />
+          <div>
+            <ReactHeader title='StreetlivesNYC'
+                         url='http://beta.streetlives.nyc'/>
+          </div>
+        </div>
+    )
+  }
 });
+
+ReactDOM.render(<ReactApp />, document.getElementById('app'));
+
