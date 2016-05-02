@@ -569,15 +569,9 @@
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  position: absolute;
-  top: 0;
-  left: 0;
   -webkit-flex-direction: row;
       -ms-flex-direction: row;
           flex-direction: row;
-  -webkit-flex-flow: space-around;
-      -ms-flex-flow: space-around;
-          flex-flow: space-around;
   -webkit-flex-wrap: nowrap;
       -ms-flex-wrap: nowrap;
           flex-wrap: nowrap;
@@ -600,6 +594,9 @@
   text-decoration: none;
   text-transform: none;
   font-family: 'Open Sans', sans-serif; }
+  @media screen and (max-width: 470px) {
+    .HeaderTitle {
+      font-size: 16px; } }
 
 .HeaderItems {
   -webkit-flex: 1;
@@ -623,41 +620,12 @@
   text-transform: uppercase;
   font-family: 'Open Sans', sans-serif;
   font-weight: lighter; }
-  .HeaderItem-link:hover {
-    text-decoration: none;
-    cursor: pointer;
-    -webkit-animation-name: navBar-hover;
-            animation-name: navBar-hover;
-    -webkit-animation-duration: .3s;
-            animation-duration: .3s;
-    color: #00D5A5; }
+  @media screen and (max-width: 470px) {
+    .HeaderItem-link {
+      font-size: 11px; } }
 
 .HeaderItem-link.is-selected {
   border: 1px solid #00D5A5; }
-
-@keyframes navBar-hover {
-  0% {
-    color: #FFFFFF; }
-  100% {
-    color: #00D5A5; } }
-
-@-webkit-keyframes navBar-hover {
-  0% {
-    color: #FFFFFF; }
-  100% {
-    color: #00D5A5; } }
-
-@-webkit-keyframes btnInfo-hover {
-  0% {
-    background: #00D5A5; }
-  100% {
-    background: #53F9D4; } }
-
-@keyframes btnInfo-hover {
-  0% {
-    background: #00D5A5; }
-  100% {
-    background: #53F9D4; } }
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -810,111 +778,36 @@ a {
   font-weight: 700;
   src: local("Lato Bold"), local("Lato-Bold"), url(https://fonts.gstatic.com/s/lato/v11/MgNNr5y1C_tIEuLEmicLmwLUuEpTyoUstqEm5AMlJo4.woff2) format("woff2");
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000; }
-.Page {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-justify-content: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 1000; }
-
-.Page.is-hidden {
-  display: none; }
-
-.Page-content {
-  position: relative;
-  width: 700px;
-  height: 500px;
-  background: #FFF;
-  border: 1px solid transparent;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  border-radius: 3px;
-  padding: 25px 10px 20px 20px;
-  box-sizing: border-box; }
-
-.Page-inner {
-  width: 100%;
-  height: 450px;
-  font-family: 'Open sans', sans-serif;
-  font-size: 15px;
-  font-weight: 300;
-  overflow: auto; }
-
-.Page .scroll-pane {
-  width: 100%;
-  height: 100%;
-  overflow: auto; }
-
-.Page-content p {
-  margin: 0 0 10px 0; }
-
 .StaticPage {
-  margin: 60px 0 0 0;
   text-align: left;
   box-sizing: border-box;
   font-family: 'Open sans', sans-serif;
   font-size: 16px;
-  line-height: 1.5;
-  overflow: auto;
-  height: 100%;
-  padding-bottom: 10%; }
+  line-height: 1.5; }
 
 .StaticPage-title {
-  margin: 0 0 10px 0;
   font-weight: bold;
   font-size: 18px;
   color: #333;
   line-height: normal; }
 
-.StaticPage p {
-  margin: 0 0 5px 0;
-  max-width: 60%;
-  padding-left: 20%;
-  padding-bottom: 1%; }
-
 .StaticPage h2 {
-  margin: 3% 0 5px 0;
-  max-width: 60%;
-  padding-left: 20%;
-  padding-bottom: 1%;
   text-transform: uppercase;
   letter-spacing: 1px;
   font-size: 32px;
   font-weight: bold; }
 
 .StaticPage h3 {
-  margin: 0 0 5px 0;
-  max-width: 60%;
-  padding-left: 20%;
-  padding-bottom: 1%;
   font-weight: lighter;
   font-size: 32px; }
 
 .StaticPage h4 {
-  margin: 2% 0 -5px 0;
-  max-width: 60%;
-  padding-left: 20%;
-  padding-bottom: 1%;
   font-size: 14px;
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 1px; }
 
 .StaticPage h5 {
-  margin: 0 0 5px 0;
-  max-width: 40%;
-  padding-left: 20%;
-  padding-bottom: 1%;
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 0.7px;
@@ -922,18 +815,7 @@ a {
   color: #444444; }
 
 .StaticPage a {
-  max-width: 60%;
-  padding-bottom: 1%;
   font-weight: lighter;
   font-size: 12px;
   color: #444444;
-  line-height: 0px; }
-
-.Outreach {
-  background: transparent url(/img/charities.png) no-repeat;
-  margin-left: 18%;
-  width: 770px;
-  height: 94px;
-  background-size: cover;
-  background-color: #F8F8F8;
-  background-blend-mode: multiply; }
+  line-height: 0; }

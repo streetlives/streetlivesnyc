@@ -1,8 +1,15 @@
 'use strict';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { ReactMap } from './map.js';
 import { ReactHeader } from './header.js';
+import { Router, Route, browserHistory } from 'react-router';
+import { About} from './about.js';
+import { Privacy } from './privacy.js';
+import { ContentGuidelines } from './guidelines.js';
+import { TermsOfService } from './tos.js';
+
 
 import '../scss/reset.scss';
 import '../scss/app.scss';
@@ -14,15 +21,21 @@ var ReactApp = React.createClass({
   render: function() {
     return (
         <div>
-          <ReactMap />
-          <div>
             <ReactHeader title='StreetlivesNYC'
-                         url='http://beta.streetlives.nyc'/>
-          </div>
+                         url='http://beta.streetlives.nyc'
+                         location={this.props.location}/>
+            <ReactMap />
         </div>
     )
   }
 });
 
-ReactDOM.render(<ReactApp />, document.getElementById('app'));
-
+ReactDOM.render(
+    <Router history={browserHistory}>
+      <Route path="/" component={ReactApp} />
+      <Route path="/about" component={About} />
+      <Route path="/privacy" component={Privacy} />
+      <Route path="/tos" component={TermsOfService} />
+      <Route path="/guidelines" component={ContentGuidelines} />
+    </Router>
+  , document.getElementById('app'));

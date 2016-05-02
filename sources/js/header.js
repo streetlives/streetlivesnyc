@@ -1,10 +1,19 @@
 import React from 'react';
+import { Link } from 'react-router';
 
 import '../scss/header.scss';
 
 module.exports.ReactHeader = React.createClass({
 
+    getSelectedClassByUrl: function(url) {
+      return this.props.location.pathname === url ? ' is-selected' : '';
+    },
+
     render: function() {
+      const mapSelected = this.getSelectedClassByUrl("/");
+      const aboutSelected = this.getSelectedClassByUrl("/about");
+      const privacySelected = this.getSelectedClassByUrl("/privacy");
+
         return (
             <header className="Header">
                 <a href={this.props.url} className="HeaderTitle">
@@ -13,13 +22,13 @@ module.exports.ReactHeader = React.createClass({
 
                 <ul className="HeaderItems">
                   <li className="HeaderItem">
-                      <a href='/' className="HeaderItem-link is-selected js-item js-map">Map</a>
+                      <Link to='/' className={"HeaderItem-link js-item js-map" + mapSelected}>Map</Link>
                   </li>
                   <li className="HeaderItem">
-                      <a href='/about' className="HeaderItem-link js-item js-about">About</a>
+                      <Link to='/about' className={"HeaderItem-link js-item js-about" + aboutSelected}>About</Link>
                   </li>
                   <li className="HeaderItem">
-                      <a href='/privacy' className="HeaderItem-link js-item js-privacy">Privacy</a>
+                      <Link to='/privacy' className={"HeaderItem-link js-item js-privacy" + privacySelected}>Privacy</Link>
                   </li>
                 </ul>
             </header>
