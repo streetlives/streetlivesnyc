@@ -69,22 +69,22 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var ReactApp = _react2.default.createClass({
-	  displayName: 'ReactApp',
+	    displayName: 'ReactApp',
 
 
-	  render: function render() {
-	    return _react2.default.createElement(
-	      'div',
-	      null,
-	      _react2.default.createElement(_map.ReactMap, null),
-	      _react2.default.createElement(
-	        'div',
-	        null,
-	        _react2.default.createElement(_header.ReactHeader, { title: 'StreetlivesNYC',
-	          url: 'http://beta.streetlives.nyc' })
-	      )
-	    );
-	  }
+	    render: function render() {
+	        return _react2.default.createElement(
+	            'div',
+	            null,
+	            _react2.default.createElement(
+	                'div',
+	                null,
+	                _react2.default.createElement(_header.ReactHeader, { title: 'StreetlivesNYC',
+	                    url: 'http://beta.streetlives.nyc' })
+	            ),
+	            _react2.default.createElement(_map.ReactMap, null)
+	        );
+	    }
 	});
 
 	_reactDom2.default.render(_react2.default.createElement(ReactApp, null), document.getElementById('app'));
