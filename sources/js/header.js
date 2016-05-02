@@ -1,4 +1,8 @@
-var ReactHeader = React.createClass({
+import React from 'react';
+
+import '../scss/header.scss';
+
+module.exports.ReactHeader = React.createClass({
 
     render: function() {
         return (

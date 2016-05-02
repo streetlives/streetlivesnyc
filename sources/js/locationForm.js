@@ -1,4 +1,11 @@
-var LocationForm = React.createClass({
+import React from 'react';
+import { Location } from './models.js';
+
+import '../scss/location.scss';
+import '../scss/input_field.scss';
+import '../scss/button.scss';
+
+module.exports.LocationForm = React.createClass({
 
     getInitialState: function() {
         return {
@@ -39,7 +46,7 @@ var LocationForm = React.createClass({
         var id = offering.get('cartodb_id');
         return (
             <li className="OfferingList-item" key={id}>
-                <label for={'offering_'+ id} className="InputCheck-label">
+                <label htmlFor={'offering_'+ id} className="InputCheck-label">
                     <input type='checkbox'
                            value={id}
                            id={'offering_' + id}
