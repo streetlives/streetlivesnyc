@@ -19,7 +19,8 @@ var ReactApp = React.createClass({
     return (
         <div>
             <ReactHeader title='StreetlivesNYC'
-                         url='http://beta.streetlives.nyc'/>
+                         url='http://beta.streetlives.nyc'
+                         location={this.props.location}/>
             <ReactMap />
         </div>
     )

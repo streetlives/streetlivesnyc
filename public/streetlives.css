@@ -594,6 +594,9 @@
   text-decoration: none;
   text-transform: none;
   font-family: 'Open Sans', sans-serif; }
+  @media screen and (max-width: 470px) {
+    .HeaderTitle {
+      font-size: 16px; } }
 
 .HeaderItems {
   -webkit-flex: 1;
@@ -617,6 +620,9 @@
   text-transform: uppercase;
   font-family: 'Open Sans', sans-serif;
   font-weight: lighter; }
+  @media screen and (max-width: 470px) {
+    .HeaderItem-link {
+      font-size: 11px; } }
 
 .HeaderItem-link.is-selected {
   border: 1px solid #00D5A5; }

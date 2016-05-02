@@ -83,7 +83,8 @@
 	      'div',
 	      null,
 	      _react2.default.createElement(_header.ReactHeader, { title: 'StreetlivesNYC',
-	        url: 'http://beta.streetlives.nyc' }),
+	        url: 'http://beta.streetlives.nyc',
+	        location: this.props.location }),
 	      _react2.default.createElement(_map.ReactMap, null)
 	    );
 	  }
@@ -48087,7 +48088,15 @@
 	    displayName: 'ReactHeader',
 
 
+	    getSelectedClassByUrl: function getSelectedClassByUrl(url) {
+	        return this.props.location.pathname === url ? ' is-selected' : '';
+	    },
+
 	    render: function render() {
+	        var mapSelected = this.getSelectedClassByUrl("/");
+	        var aboutSelected = this.getSelectedClassByUrl("/about");
+	        var privacySelected = this.getSelectedClassByUrl("/privacy");
+
 	        return _react2.default.createElement(
 	            'header',
 	            { className: 'Header' },
@@ -48104,7 +48113,7 @@
 	                    { className: 'HeaderItem' },
 	                    _react2.default.createElement(
 	                        _reactRouter.Link,
-	                        { to: '/', className: 'HeaderItem-link is-selected js-item js-map' },
+	                        { to: '/', className: "HeaderItem-link js-item js-map" + mapSelected },
 	                        'Map'
 	                    )
 	                ),
@@ -48113,7 +48122,7 @@
 	                    { className: 'HeaderItem' },
 	                    _react2.default.createElement(
 	                        _reactRouter.Link,
-	                        { to: '/about', className: 'HeaderItem-link js-item js-about' },
+	                        { to: '/about', className: "HeaderItem-link js-item js-about" + aboutSelected },
 	                        'About'
 	                    )
 	                ),
@@ -48122,7 +48131,7 @@
 	                    { className: 'HeaderItem' },
 	                    _react2.default.createElement(
 	                        _reactRouter.Link,
-	                        { to: '/privacy', className: 'HeaderItem-link js-item js-privacy' },
+	                        { to: '/privacy', className: "HeaderItem-link js-item js-privacy" + privacySelected },
 	                        'Privacy'
 	                    )
 	                )
@@ -53660,7 +53669,8 @@
 	      'div',
 	      null,
 	      _react2.default.createElement(_header.ReactHeader, { title: 'StreetlivesNYC',
-	        url: 'http://beta.streetlives.nyc' }),
+	        url: 'http://beta.streetlives.nyc',
+	        location: this.props.location }),
 	      _react2.default.createElement(
 	        'div',
 	        { className: 'StaticPage' },
@@ -53810,7 +53820,8 @@
 	      'div',
 	      null,
 	      _react2.default.createElement(_header.ReactHeader, { title: 'StreetlivesNYC',
-	        url: 'http://beta.streetlives.nyc' }),
+	        url: 'http://beta.streetlives.nyc',
+	        location: this.props.location }),
 	      _react2.default.createElement(
 	        'div',
 	        { className: 'StaticPage' },

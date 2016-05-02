@@ -5,7 +5,15 @@ import '../scss/header.scss';
 
 module.exports.ReactHeader = React.createClass({
 
+    getSelectedClassByUrl: function(url) {
+      return this.props.location.pathname === url ? ' is-selected' : '';
+    },
+
     render: function() {
+      const mapSelected = this.getSelectedClassByUrl("/");
+      const aboutSelected = this.getSelectedClassByUrl("/about");
+      const privacySelected = this.getSelectedClassByUrl("/privacy");
+
         return (
             <header className="Header">
                 <a href={this.props.url} className="HeaderTitle">
@@ -14,13 +22,13 @@ module.exports.ReactHeader = React.createClass({
 
                 <ul className="HeaderItems">
                   <li className="HeaderItem">
-                      <Link to='/' className="HeaderItem-link is-selected js-item js-map">Map</Link>
+                      <Link to='/' className={"HeaderItem-link js-item js-map" + mapSelected}>Map</Link>
                   </li>
                   <li className="HeaderItem">
-                      <Link to='/about' className="HeaderItem-link js-item js-about">About</Link>
+                      <Link to='/about' className={"HeaderItem-link js-item js-about" + aboutSelected}>About</Link>
                   </li>
                   <li className="HeaderItem">
-                      <Link to='/privacy' className="HeaderItem-link js-item js-privacy">Privacy</Link>
+                      <Link to='/privacy' className={"HeaderItem-link js-item js-privacy" + privacySelected}>Privacy</Link>
                   </li>
                 </ul>
             </header>
