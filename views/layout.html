@@ -21,8 +21,13 @@
     </script>
   </head>
   <body>
-    {% block 'yield' %}{% endblock %}
-    {% include 'partials/footer.html' -%}
+    <div id='app'></div>
+    <script>
+      Config = {
+        map_id: '{{= map_id }}',
+        username: '{{= username }}'
+      };
+    </script>
     <script src="./streetlives.js"></script>
   </body>
 </html>
