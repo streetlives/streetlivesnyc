@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 
 import '../scss/header.scss';
 
@@ -13,13 +14,13 @@ module.exports.ReactHeader = React.createClass({
 
                 <ul className="HeaderItems">
                   <li className="HeaderItem">
-                      <a href='/' className="HeaderItem-link is-selected js-item js-map">Map</a>
+                      <Link to='/' className="HeaderItem-link is-selected js-item js-map">Map</Link>
                   </li>
                   <li className="HeaderItem">
-                      <a href='/about' className="HeaderItem-link js-item js-about">About</a>
+                      <Link to='/about' className="HeaderItem-link js-item js-about">About</Link>
                   </li>
                   <li className="HeaderItem">
-                      <a href='/privacy' className="HeaderItem-link js-item js-privacy">Privacy</a>
+                      <Link to='/privacy' className="HeaderItem-link js-item js-privacy">Privacy</Link>
                   </li>
                 </ul>
             </header>
