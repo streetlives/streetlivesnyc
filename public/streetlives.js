@@ -64,17 +64,17 @@
 
 	var _privacy = __webpack_require__(359);
 
-	var _guidelines = __webpack_require__(368);
+	var _guidelines = __webpack_require__(360);
 
-	var _tos = __webpack_require__(369);
-
-	__webpack_require__(360);
+	var _tos = __webpack_require__(361);
 
 	__webpack_require__(362);
 
 	__webpack_require__(364);
 
 	__webpack_require__(366);
+
+	__webpack_require__(368);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -20109,8 +20109,11 @@
 	        return _react2.default.createElement(
 	            'div',
 	            { onkeyup: this._onKeyUp },
-	            _react2.default.createElement('div', { id: 'map', className: 'Map' }),
-	            _react2.default.createElement(_search.ReactSearch, { gotoPlace: this._gotoPlace }),
+	            _react2.default.createElement(
+	                'div',
+	                { id: 'map', className: 'Map' },
+	                _react2.default.createElement(_search.ReactSearch, { gotoPlace: this._gotoPlace })
+	            ),
 	            this.renderLocationForm(),
 	            this.renderLocationInformation(),
 	            this.renderThanksDialog()
@@ -53848,34 +53851,6 @@
 
 /***/ },
 /* 360 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 361 */,
-/* 362 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 363 */,
-/* 364 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 365 */,
-/* 366 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 367 */,
-/* 368 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -54573,7 +54548,7 @@
 	});
 
 /***/ },
-/* 369 */
+/* 361 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -54597,6 +54572,33 @@
 	    );
 	  }
 	});
+
+/***/ },
+/* 362 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 363 */,
+/* 364 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 365 */,
+/* 366 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 367 */,
+/* 368 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
 
 /***/ }
 /******/ ]);
