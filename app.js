@@ -35,10 +35,6 @@ var returnJSON = function(response, err, data) {
   }
 };
 
-App.get('/', function(request, response) {
-  response.render('layout', { map_id: Config.MAP_ID, username: Config.DB.USER });
-});
-
 App.get('/locations', function(request, response) {
   if (request.query.q) {
       var queryStr = request.query.q ? request.query.q : "";
@@ -51,14 +47,6 @@ App.get('/locations', function(request, response) {
           returnJSON(response, err, data);
       });
   }
-});
-
-App.get('/about', function(request, response) {
-  response.render('layout', { map_id: Config.MAP_ID, username: Config.DB.USER });
-});
-
-App.get('/privacy', function(request, response) {
-  response.render('layout', { map_id: Config.MAP_ID, username: Config.DB.USER });
 });
 
 App.post('/location', function(request, response) {
