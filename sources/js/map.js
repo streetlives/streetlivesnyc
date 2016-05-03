@@ -3,7 +3,7 @@ import Backbone from 'backbone';
 import { Offerings, Locations } from './models.js';
 import { LocationInformation } from './locationInformation.js';
 import { LocationForm } from './locationForm.js';
-import { ReactSearch } from './search.js';
+import { Search } from './search.js';
 
 import '../scss/map.scss';
 import '../scss/dialog.scss';
@@ -50,7 +50,7 @@ const SL = {
     }
 };
 
-module.exports.ReactMap = React.createClass({
+module.exports.Map = React.createClass({
 
     getInitialState() {
         const model = new Backbone.Model({
@@ -136,7 +136,7 @@ module.exports.ReactMap = React.createClass({
         sublayer.setInteractivity('cartodb_id, name, description, offerings, address');
 
         var markerWidth = this.isMobile() ? 20 : 10;
-        var locationCSS = '#locations {' + 
+        var locationCSS = '#locations {' +
              'marker-fill-opacity: 0.9;' +
              'marker-line-color: #FFF;' +
              'marker-line-width: 1;' +
@@ -404,7 +404,7 @@ module.exports.ReactMap = React.createClass({
         return (
             <div onkeyup={this._onKeyUp}>
                 <div id="map" className="Map">
-                  <ReactSearch gotoPlace={this._gotoPlace}/>
+                  <Search gotoPlace={this._gotoPlace}/>
                 </div>
                 {this.renderLocationForm()}
                 {this.renderLocationInformation()}

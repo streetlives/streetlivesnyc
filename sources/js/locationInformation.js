@@ -8,7 +8,7 @@ import '../scss/like_button.scss';
 import '../scss/input_field.scss';
 import '../scss/button.scss';
 
-var ReactComment = React.createClass({
+var CommentComponent = React.createClass({
 
     renderUsername: function() {
         if (this.props.comment.username) {
@@ -35,7 +35,7 @@ var ReactComment = React.createClass({
     }
 });
 
-var ReactLikes = React.createClass({
+var LikesComponent = React.createClass({
 
     getInitialState: function() {
         return {
@@ -196,7 +196,7 @@ var CommentForm = React.createClass({
     }
 });
 
-var ReactComments = React.createClass({
+var CommentsComponent = React.createClass({
     getInitialState: function() {
         return {
             comments: new Comments()
@@ -229,8 +229,8 @@ var ReactComments = React.createClass({
     renderComments: function() {
         const comments = [];
         this.state.comments.each(function(model) {
-            comments.push(<ReactComment comment={model.attributes}
-                                        key={model.attributes.cartodb_id} />);
+            comments.push(<CommentComponent comment={model.attributes}
+                                            key={model.attributes.cartodb_id} />);
         });
         return comments;
     },
@@ -242,7 +242,7 @@ var ReactComments = React.createClass({
                     <div className="Comments-content js-comments">
                         <label className="LocationInformation-label">Comments</label>
                         <div className="js-likes">
-                            <ReactLikes location_id={this.props.location_id} />
+                            <LikesComponent location_id={this.props.location_id} />
                         </div>
                         <ul className="CommentList js-comment-list scroll-pane">
                             {this.renderComments()}
@@ -321,9 +321,9 @@ module.exports.LocationInformation = React.createClass({
                         <ul className="LocationInformation-fields js-fields">
                             {this.renderOfferings()}
                             {this.renderDescription()}
-                            <ReactComments name={this.props.options.name}
-                                           location_id={this.props.options.cartodb_id}
-                                           onClickClose={this.props.onClickClose}/>
+                            <CommentsComponent name={this.props.options.name}
+                                               location_id={this.props.options.cartodb_id}
+                                               onClickClose={this.props.onClickClose}/>
                         </ul>
                     </div>
                 </div>

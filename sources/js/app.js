@@ -2,8 +2,8 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { ReactMap } from './map.js';
-import { ReactHeader } from './header.js';
+import { Map } from './map.js';
+import { Header } from './header.js';
 import { Router, Route, browserHistory } from 'react-router';
 import { About} from './about.js';
 import { Privacy } from './privacy.js';
@@ -16,15 +16,15 @@ import '../scss/app.scss';
 import '../scss/font.scss';
 import '../scss/page.scss';
 
-var ReactApp = React.createClass({
+var App = React.createClass({
 
   render: function() {
     return (
         <div>
-            <ReactHeader title='StreetlivesNYC'
+            <Header title='StreetlivesNYC'
                          url='http://beta.streetlives.nyc'
                          location={this.props.location}/>
-            <ReactMap />
+            <Map />
         </div>
     )
   }
@@ -32,7 +32,7 @@ var ReactApp = React.createClass({
 
 ReactDOM.render(
     <Router history={browserHistory}>
-      <Route path="/" component={ReactApp} />
+      <Route path="/" component={App} />
       <Route path="/about" component={About} />
       <Route path="/privacy" component={Privacy} />
       <Route path="/tos" component={TermsOfService} />

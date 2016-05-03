@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 
 import '../scss/header.scss';
 
-module.exports.ReactHeader = React.createClass({
+module.exports.Header = React.createClass({
 
     getSelectedClassByUrl: function(url) {
       return this.props.location.pathname === url ? ' is-selected' : '';

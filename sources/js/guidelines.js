@@ -1,11 +1,11 @@
 import React from 'react';
-import { ReactHeader } from './header.js';
+import { Header } from './header.js';
 
 module.exports.ContentGuidelines = React.createClass({
   render: function() {
     return (
       <div>
-              
+
         <h2 class="c4" id="h.25y61obj4qur"><span>Content Guidelines</span></h2>
 
         <h3 class="c4" id="h.u5l9qhrsnlik"><span>What they are</span></h3>
