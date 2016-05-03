@@ -8,9 +8,6 @@ module.exports.About = React.createClass({
   render: function() {
     return (
       <div>
-        <Header title='StreetlivesNYC'
-                     url='http://beta.streetlives.nyc'
-                     location={this.props.location}/>
         <div className="StaticPage">
          <h2 className="StaticPage-title">About</h2>
          <h3 className="StaticPage-title">Your city, your map, your voice.</h3>
