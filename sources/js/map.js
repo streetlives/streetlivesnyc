@@ -403,8 +403,9 @@ module.exports.ReactMap = React.createClass({
     render() {
         return (
             <div onkeyup={this._onKeyUp}>
-                <div id="map" className="Map"></div>
-                <ReactSearch gotoPlace={this._gotoPlace}/>
+                <div id="map" className="Map">
+                  <ReactSearch gotoPlace={this._gotoPlace}/>
+                </div>
                 {this.renderLocationForm()}
                 {this.renderLocationInformation()}
                 {this.renderThanksDialog()}

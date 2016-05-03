@@ -1,15 +1,15 @@
-.SearchField {
+.Map .SearchField {
   position: absolute;
   width: 500px;
   height: 40px;
-  top: 80px;
+  top: 10px;
   left: 55px;
   z-index: 10;
 }
 
 @media screen and (max-width: 470px) {
     .SearchField {
-        width: 80%; 
+        width: 80%;
         left: 0;
         margin-left: 10%;
     }
