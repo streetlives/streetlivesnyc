@@ -78,18 +78,18 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var ReactApp = _react2.default.createClass({
-	  displayName: 'ReactApp',
+	var App = _react2.default.createClass({
+	  displayName: 'App',
 
 
 	  render: function render() {
 	    return _react2.default.createElement(
 	      'div',
 	      null,
-	      _react2.default.createElement(_header.ReactHeader, { title: 'StreetlivesNYC',
+	      _react2.default.createElement(_header.Header, { title: 'StreetlivesNYC',
 	        url: 'http://beta.streetlives.nyc',
 	        location: this.props.location }),
-	      _react2.default.createElement(_map.ReactMap, null)
+	      _react2.default.createElement(_map.Map, null)
 	    );
 	  }
 	});
@@ -97,7 +97,7 @@
 	_reactDom2.default.render(_react2.default.createElement(
 	  _reactRouter.Router,
 	  { history: _reactRouter.browserHistory },
-	  _react2.default.createElement(_reactRouter.Route, { path: '/', component: ReactApp }),
+	  _react2.default.createElement(_reactRouter.Route, { path: '/', component: App }),
 	  _react2.default.createElement(_reactRouter.Route, { path: '/about', component: _about.About }),
 	  _react2.default.createElement(_reactRouter.Route, { path: '/privacy', component: _privacy.Privacy }),
 	  _react2.default.createElement(_reactRouter.Route, { path: '/tos', component: _tos.TermsOfService }),
@@ -19805,8 +19805,8 @@
 	    }
 	};
 
-	module.exports.ReactMap = _react2.default.createClass({
-	    displayName: 'ReactMap',
+	module.exports.Map = _react2.default.createClass({
+	    displayName: 'Map',
 	    getInitialState: function getInitialState() {
 	        var model = new _backbone2.default.Model({
 	            marker: null
@@ -20112,7 +20112,7 @@
 	            _react2.default.createElement(
 	                'div',
 	                { id: 'map', className: 'Map' },
-	                _react2.default.createElement(_search.ReactSearch, { gotoPlace: this._gotoPlace })
+	                _react2.default.createElement(_search.Search, { gotoPlace: this._gotoPlace })
 	            ),
 	            this.renderLocationForm(),
 	            this.renderLocationInformation(),
@@ -33547,8 +33547,8 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var ReactComment = _react2.default.createClass({
-	    displayName: 'ReactComment',
+	var CommentComponent = _react2.default.createClass({
+	    displayName: 'CommentComponent',
 
 
 	    renderUsername: function renderUsername() {
@@ -33580,8 +33580,8 @@
 	    }
 	});
 
-	var ReactLikes = _react2.default.createClass({
-	    displayName: 'ReactLikes',
+	var LikesComponent = _react2.default.createClass({
+	    displayName: 'LikesComponent',
 
 
 	    getInitialState: function getInitialState() {
@@ -33790,8 +33790,8 @@
 	    }
 	});
 
-	var ReactComments = _react2.default.createClass({
-	    displayName: 'ReactComments',
+	var CommentsComponent = _react2.default.createClass({
+	    displayName: 'CommentsComponent',
 
 	    getInitialState: function getInitialState() {
 	        return {
@@ -33825,7 +33825,7 @@
 	    renderComments: function renderComments() {
 	        var comments = [];
 	        this.state.comments.each(function (model) {
-	            comments.push(_react2.default.createElement(ReactComment, { comment: model.attributes,
+	            comments.push(_react2.default.createElement(CommentComponent, { comment: model.attributes,
 	                key: model.attributes.cartodb_id }));
 	        });
 	        return comments;
@@ -33849,7 +33849,7 @@
 	                    _react2.default.createElement(
 	                        'div',
 	                        { className: 'js-likes' },
-	                        _react2.default.createElement(ReactLikes, { location_id: this.props.location_id })
+	                        _react2.default.createElement(LikesComponent, { location_id: this.props.location_id })
 	                    ),
 	                    _react2.default.createElement(
 	                        'ul',
@@ -33950,7 +33950,7 @@
 	                        { className: 'LocationInformation-fields js-fields' },
 	                        this.renderOfferings(),
 	                        this.renderDescription(),
-	                        _react2.default.createElement(ReactComments, { name: this.props.options.name,
+	                        _react2.default.createElement(CommentsComponent, { name: this.props.options.name,
 	                            location_id: this.props.options.cartodb_id,
 	                            onClickClose: this.props.onClickClose })
 	                    )
@@ -47997,8 +47997,8 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	module.exports.ReactSearch = _react2.default.createClass({
-	  displayName: 'ReactSearch',
+	module.exports.Search = _react2.default.createClass({
+	  displayName: 'Search',
 
 	  _focus: function _focus() {
 	    var self = this;
@@ -48093,8 +48093,8 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	module.exports.ReactHeader = _react2.default.createClass({
-	    displayName: 'ReactHeader',
+	module.exports.Header = _react2.default.createClass({
+	    displayName: 'Header',
 
 
 	    getSelectedClassByUrl: function getSelectedClassByUrl(url) {
@@ -53677,7 +53677,7 @@
 	    return _react2.default.createElement(
 	      'div',
 	      null,
-	      _react2.default.createElement(_header.ReactHeader, { title: 'StreetlivesNYC',
+	      _react2.default.createElement(_header.Header, { title: 'StreetlivesNYC',
 	        url: 'http://beta.streetlives.nyc',
 	        location: this.props.location }),
 	      _react2.default.createElement(
@@ -53828,7 +53828,7 @@
 	    return _react2.default.createElement(
 	      'div',
 	      null,
-	      _react2.default.createElement(_header.ReactHeader, { title: 'StreetlivesNYC',
+	      _react2.default.createElement(_header.Header, { title: 'StreetlivesNYC',
 	        url: 'http://beta.streetlives.nyc',
 	        location: this.props.location }),
 	      _react2.default.createElement(
