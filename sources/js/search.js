@@ -1,9 +1,11 @@
+'use strict';
+
 import React from 'react';
 
 import '../scss/search.scss';
 
 module.exports.Search = React.createClass({
-    _focus: function() {
+    focus: function() {
       var self = this;
 
       setTimeout(function() {
@@ -11,16 +13,16 @@ module.exports.Search = React.createClass({
       }, 500);
     },
 
-    _initAutoComplete: function() {
+    initAutoComplete: function() {
       var input = this.refs.searchBar;
       this.autocomplete = new google.maps.places.Autocomplete(input, {
         componentRestrictions: { country: 'USA' }
       });
 
-      google.maps.event.addListener(this.autocomplete, 'place_changed', this._onPlaceChange);
+      google.maps.event.addListener(this.autocomplete, 'place_changed', this.onPlaceChange);
     },
 
-    _onPlaceChange: function() {
+    onPlaceChange: function() {
 
       var place = this.autocomplete.getPlace();
 
@@ -32,8 +34,8 @@ module.exports.Search = React.createClass({
     },
 
     componentDidMount: function() {
-        this._initAutoComplete();
-        this._focus();
+        this.initAutoComplete();
+        this.focus();
     },
 
     render: function() {

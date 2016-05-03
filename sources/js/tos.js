@@ -1,3 +1,5 @@
+'use strict';
+
 import React from 'react';
 
 module.exports.TermsOfService = React.createClass({

@@ -1,3 +1,5 @@
+'use strict';
+
 import React from 'react';
 import moment from 'moment';
 import { Comment, Likes, Comments, Location } from './models.js';

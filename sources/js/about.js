@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import { Header} from './header.js';
 
 
 module.exports.About = React.createClass({

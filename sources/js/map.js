@@ -98,7 +98,7 @@ module.exports.Map = React.createClass({
         var url = this._getVizJSONURL();
         var options = this.state.mapOptions;
 
-        cartodb.createVis('map', url, options).done(this._onVisLoaded);
+        cartodb.createVis('map', url, options).done(this.onVisLoaded);
     },
 
     isMobile() {
@@ -117,7 +117,7 @@ module.exports.Map = React.createClass({
           }
     },
 
-    _onVisLoaded(vis, layers) {
+    onVisLoaded(vis, layers) {
         var layer = layers[1];
         layer.setInteraction(true);
         var query = "SELECT l.*, string_agg(o.name, ', ') as offerings " +
@@ -127,9 +127,9 @@ module.exports.Map = React.createClass({
             "GROUP BY l.cartodb_id";
         layer.setQuery(query);
 
-        layer.on('mouseover',    this._onMouseOver);
-        layer.on('mouseout',     this._onMouseOut);
-        layer.on('featureClick', this._onFeatureClick);
+        layer.on('mouseover',    this.onMouseOver);
+        layer.on('mouseout',     this.onMouseOut);
+        layer.on('featureClick', this.onFeatureClick);
 
         var sublayer = layer.getSubLayer(0);
         sublayer.setInteraction(true);
@@ -157,18 +157,18 @@ module.exports.Map = React.createClass({
 
         this.map = vis.getNativeMap();
 
-        this.map.on('click', this._onClickMap);
+        this.map.on('click', this.onClickMap);
     },
 
-    _onMouseOut: function() {
+    onMouseOut: function() {
         $('.leaflet-container').css('cursor', 'auto');
     },
 
-    _onMouseOver: function() {
+    onMouseOver: function() {
         $('.leaflet-container').css('cursor', 'pointer');
     },
 
-    _onFeatureClick: function(e, latlng, pos, data) {
+    onFeatureClick: function(e, latlng, pos, data) {
         e.preventDefault();
         e.stopPropagation();
 
@@ -184,20 +184,20 @@ module.exports.Map = React.createClass({
     },
 
 
-    _onClickMap: function(e) {
+    onClickMap: function(e) {
         var geocoder = this.state.geocoder;
-        var _onFinishedGeocoding = this._onFinishedGeocoding;
+        var onFinishedGeocoding = this.onFinishedGeocoding;
         this.t = setTimeout(function()  {
             var coordinates = [e.latlng.lat, e.latlng.lng];
             var latLng = new google.maps.LatLng(coordinates[0], coordinates[1]);
 
             geocoder.geocode({ 'latLng': latLng }, function(results, status) {
-                _onFinishedGeocoding(coordinates, null, results, status);
+                onFinishedGeocoding(coordinates, null, results, status);
             });
         }, 250);
     },
 
-    _onFinishedGeocoding: function(coordinates, place, results, status) {
+    onFinishedGeocoding: function(coordinates, place, results, status) {
         if (status === google.maps.GeocoderStatus.OK) {
             if (results && results.length > 0) {
                 var address = results[0].formatted_address;
@@ -246,10 +246,10 @@ module.exports.Map = React.createClass({
          * This element is INSIDE the content of the popup generated from the template. No better
          * ideas on how to attach the handler to it. Hopefully React/leaflet thing can help here.
          */
-        $('.js-add-location').click(this._onClickAddLocation);
+        $('.js-add-location').click(this.onClickAddLocation);
     },
 
-    _onClickAddLocation: function(e) {
+    onClickAddLocation: function(e) {
         this._killEvent(e);
         this.map.removeLayer(this.popup);
 
@@ -270,13 +270,13 @@ module.exports.Map = React.createClass({
         }
     },
 
-    _onKeyUp: function(e) {
+    onKeyUp: function(e) {
         if (e.keyCode === 27) {
             this.map.closePopup();
         }
     },
 
-    _onAddLocation: function() {
+    onAddLocation: function() {
         var marker = L.circleMarker(this.state.model.get('coordinates'), this.state.style.marker);
 
         marker.on('click', function() {
@@ -367,7 +367,7 @@ module.exports.Map = React.createClass({
     renderLocationForm() {
       if (this.state.locationForm) {
           return (
-              <LocationForm onAddLocation={this._onAddLocation}
+              <LocationForm onAddLocation={this.onAddLocation}
                             onClickCancel={this.removeLocationForm}
                             offerings={this.state.offerings}
                             name={this.state.model.get('name')}
@@ -402,7 +402,7 @@ module.exports.Map = React.createClass({
 
     render() {
         return (
-            <div onkeyup={this._onKeyUp}>
+            <div onkeyup={this.onKeyUp}>
                 <div id="map" className="Map">
                   <Search gotoPlace={this._gotoPlace}/>
                 </div>
