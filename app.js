@@ -46,6 +46,10 @@ App.get('/locations', function(request, response) {
       SL.getLocationsByAddress(address, function(err, data) {
           returnJSON(response, err, data);
       });
+  } else {
+      SL.getLocations("", function(err, data) {
+          returnJSON(response, err, data);
+      });
   }
 });
 
