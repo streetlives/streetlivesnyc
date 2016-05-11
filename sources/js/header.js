@@ -1,19 +1,13 @@
+'use strict';
+
 import React from 'react';
 import { Link } from 'react-router';
 
 import '../scss/header.scss';
 
-module.exports.ReactHeader = React.createClass({
-
-    getSelectedClassByUrl: function(url) {
-      return this.props.location.pathname === url ? ' is-selected' : '';
-    },
+module.exports.Header = React.createClass({
 
     render: function() {
-      const mapSelected = this.getSelectedClassByUrl("/");
-      const aboutSelected = this.getSelectedClassByUrl("/about");
-      const privacySelected = this.getSelectedClassByUrl("/privacy");
-
         return (
             <header className="Header">
                 <a href={this.props.url} className="HeaderTitle">
@@ -22,13 +16,25 @@ module.exports.ReactHeader = React.createClass({
 
                 <ul className="HeaderItems">
                   <li className="HeaderItem">
-                      <Link to='/' className={"HeaderItem-link js-item js-map" + mapSelected}>Map</Link>
+                      <Link to='/map'
+                            className="HeaderItem-link js-item js-map"
+                            activeClassName="HeaderItem-link js-item js-map is-selected">
+                            Map
+                      </Link>
                   </li>
                   <li className="HeaderItem">
-                      <Link to='/about' className={"HeaderItem-link js-item js-about" + aboutSelected}>About</Link>
+                      <Link to='/about'
+                            className="HeaderItem-link js-item js-about"
+                            activeClassName="HeaderItem-link js-item js-about is-selected">
+                            About
+                      </Link>
                   </li>
                   <li className="HeaderItem">
-                      <Link to='/privacy' className={"HeaderItem-link js-item js-privacy" + privacySelected}>Privacy</Link>
+                      <Link to='/privacy'
+                            className="HeaderItem-link js-item js-privacy"
+                            activeClassName="HeaderItem-link js-item js-privacy is-selected">
+                            Privacy
+                      </Link>
                   </li>
                 </ul>
             </header>

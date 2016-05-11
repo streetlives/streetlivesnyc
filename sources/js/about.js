@@ -1,16 +1,12 @@
 'use strict';
 
 import React from 'react';
-import { ReactHeader} from './header.js';
 
 
 module.exports.About = React.createClass({
   render: function() {
     return (
       <div>
-        <ReactHeader title='StreetlivesNYC'
-                     url='http://beta.streetlives.nyc'
-                     location={this.props.location}/>
         <div className="StaticPage">
          <h2 className="StaticPage-title">About</h2>
          <h3 className="StaticPage-title">Your city, your map, your voice.</h3>
