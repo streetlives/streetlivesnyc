@@ -1,3 +1,5 @@
+'use strict';
+
 import Backbone from 'backbone';
 
 module.exports.Comment = Backbone.Model.extend({

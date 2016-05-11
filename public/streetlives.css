@@ -345,11 +345,11 @@
   margin: 0 0 10px 0;
   padding: 0 0 5px 0;
   border-bottom: 1px solid #ccc; }
-.SearchField {
+.Map .SearchField {
   position: absolute;
   width: 500px;
   height: 40px;
-  top: 80px;
+  top: 10px;
   left: 55px;
   z-index: 10; }
 
@@ -387,7 +387,7 @@
 .Map .cartodb-tiles-loader {
   position: absolute;
   left: auto;
-  top: 81px;
+  top: 10px;
   left: 565px; }
 
 .Map .cartodb-tiles-loader .loader {
@@ -400,7 +400,7 @@
 .Map .cartodb-zoom {
   margin: 0;
   left: 20px;
-  top: 80px;
+  top: 10px;
   border: 1px solid transparent;
   width: 25px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); }

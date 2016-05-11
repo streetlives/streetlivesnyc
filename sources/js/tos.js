@@ -1,5 +1,6 @@
+'use strict';
+
 import React from 'react';
-import { ReactHeader } from './header.js';
 
 module.exports.TermsOfService = React.createClass({
   render: function() {
