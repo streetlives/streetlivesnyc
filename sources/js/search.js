@@ -41,12 +41,6 @@ module.exports.Search = React.createClass({
       this.props.gotoPlace(place);
     },
 
-    updateInputState: function(e) {
-        this.setState({searchQuery: e.target.value});
-        var event = new Event('change');
-        this.refs.searchBar.dispatch(event);
-    },
-
     componentDidMount: function() {
         this.initAutoComplete();
         this.focus();
@@ -64,8 +58,7 @@ module.exports.Search = React.createClass({
     render: function() {
         return (
             <div className='InputField SearchField'>
-                <input onChange={this.updateInputState} value={this.state.searchQuery} type='text' placeholder='Search' ref="searchBar" className="Input SearchInput js-field" />
-            <Typeahead options={_.keys(this.state.locationData)} maxVisible={2}/>
+                <input type='text' placeholder='Search' ref="searchBar" className="Input SearchInput js-field" />
             </div>
         )
     }
