@@ -99,7 +99,9 @@
   position: relative;
   text-align: left;
   width: 750px;
-  z-index: 1000; }
+  z-index: 1000;
+  max-height: 80%;
+  overflow-y: scroll; }
 
 .LocationInformation-content {
   margin: auto;
