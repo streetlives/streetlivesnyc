@@ -354,7 +354,7 @@
   z-index: 10; }
 
 @media screen and (max-width: 470px) {
-  .SearchField {
+  .Map .SearchField {
     width: 80%;
     left: 0;
     margin-left: 10%; } }
