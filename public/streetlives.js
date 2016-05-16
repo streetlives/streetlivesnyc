@@ -39126,7 +39126,7 @@
 
 	    render: function render() {
 	        return _react2.default.createElement(
-	            'li',
+	            'div',
 	            { className: 'CommentList-item' },
 	            _react2.default.createElement(
 	                'p',
@@ -39288,7 +39288,7 @@
 	                    onChange: this.typedComments })
 	            ),
 	            _react2.default.createElement(
-	                'li',
+	                'div',
 	                { className: 'LocationForm-field' },
 	                _react2.default.createElement(
 	                    'label',
@@ -39442,7 +39442,7 @@
 	    renderOfferings: function renderOfferings() {
 	        if (this.props.options.offerings) {
 	            return _react2.default.createElement(
-	                'li',
+	                'div',
 	                { className: 'LocationInformation-field' },
 	                _react2.default.createElement(
 	                    'label',
@@ -39463,7 +39463,7 @@
 	    renderDescription: function renderDescription() {
 	        if (this.props.options.description) {
 	            return _react2.default.createElement(
-	                'li',
+	                'div',
 	                { className: 'LocationInformation-field' },
 	                _react2.default.createElement(
 	                    'label',
@@ -39509,7 +39509,7 @@
 	                        )
 	                    ),
 	                    _react2.default.createElement(
-	                        'ul',
+	                        'div',
 	                        { className: 'LocationInformation-fields js-fields' },
 	                        this.renderOfferings(),
 	                        this.renderDescription(),

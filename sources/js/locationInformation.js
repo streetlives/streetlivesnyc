@@ -24,7 +24,7 @@ var CommentComponent = React.createClass({
 
     render: function() {
         return (
-            <li className="CommentList-item">
+            <div className="CommentList-item">
                 <p>
                     <span className='CommentList-itemDate'>
                         {moment(this.props.comment.created_at).format('MMMM Do YYYY')}
@@ -32,7 +32,7 @@ var CommentComponent = React.createClass({
                     {this.props.comment.comment}
                     {this.renderUsername()}
                 </p>
-            </li>
+            </div>
         )
     }
 });
@@ -162,12 +162,12 @@ var CommentForm = React.createClass({
                     </textarea>
                 </div>
 
-                <li className="LocationForm-field">
+                <div className="LocationForm-field">
                     <label className="LocationForm-label">Your name or initials (optional)</label>
                     <div className="InputField js-field">
                         <input type="text" className="Input js-username" ref="username"/>
                     </div>
-                </li>
+                </div>
 
                 <div className="LikeButtons">
                     <p className="LikeButtons-title">
@@ -271,14 +271,14 @@ module.exports.LocationInformation = React.createClass({
     renderOfferings: function() {
         if (this.props.options.offerings) {
             return (
-                <li className="LocationInformation-field">
+                <div className="LocationInformation-field">
                     <label className="LocationInformation-label">
                         Can offer help with
                     </label>
                     <p>
                         {this.props.options.offerings}
                     </p>
-                </li>
+                </div>
             )
         } else {
             return null;
@@ -288,14 +288,14 @@ module.exports.LocationInformation = React.createClass({
     renderDescription: function() {
         if (this.props.options.description) {
             return (
-                <li className="LocationInformation-field">
+                <div className="LocationInformation-field">
                     <label className="LocationInformation-label">
                         Description and tips
                     </label>
                     <p className='js-description'
                        dangerouslySetInnerHTML={{__html: this.props.options.description}}>
                     </p>
-                </li>
+                </div>
             )
         } else {
             return null;
@@ -320,13 +320,13 @@ module.exports.LocationInformation = React.createClass({
                             </h4>
                         </div>
 
-                        <ul className="LocationInformation-fields js-fields">
+                        <div className="LocationInformation-fields js-fields">
                             {this.renderOfferings()}
                             {this.renderDescription()}
                             <CommentsComponent name={this.props.options.name}
                                                location_id={this.props.options.cartodb_id}
                                                onClickClose={this.props.onClickClose}/>
-                        </ul>
+                        </div>
                     </div>
                 </div>
             </div>
