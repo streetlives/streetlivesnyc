@@ -80,16 +80,6 @@
       -ms-flex-align: center;
           align-items: center; }
 
-@media screen and (max-width: 470px) {
-  .LocationInformation-title {
-    margin: 0px 20px 8px;
-    padding: 0 0px 5px 0; }
-  .LocationInformation {
-    -webkit-align-items: flex-start;
-        -ms-flex-align: start;
-                -ms-grid-row-align: flex-start;
-            align-items: flex-start; } }
-
 .LocationInformation-inner {
   background: #FFF;
   border-radius: 2px;
@@ -142,6 +132,18 @@
   margin: 0 0 5px 0;
   padding: 0 0 5px 0;
   font-size: 14px; }
+
+@media screen and (max-width: 470px) {
+  .LocationInformation-title {
+    margin: 0px 20px 8px;
+    padding: 0 0px 5px 0; }
+  .LocationInformation {
+    -webkit-align-items: flex-start;
+        -ms-flex-align: start;
+                -ms-grid-row-align: flex-start;
+            align-items: flex-start; }
+  .LocationInformation-inner {
+    max-height: 100%; } }
 .LikeButtons {
   margin: 0 0 20px 0; }
 

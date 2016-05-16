@@ -13,18 +13,6 @@
   align-items: center;
 }
 
-@media screen and (max-width: 470px) {
-
-    .LocationInformation-title {
-        margin: 0px 20px 8px;
-        padding: 0 0px 5px 0;
-    }
-
-    .LocationInformation {
-        align-items: flex-start;
-    }
-}
-
 .LocationInformation-inner {
   background: #FFF;
   border-radius: 2px;
@@ -86,3 +74,18 @@
   font-size: 14px;
 }
 
+@media screen and (max-width: 470px) {
+
+    .LocationInformation-title {
+        margin: 0px 20px 8px;
+        padding: 0 0px 5px 0;
+    }
+
+    .LocationInformation {
+        align-items: flex-start;
+    }
+
+    .LocationInformation-inner {
+        max-height: 100%;
+    }
+}
