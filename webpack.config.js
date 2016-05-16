@@ -14,7 +14,10 @@ module.exports = {
         app: PATHS.app + '/js/app.js'
     },
     resolve: {
-        extensions: ['', '.js', '.jsx']
+        extensions: ['', '.js', '.jsx'],
+        alias: {
+            'react': path.join(__dirname, 'node_modules', 'react')
+        }
     },
     output: {
         path: PATHS.build,
