@@ -267,11 +267,6 @@
 
 .Button.is-hidden {
   display: none; }
-@media screen and (max-width: 360px) {
-  .LocationForm-inner.js-content {
-    top: 120px;
-    width: 290px; } }
-
 .LocationForm {
   position: absolute;
   width: 100%;
@@ -350,6 +345,16 @@
   margin: 0 0 10px 0;
   padding: 0 0 5px 0;
   border-bottom: 1px solid #ccc; }
+
+@media screen and (max-width: 360px) {
+  .LocationForm-inner.js-content {
+    top: 120px;
+    width: 290px; } }
+
+@media screen and (max-width: 470px) {
+  .LocationForm-inner.js-content {
+    max-height: 100%;
+    overflow-y: scroll; } }
 .Map .SearchField {
   position: absolute;
   width: 500px;
