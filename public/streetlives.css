@@ -303,7 +303,9 @@
   width: 500px;
   border-radius: 2px;
   z-index: 1000;
-  box-sizing: border-box; }
+  box-sizing: border-box;
+  max-height: 80%;
+  overflow-y: scroll; }
 
 .LocationForm-content {
   display: block;
@@ -329,7 +331,6 @@
   display: none; }
 
 .LocationForm .Footer {
-  position: absolute;
   bottom: 0;
   left: 0;
   padding: 20px;
