@@ -53386,6 +53386,12 @@
 	                    'div',
 	                    { className: 'LocationForm-content js-content' },
 	                    _react2.default.createElement(
+	                        'button',
+	                        { className: 'Button Button--close js-cancel',
+	                            onClick: this.props.onClickCancel },
+	                        '✕'
+	                    ),
+	                    _react2.default.createElement(
 	                        'ul',
 	                        { className: 'LocationForm-fields' },
 	                        _react2.default.createElement(
@@ -53473,12 +53479,6 @@
 	                                onClick: this.addLocation },
 	                            'Add location'
 	                        )
-	                    ),
-	                    _react2.default.createElement(
-	                        'button',
-	                        { className: 'Button Button--close js-cancel',
-	                            onClick: this.props.onClickCancel },
-	                        '✕'
 	                    )
 	                )
 	            )

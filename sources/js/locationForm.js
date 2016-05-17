@@ -63,6 +63,8 @@ module.exports.LocationForm = React.createClass({
             <div className="LocationForm">
                 <div className="LocationForm-inner js-content">
                     <div className="LocationForm-content js-content">
+                        <button className="Button Button--close js-cancel"
+                                onClick={this.props.onClickCancel}>✕</button>
                         <ul className="LocationForm-fields">
                             <li className="LocationForm-field">
                                 <label className="LocationForm-label">Address</label>
@@ -110,8 +112,6 @@ module.exports.LocationForm = React.createClass({
                                     onClick={this.addLocation}>Add location</button>
                         </footer>
 
-                        <button className="Button Button--close js-cancel"
-                                onClick={this.props.onClickCancel}>✕</button>
 
                     </div>
                 </div>
