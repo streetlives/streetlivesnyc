@@ -355,6 +355,15 @@
   .LocationForm-inner.js-content {
     max-height: 100%;
     overflow-y: scroll; } }
+.Welcome-content {
+  font-size: 14px; }
+  .Welcome-content .Welcome-title {
+    font-size: 18px;
+    font-weight: bold; }
+  .Welcome-content .Welcome-subtitle {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center; }
 .Map .SearchField {
   position: absolute;
   width: 500px;

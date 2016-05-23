@@ -58,23 +58,23 @@
 
 	var _map = __webpack_require__(221);
 
-	var _header = __webpack_require__(367);
+	var _header = __webpack_require__(370);
 
-	var _about = __webpack_require__(370);
+	var _about = __webpack_require__(373);
 
-	var _privacy = __webpack_require__(371);
+	var _privacy = __webpack_require__(374);
 
-	var _guidelines = __webpack_require__(372);
+	var _guidelines = __webpack_require__(375);
 
-	var _tos = __webpack_require__(373);
+	var _tos = __webpack_require__(376);
 
-	__webpack_require__(374);
+	__webpack_require__(377);
 
-	__webpack_require__(376);
+	__webpack_require__(379);
 
-	__webpack_require__(378);
+	__webpack_require__(381);
 
-	__webpack_require__(380);
+	__webpack_require__(383);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -25292,17 +25292,19 @@
 
 	var _locationForm = __webpack_require__(342);
 
-	var _search = __webpack_require__(345);
+	var _welcome = __webpack_require__(345);
 
-	__webpack_require__(359);
+	var _search = __webpack_require__(348);
 
-	__webpack_require__(361);
+	__webpack_require__(362);
+
+	__webpack_require__(364);
 
 	__webpack_require__(336);
 
-	__webpack_require__(363);
+	__webpack_require__(366);
 
-	__webpack_require__(365);
+	__webpack_require__(368);
 
 	__webpack_require__(340);
 
@@ -25386,6 +25388,7 @@
 	            offerings: offerings,
 	            locationForm: false,
 	            thanksDialog: false,
+	            welcomeDialog: true,
 	            viz: {
 	                templateURL: '//<%- username %>.cartodb.com/api/v2/viz/<%-id %>/viz.json'
 	            },
@@ -25657,6 +25660,11 @@
 	            thanksDialog: false
 	        });
 	    },
+	    removeWelcomeDialog: function removeWelcomeDialog() {
+	        this.setState({
+	            welcomeDialog: false
+	        });
+	    },
 	    renderThanksDialog: function renderThanksDialog() {
 	        if (this.state.thanksDialog) {
 	            return _react2.default.createElement(ThanksDialog, { onClickOk: this.removeThanksDialog,
@@ -25664,6 +25672,13 @@
 	                title: 'Thank your for helping the community with your knowledge',
 	                text: '',
 	                ok_button: 'Ok, thanks' });
+	        } else {
+	            return null;
+	        }
+	    },
+	    renderWelcomeDialog: function renderWelcomeDialog() {
+	        if (this.state.welcomeDialog) {
+	            return _react2.default.createElement(_welcome.Welcome, { onClickOK: this.removeWelcomeDialog });
 	        } else {
 	            return null;
 	        }
@@ -25679,7 +25694,8 @@
 	            ),
 	            this.renderLocationForm(),
 	            this.renderLocationInformation(),
-	            this.renderThanksDialog()
+	            this.renderThanksDialog(),
+	            this.renderWelcomeDialog()
 	        );
 	    }
 	});
@@ -53556,15 +53572,80 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	__webpack_require__(346);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	module.exports.Welcome = _react2.default.createClass({
+	    displayName: 'Welcome',
+
+
+	    render: function render() {
+	        return _react2.default.createElement(
+	            'div',
+	            { className: 'Welcome Dialog' },
+	            _react2.default.createElement(
+	                'div',
+	                { className: 'Welcome-inner Dialog-inner' },
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'Welcome-content Dialog-content' },
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'Welcome-title' },
+	                        'Welcome to StreetlivesNYC:'
+	                    ),
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'Welcome-subtitle' },
+	                        'Your city, your map, your voice.'
+	                    ),
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'Welcome-message' },
+	                        'StreetlivesNYC is a map providing information for and from the Homeless population of New York City. Look for what you need or post what you know.'
+	                    ),
+	                    _react2.default.createElement(
+	                        'footer',
+	                        { className: 'Footer' },
+	                        _react2.default.createElement(
+	                            'button',
+	                            { onClick: this.props.onClickOK, className: 'Button Button--close js-ok' },
+	                            'OK, thanks'
+	                        )
+	                    )
+	                )
+	            )
+	        );
+	    }
+	});
+
+/***/ },
+/* 346 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 347 */,
+/* 348 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
 	var _models = __webpack_require__(225);
 
-	var _reactTypeahead = __webpack_require__(346);
+	var _reactTypeahead = __webpack_require__(349);
 
-	var _lodash = __webpack_require__(356);
+	var _lodash = __webpack_require__(359);
 
 	var _lodash2 = _interopRequireDefault(_lodash);
 
-	__webpack_require__(357);
+	__webpack_require__(360);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -53628,11 +53709,11 @@
 	});
 
 /***/ },
-/* 346 */
+/* 349 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Typeahead = __webpack_require__(347);
-	var Tokenizer = __webpack_require__(354);
+	var Typeahead = __webpack_require__(350);
+	var Tokenizer = __webpack_require__(357);
 
 	module.exports = {
 	  Typeahead: Typeahead,
@@ -53640,17 +53721,17 @@
 	};
 
 /***/ },
-/* 347 */
+/* 350 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-	var Accessor = __webpack_require__(348);
+	var Accessor = __webpack_require__(351);
 	var React = __webpack_require__(1);
-	var TypeaheadSelector = __webpack_require__(349);
-	var KeyEvent = __webpack_require__(352);
-	var fuzzy = __webpack_require__(353);
-	var classNames = __webpack_require__(351);
+	var TypeaheadSelector = __webpack_require__(352);
+	var KeyEvent = __webpack_require__(355);
+	var fuzzy = __webpack_require__(356);
+	var classNames = __webpack_require__(354);
 
 	/**
 	 * A "typeahead", an auto-completing text input
@@ -54003,7 +54084,7 @@
 	module.exports = Typeahead;
 
 /***/ },
-/* 348 */
+/* 351 */
 /***/ function(module, exports) {
 
 	var Accessor = {
@@ -54041,12 +54122,12 @@
 	module.exports = Accessor;
 
 /***/ },
-/* 349 */
+/* 352 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var TypeaheadOption = __webpack_require__(350);
-	var classNames = __webpack_require__(351);
+	var TypeaheadOption = __webpack_require__(353);
+	var classNames = __webpack_require__(354);
 
 	/**
 	 * Container for the options rendered as part of the autocompletion process
@@ -54135,11 +54216,11 @@
 	module.exports = TypeaheadSelector;
 
 /***/ },
-/* 350 */
+/* 353 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var classNames = __webpack_require__(351);
+	var classNames = __webpack_require__(354);
 
 	/**
 	 * A single option within the TypeaheadSelector
@@ -54204,7 +54285,7 @@
 	module.exports = TypeaheadOption;
 
 /***/ },
-/* 351 */
+/* 354 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -54253,7 +54334,7 @@
 
 
 /***/ },
-/* 352 */
+/* 355 */
 /***/ function(module, exports) {
 
 	/**
@@ -54271,7 +54352,7 @@
 	module.exports = KeyEvent;
 
 /***/ },
-/* 353 */
+/* 356 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -54413,15 +54494,15 @@
 
 
 /***/ },
-/* 354 */
+/* 357 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Accessor = __webpack_require__(348);
+	var Accessor = __webpack_require__(351);
 	var React = __webpack_require__(1);
-	var Token = __webpack_require__(355);
-	var KeyEvent = __webpack_require__(352);
-	var Typeahead = __webpack_require__(347);
-	var classNames = __webpack_require__(351);
+	var Token = __webpack_require__(358);
+	var KeyEvent = __webpack_require__(355);
+	var Typeahead = __webpack_require__(350);
+	var classNames = __webpack_require__(354);
 
 	function _arraysAreDifferent(array1, array2) {
 	  if (array1.length != array2.length) {
@@ -54625,11 +54706,11 @@
 	module.exports = TypeaheadTokenizer;
 
 /***/ },
-/* 355 */
+/* 358 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var classNames = __webpack_require__(351);
+	var classNames = __webpack_require__(354);
 
 	/**
 	 * Encapsulates the rendering of an option that has been "selected" in a
@@ -54690,7 +54771,7 @@
 	module.exports = Token;
 
 /***/ },
-/* 356 */
+/* 359 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module, global) {/**
@@ -70939,42 +71020,42 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(228)(module), (function() { return this; }())))
 
 /***/ },
-/* 357 */
+/* 360 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 358 */,
-/* 359 */
+/* 361 */,
+/* 362 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 360 */,
-/* 361 */
+/* 363 */,
+/* 364 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 362 */,
-/* 363 */
+/* 365 */,
+/* 366 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 364 */,
-/* 365 */
+/* 367 */,
+/* 368 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 366 */,
-/* 367 */
+/* 369 */,
+/* 370 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -70985,7 +71066,7 @@
 
 	var _reactRouter = __webpack_require__(159);
 
-	__webpack_require__(368);
+	__webpack_require__(371);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -71044,14 +71125,14 @@
 	});
 
 /***/ },
-/* 368 */
+/* 371 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 369 */,
-/* 370 */
+/* 372 */,
+/* 373 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -71197,7 +71278,7 @@
 	});
 
 /***/ },
-/* 371 */
+/* 374 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -71234,7 +71315,7 @@
 	});
 
 /***/ },
-/* 372 */
+/* 375 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -71930,7 +72011,7 @@
 	});
 
 /***/ },
-/* 373 */
+/* 376 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -72563,28 +72644,28 @@
 	});
 
 /***/ },
-/* 374 */
+/* 377 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 375 */,
-/* 376 */
+/* 378 */,
+/* 379 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 377 */,
-/* 378 */
+/* 380 */,
+/* 381 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 379 */,
-/* 380 */
+/* 382 */,
+/* 383 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
