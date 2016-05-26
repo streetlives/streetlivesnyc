@@ -1,3 +1,8 @@
+.StaticPage-container {
+    padding: 100px;
+    overflow-y: scroll;
+}
+
 .StaticPage {
   text-align: left;
   box-sizing: border-box;
@@ -10,6 +15,7 @@
   font-size: 18px;
   color: #333 ;
   line-height: normal;
+  margin-bottom: 30px;
 }
 
 .StaticPage h2{
@@ -25,10 +31,11 @@
 }
 
 .StaticPage h4 {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 1px;
+  margin: 15px 0px;
 }
 
 .StaticPage h5 {
@@ -47,3 +54,12 @@
 }
 
 
+@media screen and (max-width: 470px) {
+    .StaticPage-container {
+        padding: 20px;
+    }
+
+    .StaticPage h3 {
+        font-size: 24px; 
+    }
+}

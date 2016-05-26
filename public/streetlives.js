@@ -71149,7 +71149,7 @@
 	  render: function render() {
 	    return _react2.default.createElement(
 	      'div',
-	      null,
+	      { className: 'StaticPage-container' },
 	      _react2.default.createElement(
 	        'div',
 	        { className: 'StaticPage' },

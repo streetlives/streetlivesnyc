@@ -6,7 +6,7 @@ import React from 'react';
 module.exports.About = React.createClass({
   render: function() {
     return (
-      <div>
+      <div className="StaticPage-container">
         <div className="StaticPage">
          <h2 className="StaticPage-title">About</h2>
          <h3 className="StaticPage-title">Your city, your map, your voice.</h3>
