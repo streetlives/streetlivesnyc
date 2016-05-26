@@ -53610,7 +53610,7 @@
 	                        { className: 'Footer' },
 	                        _react2.default.createElement(
 	                            'button',
-	                            { onClick: this.props.onClickOK, className: 'Button Button--close js-ok' },
+	                            { onClick: this.props.onClickOK, className: 'Button js-ok' },
 	                            'OK, thanks'
 	                        )
 	                    )
