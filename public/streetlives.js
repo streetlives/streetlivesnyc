@@ -25372,6 +25372,13 @@
 
 	module.exports.Map = _react2.default.createClass({
 	    displayName: 'Map',
+	    showWelcomeDialog: function showWelcomeDialog() {
+	        if (typeof Storage !== "undefined" && sessionStorage.welcomeDialog) {
+	            return sessionStorage.welcomeDialog === "false" ? false : true;
+	        } else {
+	            return true;
+	        }
+	    },
 	    getInitialState: function getInitialState() {
 	        var model = new _backbone2.default.Model({
 	            marker: null
@@ -25388,7 +25395,7 @@
 	            offerings: offerings,
 	            locationForm: false,
 	            thanksDialog: false,
-	            welcomeDialog: true,
+	            welcomeDialog: this.showWelcomeDialog(),
 	            viz: {
 	                templateURL: '//<%- username %>.cartodb.com/api/v2/viz/<%-id %>/viz.json'
 	            },
@@ -25661,6 +25668,10 @@
 	        });
 	    },
 	    removeWelcomeDialog: function removeWelcomeDialog() {
+	        if (typeof Storage !== "undefined") {
+	            sessionStorage.welcomeDialog = false;
+	        }
+
 	        this.setState({
 	            welcomeDialog: false
 	        });

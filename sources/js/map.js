@@ -53,6 +53,15 @@ const SL = {
 
 module.exports.Map = React.createClass({
 
+    showWelcomeDialog() {
+        if (typeof(Storage) !== "undefined" &&
+            sessionStorage.welcomeDialog) {
+            return sessionStorage.welcomeDialog === "false" ? false : true;
+        } else {
+            return true;
+        }
+    },
+
     getInitialState() {
         const model = new Backbone.Model({
             marker: null
@@ -69,7 +78,7 @@ module.exports.Map = React.createClass({
             offerings: offerings,
             locationForm: false,
             thanksDialog: false,
-            welcomeDialog: true,
+            welcomeDialog: this.showWelcomeDialog(),
             viz: {
                 templateURL: '//<%- username %>.cartodb.com/api/v2/viz/<%-id %>/viz.json'
             },
@@ -389,6 +398,10 @@ module.exports.Map = React.createClass({
     },
 
     removeWelcomeDialog() {
+        if (typeof(Storage) !== "undefined") {
+            sessionStorage.welcomeDialog = false;
+        }
+
         this.setState({
             welcomeDialog: false
         })
