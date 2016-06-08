@@ -146,7 +146,7 @@ module.exports.Map = React.createClass({
         sublayer.setInteraction(true);
         sublayer.setInteractivity('cartodb_id, name, description, offerings, address');
 
-        var markerWidth = this.isMobile() ? 20 : 10;
+        var markerWidth = this.isMobile() ? 30 : 10;
         var locationCSS = '#locations {' +
              'marker-fill-opacity: 0.9;' +
              'marker-line-color: #FFF;' +
