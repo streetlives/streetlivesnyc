@@ -25257,6 +25257,50 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	var AddLocationDialog = _react2.default.createClass({
+	    displayName: 'AddLocationDialog',
+
+	    render: function render() {
+	        return _react2.default.createElement(
+	            'div',
+	            { className: 'Dialog' },
+	            _react2.default.createElement(
+	                'div',
+	                { className: 'Dialog-inner js-content' },
+	                _react2.default.createElement(
+	                    'button',
+	                    { className: 'Button Button--close js-cancel',
+	                        onClick: this.props.onClickClose },
+	                    '✕'
+	                ),
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'Dialog-content' },
+	                    _react2.default.createElement(
+	                        'p',
+	                        null,
+	                        _react2.default.createElement(
+	                            'strong',
+	                            { className: 'Popup-addressName' },
+	                            this.props.nameString,
+	                            ' ',
+	                            this.props.address
+	                        ),
+	                        _react2.default.createElement('br', null),
+	                        'is not part of Streetlives yet. Do you want to add this location to the map?'
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    'button',
+	                    { className: 'Button Button--addLocationSmall js-add-location',
+	                        onClick: this.props.onClickAddLocation },
+	                    'Add location'
+	                )
+	            )
+	        );
+	    }
+	});
+
 	var ThanksDialog = _react2.default.createClass({
 	    displayName: 'ThanksDialog',
 
@@ -25342,6 +25386,7 @@
 	            offerings: offerings,
 	            locationForm: false,
 	            thanksDialog: false,
+	            addLocationDialog: false,
 	            welcomeDialog: this.showWelcomeDialog(),
 	            viz: {
 	                templateURL: '//<%- username %>.cartodb.com/api/v2/viz/<%-id %>/viz.json'
@@ -25375,6 +25420,7 @@
 	        cartodb.createVis('map', url, options).done(this.onVisLoaded);
 	    },
 	    isMobile: function isMobile() {
+	        return true;
 	        if (navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/webOS/i) || navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/BlackBerry/i) || navigator.userAgent.match(/Windows Phone/i)) {
 	            return true;
 	        } else {
@@ -25460,36 +25506,52 @@
 	    },
 
 	    _addMarker: function _addMarker(coordinates) {
-	        var style = this.state.style.marker;
-	        var name = this.state.model.get('name');
-	        var nameString = name ? name + ', ' : '';
-	        var address = this.state.model.get('address');
+	        if (this.isMobile()) {
+	            this.setState({
+	                addLocationDialog: true
+	            });
+	        } else {
+	            var style = this.state.style.marker;
+	            var name = this.state.model.get('name');
+	            var nameString = name ? name + ', ' : '';
+	            var address = this.state.model.get('address');
 
-	        var content = '<p>' + '<strong class="Popup-addressName">' + nameString + address + '</strong>' + '<br/>' + 'is not part of Streetlives yet. ' + 'Do you want to add this location to the map?' + '</p>' + '<button class="Button Button--addLocationSmall js-add-location">' + 'Add location' + '</button>';
+	            var content = '<p>' + '<strong class="Popup-addressName">' + nameString + address + '</strong>' + '<br/>' + 'is not part of Streetlives yet. ' + 'Do you want to add this location to the map?' + '</p>' + '<button class="Button Button--addLocationSmall js-add-location">' + 'Add location' + '</button>';
 
-	        var panCoords = this.isMobile() ? [0, 150] : [10, 75];
-	        this.popup = SL.Popup({ autoPanPaddingTopLeft: panCoords, offset: [0, -5] }).setLatLng(coordinates).setContent(content).openOn(this.map);
+	            var panCoords = this.isMobile() ? [0, 150] : [10, 75];
+	            this.popup = SL.Popup({ autoPanPaddingTopLeft: panCoords, offset: [0, -5] }).setLatLng(coordinates).setContent(content).openOn(this.map);
 
-	        var self = this;
+	            var self = this;
 
-	        this.popup.on('close', function () {
-	            self.map.removeLayer(self.currentMarker);
-	        });
+	            this.popup.on('close', function () {
+	                self.map.removeLayer(self.currentMarker);
+	            });
 
-	        this.currentMarker = L.circleMarker(coordinates, style);
-	        this.currentMarker.addTo(this.map);
+	            this.currentMarker = L.circleMarker(coordinates, style);
+	            this.currentMarker.addTo(this.map);
 
-	        /**
-	         * This element is INSIDE the content of the popup generated from the template. No better
-	         * ideas on how to attach the handler to it. Hopefully React/leaflet thing can help here.
-	         */
-	        $('.js-add-location').click(this.onClickAddLocation);
+	            /**
+	             * This element is INSIDE the content of the popup generated from the template. No better
+	             * ideas on how to attach the handler to it. Hopefully React/leaflet thing can help here.
+	             */
+	            $('.js-add-location').click(this.onClickAddLocation);
+	        }
 	    },
 
 	    onClickAddLocation: function onClickAddLocation(e) {
 	        this._killEvent(e);
 	        this.map.removeLayer(this.popup);
 
+	        this.setState({
+	            locationForm: true
+	        });
+	        console.log(this.state);
+	    },
+
+	    onClickAddLocationFromReactPopup: function onClickAddLocationFromReactPopup(e) {
+	        this._killEvent(e);
+
+	        this.removeAddLocationDialog();
 	        this.setState({
 	            locationForm: true
 	        });
@@ -25641,6 +25703,24 @@
 	            return null;
 	        }
 	    },
+	    removeAddLocationDialog: function removeAddLocationDialog() {
+	        this.setState({
+	            addLocationDialog: false
+	        });
+	    },
+	    renderAddLocationDialog: function renderAddLocationDialog() {
+	        var name = this.state.model.get('name');
+	        var nameString = name ? name + ', ' : '';
+	        var address = this.state.model.get('address');
+
+	        if (this.state.addLocationDialog) {
+	            return _react2.default.createElement(AddLocationDialog, { name: nameString, address: address,
+	                onClickAddLocation: this.onClickAddLocationFromReactPopup,
+	                onClickClose: this.removeAddLocationDialog });
+	        } else {
+	            return null;
+	        }
+	    },
 	    render: function render() {
 	        return _react2.default.createElement(
 	            'div',
@@ -25653,7 +25733,8 @@
 	            this.renderLocationForm(),
 	            this.renderLocationInformation(),
 	            this.renderThanksDialog(),
-	            this.renderWelcomeDialog()
+	            this.renderWelcomeDialog(),
+	            this.renderAddLocationDialog()
 	        );
 	    }
 	});

@@ -13,6 +13,34 @@ import '../scss/likes.scss';
 import '../scss/popup.scss';
 import '../scss/button.scss';
 
+
+var AddLocationDialog = React.createClass({
+    render: function() {
+        return (
+            <div className="Dialog">
+                <div className="Dialog-inner js-content">
+                    <button className="Button Button--close js-cancel"
+                            onClick={this.props.onClickClose}>✕</button>
+                    <div className="Dialog-content">
+                        <p>
+                            <strong className="Popup-addressName">
+                                {this.props.nameString} {this.props.address}
+                            </strong>
+                            <br/>
+                            is not part of Streetlives yet.
+                            Do you want to add this location to the map?
+                        </p>
+                    </div>
+                    <button className="Button Button--addLocationSmall js-add-location"
+                            onClick={this.props.onClickAddLocation}>
+                        Add location
+                    </button>
+                </div>
+            </div>
+        )
+    }
+});
+
 var ThanksDialog = React.createClass({
     render: function() {
         return (
@@ -78,6 +106,7 @@ module.exports.Map = React.createClass({
             offerings: offerings,
             locationForm: false,
             thanksDialog: false,
+            addLocationDialog: false,
             welcomeDialog: this.showWelcomeDialog(),
             viz: {
                 templateURL: '//<%- username %>.cartodb.com/api/v2/viz/<%-id %>/viz.json'
@@ -220,44 +249,51 @@ module.exports.Map = React.createClass({
     },
 
     _addMarker: function(coordinates) {
-        var style = this.state.style.marker;
-        var name = this.state.model.get('name');
-        var nameString = name ? name + ', ' : '';
-        var address = this.state.model.get('address');
+        if (this.isMobile()) {
+            this.setState({
+                addLocationDialog: true
+            });
+        } else {
+            var style = this.state.style.marker;
+            var name = this.state.model.get('name');
+            var nameString = name ? name + ', ' : '';
+            var address = this.state.model.get('address');
 
-        var content =
+            var content =
             '<p>' +
-              '<strong class="Popup-addressName">' +
-                 nameString + address +
-              '</strong>' +
-              '<br/>' +
-              'is not part of Streetlives yet. ' +
-              'Do you want to add this location to the map?' +
+            '<strong class="Popup-addressName">' +
+            nameString + address +
+            '</strong>' +
+            '<br/>' +
+            'is not part of Streetlives yet. ' +
+            'Do you want to add this location to the map?' +
             '</p>' +
             '<button class="Button Button--addLocationSmall js-add-location">' +
-              'Add location' +
+            'Add location' +
             '</button>';
 
-        var panCoords = (this.isMobile()) ? [0, 150] : [10, 75];
-        this.popup = SL.Popup({ autoPanPaddingTopLeft: panCoords, offset: [0, -5] })
-            .setLatLng(coordinates)
-            .setContent(content)
-            .openOn(this.map);
+            var panCoords = (this.isMobile()) ? [0, 150] : [10, 75];
+            this.popup = SL.Popup({ autoPanPaddingTopLeft: panCoords, offset: [0, -5] })
+                           .setLatLng(coordinates)
+                           .setContent(content)
+                           .openOn(this.map);
 
-        var self = this;
+            var self = this;
 
-        this.popup.on('close', function() {
-            self.map.removeLayer(self.currentMarker);
-        });
+            this.popup.on('close', function() {
+                self.map.removeLayer(self.currentMarker);
+            });
 
-        this.currentMarker = L.circleMarker(coordinates, style);
-        this.currentMarker.addTo(this.map);
+            this.currentMarker = L.circleMarker(coordinates, style);
+            this.currentMarker.addTo(this.map);
 
-        /**
-         * This element is INSIDE the content of the popup generated from the template. No better
-         * ideas on how to attach the handler to it. Hopefully React/leaflet thing can help here.
-         */
-        $('.js-add-location').click(this.onClickAddLocation);
+            /**
+             * This element is INSIDE the content of the popup generated from the template. No better
+             * ideas on how to attach the handler to it. Hopefully React/leaflet thing can help here.
+             */
+            $('.js-add-location').click(this.onClickAddLocation);
+
+        }
     },
 
     onClickAddLocation: function(e) {
@@ -269,6 +305,17 @@ module.exports.Map = React.createClass({
         });
         console.log(this.state);
     },
+
+    onClickAddLocationFromReactPopup: function(e) {
+        this._killEvent(e);
+
+        this.removeAddLocationDialog();
+        this.setState({
+            locationForm: true,
+        });
+        console.log(this.state);
+    },
+
 
     _killEvent: function(e) {
         if (e) {
@@ -431,6 +478,29 @@ module.exports.Map = React.createClass({
         }
     },
 
+    removeAddLocationDialog() {
+        this.setState({
+            addLocationDialog: false
+        })
+    },
+
+    renderAddLocationDialog() {
+        var name = this.state.model.get('name');
+        var nameString = name ? name + ', ' : '';
+        var address = this.state.model.get('address');
+
+        if (this.state.addLocationDialog) {
+            return (
+                <AddLocationDialog name={nameString} address={address}
+                                   onClickAddLocation={this.onClickAddLocationFromReactPopup}
+                                   onClickClose={this.removeAddLocationDialog}/>
+            )
+        } else {
+            return null;
+        }
+    },
+
+
     render() {
         return (
             <div onkeyup={this.onKeyUp}>
@@ -441,6 +511,7 @@ module.exports.Map = React.createClass({
                 {this.renderLocationInformation()}
                 {this.renderThanksDialog()}
                 {this.renderWelcomeDialog()}
+                {this.renderAddLocationDialog()}
             </div>
         )
     }
