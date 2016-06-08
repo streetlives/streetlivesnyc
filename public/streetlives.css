@@ -355,6 +355,15 @@
   .LocationForm-inner.js-content {
     max-height: 100%;
     overflow-y: scroll; } }
+.Welcome-content {
+  font-size: 14px; }
+  .Welcome-content .Welcome-title {
+    font-size: 18px;
+    font-weight: bold; }
+  .Welcome-content .Welcome-subtitle {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center; }
 .Map .SearchField {
   position: absolute;
   width: 500px;
@@ -736,8 +745,7 @@ body {
   font-family: 'Open sans', sans-serif;
   background-color: #f8f8f8;
   text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  overflow: hidden; }
+  -webkit-font-smoothing: antialiased; }
 
 a {
   font-family: 'Open sans', sans-serif; }
@@ -788,6 +796,10 @@ a {
   font-weight: 700;
   src: local("Lato Bold"), local("Lato-Bold"), url(https://fonts.gstatic.com/s/lato/v11/MgNNr5y1C_tIEuLEmicLmwLUuEpTyoUstqEm5AMlJo4.woff2) format("woff2");
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000; }
+.StaticPage-container {
+  padding: 100px;
+  overflow-y: scroll; }
+
 .StaticPage {
   text-align: left;
   box-sizing: border-box;
@@ -799,7 +811,8 @@ a {
   font-weight: bold;
   font-size: 18px;
   color: #333;
-  line-height: normal; }
+  line-height: normal;
+  margin-bottom: 30px; }
 
 .StaticPage h2 {
   text-transform: uppercase;
@@ -812,10 +825,11 @@ a {
   font-size: 32px; }
 
 .StaticPage h4 {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: bold;
   text-transform: uppercase;
-  letter-spacing: 1px; }
+  letter-spacing: 1px;
+  margin: 15px 0px; }
 
 .StaticPage h5 {
   font-weight: bold;
@@ -829,3 +843,9 @@ a {
   font-size: 12px;
   color: #444444;
   line-height: 0; }
+
+@media screen and (max-width: 470px) {
+  .StaticPage-container {
+    padding: 20px; }
+  .StaticPage h3 {
+    font-size: 24px; } }

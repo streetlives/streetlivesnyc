@@ -3,6 +3,7 @@ import Backbone from 'backbone';
 import { Offerings, Locations } from './models.js';
 import { LocationInformation } from './locationInformation.js';
 import { LocationForm } from './locationForm.js';
+import { Welcome } from './welcome.js';
 import { Search } from './search.js';
 
 import '../scss/map.scss';
@@ -52,6 +53,15 @@ const SL = {
 
 module.exports.Map = React.createClass({
 
+    showWelcomeDialog() {
+        if (typeof(Storage) !== "undefined" &&
+            sessionStorage.welcomeDialog) {
+            return sessionStorage.welcomeDialog === "false" ? false : true;
+        } else {
+            return true;
+        }
+    },
+
     getInitialState() {
         const model = new Backbone.Model({
             marker: null
@@ -68,6 +78,7 @@ module.exports.Map = React.createClass({
             offerings: offerings,
             locationForm: false,
             thanksDialog: false,
+            welcomeDialog: this.showWelcomeDialog(),
             viz: {
                 templateURL: '//<%- username %>.cartodb.com/api/v2/viz/<%-id %>/viz.json'
             },
@@ -386,6 +397,16 @@ module.exports.Map = React.createClass({
         })
     },
 
+    removeWelcomeDialog() {
+        if (typeof(Storage) !== "undefined") {
+            sessionStorage.welcomeDialog = false;
+        }
+
+        this.setState({
+            welcomeDialog: false
+        })
+    },
+
     renderThanksDialog() {
         if (this.state.thanksDialog) {
             return (
@@ -394,6 +415,16 @@ module.exports.Map = React.createClass({
                               title='Thank your for helping the community with your knowledge'
                               text=''
                               ok_button='Ok, thanks'/>
+            )
+        } else {
+            return null;
+        }
+    },
+
+    renderWelcomeDialog() {
+        if (this.state.welcomeDialog) {
+            return (
+                <Welcome onClickOK={this.removeWelcomeDialog}/>
             )
         } else {
             return null;
@@ -409,6 +440,7 @@ module.exports.Map = React.createClass({
                 {this.renderLocationForm()}
                 {this.renderLocationInformation()}
                 {this.renderThanksDialog()}
+                {this.renderWelcomeDialog()}
             </div>
         )
     }
