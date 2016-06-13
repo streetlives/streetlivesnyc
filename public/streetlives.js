@@ -25427,6 +25427,8 @@
 	        }
 	    },
 	    onVisLoaded: function onVisLoaded(vis, layers) {
+	        var _this = this;
+
 	        var layer = layers[1];
 	        layer.setInteraction(true);
 	        var query = "SELECT l.*, string_agg(o.name, ', ') as offerings " + "FROM locations AS l " + "LEFT OUTER JOIN locations_offerings AS lo ON lo.location_id = l.cartodb_id " + "LEFT OUTER JOIN offerings as o ON o.cartodb_id = lo.offering_id " + "GROUP BY l.cartodb_id";
@@ -25440,8 +25442,10 @@
 	        sublayer.setInteraction(true);
 	        sublayer.setInteractivity('cartodb_id, name, description, offerings, address');
 
-	        var markerWidth = this.isMobile() ? 30 : 10;
+	        var markerWidth = this.isMobile() ? 20 : 10;
+	        var transparentMarkerWidth = this.isMobile() ? 40 : 50;
 	        var locationCSS = '#locations {' + 'marker-fill-opacity: 0.9;' + 'marker-line-color: #FFF;' + 'marker-line-width: 1;' + 'marker-line-opacity: 1;' + 'marker-placement: point;' + 'marker-type: ellipse;' + 'marker-width: ' + markerWidth + ';' + 'marker-fill: #FF6600;' + 'marker-allow-overlap: true; }';
+	        var transparentLocationCSS = '#locations {' + 'marker-fill-opacity: 0.4;' + 'marker-line-color: #111;' + 'marker-type: ellipse;' + 'marker-placement: point;' + 'marker-width: ' + transparentMarkerWidth + ';' + 'marker-allow-overlap: true; }';
 
 	        sublayer.setCartoCSS(locationCSS);
 
@@ -25452,6 +25456,25 @@
 	        });
 
 	        this.map = vis.getNativeMap();
+
+	        cartodb.createLayer(this.map, {
+	            user_name: 'streetlivesnyc',
+	            type: 'cartodb',
+	            sublayers: [{
+	                sql: query,
+	                cartocss: transparentLocationCSS
+	            }]
+	        }).done(function (layer) {
+	            layer.on('mouseover', _this.onMouseOver);
+	            layer.on('mouseout', _this.onMouseOut);
+	            layer.on('featureClick', _this.onFeatureClick);
+
+	            var sublayer = layer.getSubLayer(0);
+	            sublayer.setInteraction(true);
+	            sublayer.setInteractivity('cartodb_id, name, description, offerings, address');
+
+	            layer.addTo(_this.map);
+	        });
 
 	        this.map.on('click', this.onClickMap);
 	    },
