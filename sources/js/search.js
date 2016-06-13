@@ -51,7 +51,6 @@ module.exports.Search = React.createClass({
         locationModel.fetch().done(function(data) {
             var dataDict = _.keyBy(data.rows, 'name');
             self.setState({locationData: dataDict});
-            console.log(dataDict);
         });
     },
 

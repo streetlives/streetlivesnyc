@@ -25486,6 +25486,7 @@
 	    },
 
 	    onFeatureClick: function onFeatureClick(e, latlng, pos, data) {
+	        console.log("you clicked a feature!!");
 	        e.preventDefault();
 	        e.stopPropagation();
 
@@ -25496,11 +25497,13 @@
 	        this.map.closePopup();
 
 	        this.setState({
-	            locationInformation: data
+	            locationInformation: data,
+	            addLocationDialog: false
 	        });
 	    },
 
 	    onClickMap: function onClickMap(e) {
+	        console.log("you clicked the map!!");
 	        var geocoder = this.state.geocoder;
 	        var onFinishedGeocoding = this.onFinishedGeocoding;
 	        this.t = setTimeout(function () {
@@ -53753,7 +53756,6 @@
 	        locationModel.fetch().done(function (data) {
 	            var dataDict = _lodash2.default.keyBy(data.rows, 'name');
 	            self.setState({ locationData: dataDict });
-	            console.log(dataDict);
 	        });
 	    },
 
