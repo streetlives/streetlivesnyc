@@ -266,7 +266,7 @@ module.exports.Map = React.createClass({
     },
 
     onFinishedGeocoding: function(coordinates, place, results, status) {
-        if (status === google.maps.GeocoderStatus.OK) {
+        if (!this.state.locationInformation && status === google.maps.GeocoderStatus.OK) {
             if (results && results.length > 0) {
                 var address = results[0].formatted_address;
                 var name = place ? place.name : null;
