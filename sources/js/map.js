@@ -176,7 +176,7 @@ module.exports.Map = React.createClass({
         sublayer.setInteractivity('cartodb_id, name, description, offerings, address');
 
         var markerWidth = this.isMobile() ? 20 : 10;
-        var transparentMarkerWidth = this.isMobile() ? 40: 50;
+        var transparentMarkerWidth = this.isMobile() ? 40: 20;
         var locationCSS = '#locations {' +
              'marker-fill-opacity: 0.9;' +
              'marker-line-color: #FFF;' +
@@ -188,10 +188,11 @@ module.exports.Map = React.createClass({
              'marker-fill: #FF6600;' +
                 'marker-allow-overlap: true; }';
         var transparentLocationCSS = '#locations {' +
-                'marker-fill-opacity: 0.4;' +
+                'marker-fill-opacity: 0.0;' +
                 'marker-line-color: #111;' +
                 'marker-type: ellipse;' +
                 'marker-placement: point;' +
+                'market-line-width: 0' +
                 'marker-width: ' + transparentMarkerWidth + ';' +
                 'marker-allow-overlap: true; }';
 
@@ -216,11 +217,8 @@ module.exports.Map = React.createClass({
             layer.on('mouseover',    this.onMouseOver);
             layer.on('mouseout',     this.onMouseOut);
             layer.on('featureClick', this.onFeatureClick);
-
-            var sublayer = layer.getSubLayer(0);
-            sublayer.setInteraction(true);
-            sublayer.setInteractivity('cartodb_id, name, description, offerings, address');
-
+            layer.setInteraction(true);
+            layer.setInteractivity('cartodb_id, name, description, offerings, address');
             layer.addTo(this.map);
         });
 
