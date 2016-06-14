@@ -25257,6 +25257,18 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	var GeoLocateButton = _react2.default.createClass({
+	    displayName: 'GeoLocateButton',
+
+	    render: function render() {
+	        return _react2.default.createElement(
+	            'div',
+	            { className: 'GeoLocateButton' },
+	            _react2.default.createElement('img', { src: './img/AutoLocation.svg' })
+	        );
+	    }
+	});
+
 	var AddLocationDialog = _react2.default.createClass({
 	    displayName: 'AddLocationDialog',
 
@@ -25756,7 +25768,8 @@
 	            this.renderLocationInformation(),
 	            this.renderThanksDialog(),
 	            this.renderWelcomeDialog(),
-	            this.renderAddLocationDialog()
+	            this.renderAddLocationDialog(),
+	            _react2.default.createElement(GeoLocateButton, null)
 	        );
 	    }
 	});

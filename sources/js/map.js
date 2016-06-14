@@ -14,6 +14,16 @@ import '../scss/popup.scss';
 import '../scss/button.scss';
 
 
+var GeoLocateButton = React.createClass({
+    render: function() {
+        return (
+            <div className="GeoLocateButton">
+                <img src="./img/AutoLocation.svg"></img>
+            </div>
+        )
+    }
+});
+
 var AddLocationDialog = React.createClass({
     render: function() {
         return (
@@ -540,6 +550,7 @@ module.exports.Map = React.createClass({
                 {this.renderThanksDialog()}
                 {this.renderWelcomeDialog()}
                 {this.renderAddLocationDialog()}
+                <GeoLocateButton />
             </div>
         )
     }

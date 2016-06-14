@@ -435,6 +435,12 @@
     background-position: -96px 5px; }
     .Map .cartodb-zoom > a.zoom_out:hover {
       background-position: -96px 6px; }
+
+.GeoLocateButton {
+  z-index: 10000;
+  position: fixed;
+  bottom: 15px;
+  right: 15px; }
 @media screen and (max-width: 470px) {
   .Dialog-inner.js-content {
     width: 300px;
