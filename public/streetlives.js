@@ -25263,7 +25263,7 @@
 	    render: function render() {
 	        return _react2.default.createElement(
 	            'div',
-	            { className: 'GeoLocateButton' },
+	            { className: 'GeoLocateButton', onClick: this.props.onClickGeolocate },
 	            _react2.default.createElement('img', { src: './img/AutoLocation.svg' })
 	        );
 	    }
@@ -25755,6 +25755,19 @@
 	            return null;
 	        }
 	    },
+
+
+	    _onClickGeolocate: function _onClickGeolocate() {
+	        var _this2 = this;
+
+	        if (navigator.geolocation) {
+	            navigator.geolocation.getCurrentPosition(function (position) {
+	                _this2.map.panTo([position.coords.latitude, position.coords.longitude]);
+	                _this2.map.setZoom(16);
+	            });
+	        }
+	    },
+
 	    render: function render() {
 	        return _react2.default.createElement(
 	            'div',
@@ -25769,7 +25782,7 @@
 	            this.renderThanksDialog(),
 	            this.renderWelcomeDialog(),
 	            this.renderAddLocationDialog(),
-	            _react2.default.createElement(GeoLocateButton, null)
+	            _react2.default.createElement(GeoLocateButton, { onClickGeolocate: this._onClickGeolocate })
 	        );
 	    }
 	});

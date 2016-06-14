@@ -17,7 +17,7 @@ import '../scss/button.scss';
 var GeoLocateButton = React.createClass({
     render: function() {
         return (
-            <div className="GeoLocateButton">
+            <div className="GeoLocateButton" onClick={this.props.onClickGeolocate}>
                 <img src="./img/AutoLocation.svg"></img>
             </div>
         )
@@ -233,6 +233,7 @@ module.exports.Map = React.createClass({
         });
 
         this.map.on('click', this.onClickMap);
+
     },
 
     onMouseOut: function() {
@@ -538,6 +539,15 @@ module.exports.Map = React.createClass({
         }
     },
 
+    _onClickGeolocate: function() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(position => {
+                this.map.panTo([position.coords.latitude, position.coords.longitude]);
+                this.map.setZoom(16);
+            });
+        }
+    },
+
 
     render() {
         return (
@@ -550,7 +560,7 @@ module.exports.Map = React.createClass({
                 {this.renderThanksDialog()}
                 {this.renderWelcomeDialog()}
                 {this.renderAddLocationDialog()}
-                <GeoLocateButton />
+                <GeoLocateButton onClickGeolocate={this._onClickGeolocate}/>
             </div>
         )
     }
