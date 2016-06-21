@@ -71182,7 +71182,13 @@
 	        _react2.default.createElement(
 	          'p',
 	          null,
-	          'StreetlivesNYC is a map based crowdsourcing site providing information for and from the Homeless population of New York City. Our purpose is to give the community something of its own, a platform for its voice unfiltered by outside agency.'
+	          'StreetlivesNYC is an online space providing information for and from the homeless population of New York City.'
+	        ),
+	        _react2.default.createElement('br', null),
+	        _react2.default.createElement(
+	          'p',
+	          null,
+	          'We are simultaneously the first living database of needs and resources created by the homeless community, a platform for representation and a means to effect change in the provision of services and programs.'
 	        ),
 	        _react2.default.createElement(
 	          'h4',
@@ -71192,12 +71198,13 @@
 	        _react2.default.createElement(
 	          'p',
 	          null,
-	          'The site can easily be used to quickly create, locate and view description of services, and comment on any aspect of homeless life in NYC, as well as provide warnings on difficulties and dangers faced by the community.'
+	          'StreetlivesNYC can easily be used to quickly create, locate and view description of services, and comment on any aspect of homeless life in NYC, as well as provide warnings on difficulties and dangers faced by the community.'
 	        ),
+	        _react2.default.createElement('br', null),
 	        _react2.default.createElement(
 	          'p',
 	          null,
-	          'This can be achieved by accessing the site online to search for services or to make a post. We are currently planning to allow users to upload images as well. In the near future we will be introducing the following ways to post: twitter #StreetlivesNYC, Facebook, or sending toll-free SMS or voicemail. '
+	          'Anyone can use StreetlivesNYC to search for services and/or to make a post. We are currently planning to allow users to upload images as well. In the near future we will be introducing the following ways to post: twitter #StreetlivesNYC, Facebook, or sending toll-free SMS or voicemail.'
 	        ),
 	        _react2.default.createElement('br', null),
 	        _react2.default.createElement(
@@ -71215,7 +71222,7 @@
 	        _react2.default.createElement(
 	          'p',
 	          null,
-	          'Hate speech will be removed, incorrect location post will be amended.'
+	          'The site is moderated. Hate speech will be removed. Factually incorrect location posts will be amended.'
 	        ),
 	        _react2.default.createElement(
 	          'h4',
@@ -71225,40 +71232,45 @@
 	        _react2.default.createElement(
 	          'p',
 	          null,
-	          'Over the course of the last City fiscal year (FY 2014), more than 116,000 different homeless men, women, and children slept in the New York City municipal shelter system. This includes nearly 42,000 different homeless New York City children.'
+	          'Over the course of the last City fiscal year (FY 2015), nearly 110,000 individuals slept in the New York City municipal shelter system. This includes nearly 24,000 different homeless New York City children.'
 	        ),
+	        _react2.default.createElement('br', null),
 	        _react2.default.createElement(
 	          'p',
 	          null,
-	          'Each night thousands of unsheltered homeless people sleep on New York City streets, in the subway system, and in other public spaces. There is no accurate measurement of New York City’s unsheltered homeless population, and recent City surveys significantly underestimate the number of unsheltered homeless New Yorkers.',
+	          'Each night thousands of unsheltered homeless people sleep on New York City streets, in the subway system, and in other public spaces. There is no accurate measurement of New York City’s unsheltered homeless population, and recent City surveys significantly underestimate the number of unsheltered homeless New Yorkers. ',
 	          _react2.default.createElement('br', null),
-	          ' ',
 	          _react2.default.createElement(
 	            'a',
 	            { href: 'http://www.coalitionforthehomeless.org/basic-facts-about-homelessness-new-york-city/' },
 	            '(source: Coalition for the Homeless)'
 	          )
 	        ),
+	        _react2.default.createElement('br', null),
 	        _react2.default.createElement(
 	          'p',
 	          null,
-	          ' Streetlives aims to be a platform for community empowerment and self-representation. '
+	          'StreetlivesNYC is a platform for community empowerment and self-representation. By improving the understanding of and access to relevant services, StreetlivesNYC can provide non personal data to advocate for and improve the efficacy of those services.'
 	        ),
+	        _react2.default.createElement('br', null),
 	        _react2.default.createElement(
 	          'p',
 	          null,
-	          'A core goal is improving the understanding of and access to relevant services, and as a parallel goal over time StreetlivesNYC intends to use non personal data to advocate for and improve the efficacy of those services. In short, the community\'s insight over time into what works and what doesn’t is shared with service providers without compromising user privacy.'
+	          'In short, the community\'s insight over time into what works and what doesn’t is shared with Service Providers without compromising user privacy.'
 	        ),
+	        _react2.default.createElement('br', null),
 	        _react2.default.createElement(
 	          'p',
 	          null,
 	          'Whilst our core mission is to provide user generated content, the site\'s functionality will adapt to and be guided by the community’s need.'
 	        ),
+	        _react2.default.createElement('br', null),
 	        _react2.default.createElement(
 	          'p',
 	          null,
-	          ' We do not assume that we have a right to make choices for the user without listening to their voice. Feedback is gratefully welcomed.'
+	          'We do not assume that we have a right to make choices for the user without consensus. Feedback is gratefully welcomed.'
 	        ),
+	        _react2.default.createElement('br', null),
 	        _react2.default.createElement(
 	          'p',
 	          null,
@@ -71266,14 +71278,15 @@
 	          _react2.default.createElement('br', null),
 	          '—The Streetlives team.'
 	        ),
-	        _react2.default.createElement(
-	          'p',
-	          null,
-	          'Outreach ongoing with:'
-	        ),
+	        _react2.default.createElement('br', null),
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'Outreach' },
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            'Outreach ongoing with:'
+	          ),
 	          _react2.default.createElement(
 	            'ul',
 	            null,
