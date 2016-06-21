@@ -849,3 +849,27 @@ a {
     padding: 20px; }
   .StaticPage h3 {
     font-size: 24px; } }
+
+.title {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 15px; }
+
+.subtitle {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  margin-top: 10px; }
+
+.subheader {
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 20px; }
+
+.tos-content {
+  font-size: 14px; }
+  .tos-content p {
+    margin-bottom: 20px; }
+  .tos-content ul {
+    list-style: lower-roman;
+    list-style-position: inside; }
