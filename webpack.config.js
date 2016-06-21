@@ -1,3 +1,4 @@
+const webpack = require('webpack');
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const autoprefixer = require('autoprefixer')({browsers: 'last 2 versions'});
@@ -41,6 +42,11 @@ module.exports = {
         return [autoprefixer];
     },
     plugins: [
-        new ExtractTextPlugin('streetlives.css')
+        new ExtractTextPlugin('streetlives.css'),
+        new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: false
+            }
+        })
     ]
 };
