@@ -4,7 +4,9 @@ import React from 'react';
 
 module.exports.TermsOfService = React.createClass({
   render: function() {
-    return (<div className="tos-content">
+    return (
+      <div className="StaticPage-container">
+            <div className="tos-content">
             <div className="title">StreetlivesNYC Terms of Service</div>
             <div className="subtitle">Effective Date April 23 2016</div>
             <p>
@@ -309,6 +311,7 @@ module.exports.TermsOfService = React.createClass({
                     This Terms of Service is the entire agreement between you and us concerning StreetlivesNYC. It supersedes all prior or contemporaneous agreements between you and us. We may modify this user agreement at any time. If we make changes to this agreement that materially affect your rights, we will provide advance notice and keep this edition available as an archive on the StreetlivesNYC website. By continuing to use StreetlivesNYC after a change to this agreement, you agree to those changes.
                 </li>
             </ul>
-        </div>)
+        </div>
+    </div>)
   }
 })
