@@ -68,23 +68,23 @@ var LikesComponent = React.createClass({
 
     render: function() {
         return (
-            <ul className="LikesList">
-                <li className="LikesList-item">
+            <div className="LikesList">
+                <div className="LikesList-item">
                     <span className="LikesList-item--like">
                         {this.state.likes}
                     </span>
-                </li>
-                <li className="LikesList-item">
+                </div>
+                <div className="LikesList-item">
                     <span className="LikesList-item--dislike">
                         {this.state.dislikes}
                     </span>
-                </li>
-                <li className="LikesList-item">
+                </div>
+                <div className="LikesList-item">
                     <span className="LikesList-item--total">
                         {this.state.total}
                     </span>
-                </li>
-            </ul>
+                </div>
+            </div>
         );
     }
 });
