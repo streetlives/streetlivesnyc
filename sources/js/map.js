@@ -29,7 +29,7 @@ var AddLocationDialog = React.createClass({
         return (
             <div className="Dialog">
                 <div className="Dialog-inner js-content">
-                    <button className="Button Button--close js-cancel"
+                    <button className="Button--close js-cancel"
                             onClick={this.props.onClickClose}>✕</button>
                     <div className="Dialog-content">
                         <p>
@@ -67,7 +67,7 @@ var ThanksDialog = React.createClass({
                             {this.props.ok_button}
                         </button>
                     </footer>
-                    <button className="Button Button--close js-cancel"
+                    <button className="Button--close js-cancel"
                             onClick={this.props.onClickClose}>✕</button>
                 </div>
             </div>

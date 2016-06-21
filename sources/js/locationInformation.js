@@ -307,7 +307,7 @@ module.exports.LocationInformation = React.createClass({
             <div className="LocationInformation">
                 <div className="LocationInformation-inner js-content">
                     <div className="LocationInformation-content">
-                        <button className="Button Button--close js-cancel"
+                        <button className="Button--close js-cancel"
                                 onClick={this.props.onClickClose}>
                             ✕
                         </button>

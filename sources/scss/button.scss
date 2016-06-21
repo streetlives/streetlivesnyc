@@ -32,8 +32,6 @@
   box-shadow: none;
   box-sizing: border-box;
   width: 100%;
-  height: 35px;
-  line-height: 35px;
   text-align: right;
   text-decoration: none;
   text-transform: uppercase;
@@ -41,11 +39,9 @@
   &:hover {
     background: #ffffff;
   }
-
-  display: flex;
   justify-content: flex-end;
-  padding: 0 10px 0 0;
   font-size: 1.2em;
+  border: none;
 }
 
 .Button.is-disabled {
