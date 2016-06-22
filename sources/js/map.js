@@ -55,20 +55,15 @@ var ThanksDialog = React.createClass({
     render: function() {
         return (
             <div className="Dialog">
-                <div className="Dialog-inner js-content">
+                <div className="Dialog-inner js-content ThanksDialogInner">
                     <div className="Dialog-content">
                         <div className="Dialog-logo"></div>
                         <div className="Dialog-message">{this.props.title}</div>
                         <p>{this.props.text}</p>
                     </div>
-                    <footer className="Footer">
-                        <button className="Button js-ok"
-                                onClick={this.props.onClickOk}>
-                            {this.props.ok_button}
-                        </button>
-                    </footer>
-                    <button className="Button--close js-cancel"
-                            onClick={this.props.onClickClose}>✕</button>
+                    <button className="Button js-ok" onClick={this.props.onClickOk}>
+                        {this.props.ok_button}
+                    </button>
                 </div>
             </div>
         )
