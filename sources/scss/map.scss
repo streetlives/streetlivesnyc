@@ -45,3 +45,10 @@
     }
   }
 }
+
+.GeoLocateButton {
+    z-index: 10;
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+}

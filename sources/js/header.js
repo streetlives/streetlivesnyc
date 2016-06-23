@@ -14,29 +14,29 @@ module.exports.Header = React.createClass({
                     {this.props.title}
                 </a>
 
-                <ul className="HeaderItems">
-                  <li className="HeaderItem">
+                <div className="HeaderItems">
+                  <div className="HeaderItem">
                       <Link to='/map'
                             className="HeaderItem-link js-item js-map"
                             activeClassName="HeaderItem-link js-item js-map is-selected">
                             Map
                       </Link>
-                  </li>
-                  <li className="HeaderItem">
+                  </div>
+                  <div className="HeaderItem">
                       <Link to='/about'
                             className="HeaderItem-link js-item js-about"
                             activeClassName="HeaderItem-link js-item js-about is-selected">
                             About
                       </Link>
-                  </li>
-                  <li className="HeaderItem">
+                  </div>
+                  <div className="HeaderItem">
                       <Link to='/privacy'
                             className="HeaderItem-link js-item js-privacy"
                             activeClassName="HeaderItem-link js-item js-privacy is-selected">
                             Privacy
                       </Link>
-                  </li>
-                </ul>
+                  </div>
+                </div>
             </header>
         )
     }

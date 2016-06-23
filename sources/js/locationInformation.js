@@ -68,23 +68,23 @@ var LikesComponent = React.createClass({
 
     render: function() {
         return (
-            <ul className="LikesList">
-                <li className="LikesList-item">
+            <div className="LikesList">
+                <div className="LikesList-item">
                     <span className="LikesList-item--like">
                         {this.state.likes}
                     </span>
-                </li>
-                <li className="LikesList-item">
+                </div>
+                <div className="LikesList-item">
                     <span className="LikesList-item--dislike">
                         {this.state.dislikes}
                     </span>
-                </li>
-                <li className="LikesList-item">
+                </div>
+                <div className="LikesList-item">
                     <span className="LikesList-item--total">
                         {this.state.total}
                     </span>
-                </li>
-            </ul>
+                </div>
+            </div>
         );
     }
 });
@@ -307,7 +307,7 @@ module.exports.LocationInformation = React.createClass({
             <div className="LocationInformation">
                 <div className="LocationInformation-inner js-content">
                     <div className="LocationInformation-content">
-                        <button className="Button Button--close js-cancel"
+                        <button className="Button--close js-cancel"
                                 onClick={this.props.onClickClose}>
                             ✕
                         </button>

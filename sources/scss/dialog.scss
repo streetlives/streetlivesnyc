@@ -1,7 +1,6 @@
 @media screen and (max-width: 470px) {
     .Dialog-inner.js-content {
         width: 300px;
-        padding: 50px 20px 100px 20px;
     }
 
     div.Dialog-logo {
@@ -42,7 +41,7 @@
   border: 1px solid transparent;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   border-radius: 3px;
-  padding: 50px 50px 100px 50px;
+  padding-bottom: 20px;
   box-sizing: border-box;
   text-align: center;
 }

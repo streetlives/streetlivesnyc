@@ -47,14 +47,14 @@ module.exports.LocationForm = React.createClass({
     renderOfferingList: function(offering) {
         var id = offering.get('cartodb_id');
         return (
-            <li className="OfferingList-item" key={id}>
+            <div className="OfferingList-item" key={id}>
                 <label htmlFor={'offering_'+ id} className="InputCheck-label">
                     <input type='checkbox'
                            value={id}
                            id={'offering_' + id}
                            className="InputCheck js-checkbox" />{offering.get('name')}
                 </label>
-            </li>
+            </div>
         )
     },
 
@@ -63,15 +63,15 @@ module.exports.LocationForm = React.createClass({
             <div className="LocationForm">
                 <div className="LocationForm-inner js-content">
                     <div className="LocationForm-content js-content">
-                        <button className="Button Button--close js-cancel"
+                        <button className="Button--close js-cancel"
                                 onClick={this.props.onClickCancel}>✕</button>
-                        <ul className="LocationForm-fields">
-                            <li className="LocationForm-field">
+                        <div className="LocationForm-fields">
+                            <div className="LocationForm-field">
                                 <label className="LocationForm-label">Address</label>
                                 <span className="js-address">{this.props.address}</span>
-                            </li>
+                            </div>
 
-                            <li className="LocationForm-field">
+                            <div className="LocationForm-field">
                                 <label className="LocationForm-label">Name</label>
                                 <div className="InputField js-field">
                                     <input type="text" placeholder="Name of this location"
@@ -80,31 +80,31 @@ module.exports.LocationForm = React.createClass({
                                            defaultValue={this.props.name}
                                            onChange={this.checkSubmitButton}/>
                                 </div>
-                            </li>
+                            </div>
 
-                            <li className="LocationForm-field">
+                            <div className="LocationForm-field">
                                 <label className="LocationForm-label">What does it offer?</label>
-                                <ul className="OfferingList" ref="offerings">
+                                <div className="OfferingList" ref="offerings">
                                     {this.props.offerings.map(this.renderOfferingList)}
-                                </ul>
-                            </li>
+                                </div>
+                            </div>
 
-                            <li className="LocationForm-field">
+                            <div className="LocationForm-field">
                                 <label className="LocationForm-label">Add something to the conversation!</label>
                                 <div className="InputField js-field">
                                     <textarea placeholder="Feel free to add tips, warnings, comments or review about this place"
                                               className="Input InputArea js-comment" ref="comment"/>
                                 </div>
-                            </li>
+                            </div>
 
-                            <li className="LocationForm-field">
+                            <div className="LocationForm-field">
                                 <label className="LocationForm-label">Your name or initials (optional)</label>
                                 <div className="InputField js-field">
                                     <input type="text" className="Input js-username" ref="username"/>
                                 </div>
-                            </li>
+                            </div>
 
-                        </ul>
+                        </div>
 
                         <footer className="Footer">
                             <button className={this.props.name || this.state.enableSubmit ?

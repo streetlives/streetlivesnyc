@@ -28,6 +28,7 @@ module.exports.About = React.createClass({
            • Respect and do no harm to yourself</h5>
          <p>The site is moderated. Hate speech will be removed. Factually incorrect location posts will be amended.</p>
 
+
          <h4>WHY</h4>
          <p>Over the course of the last City fiscal year (FY 2015), nearly 110,000 individuals slept in the New York City municipal shelter system. This includes nearly 24,000 different homeless New York City children.</p>
          <br />

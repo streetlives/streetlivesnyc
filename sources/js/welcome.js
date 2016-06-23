@@ -22,11 +22,11 @@ module.exports.Welcome = React.createClass({
                             Homeless population of New York City. Look for what you need
                             or post what you know.
                         </div>
-                        <footer className="Footer">
+                        <div className="Button-container">
                             <button onClick={this.props.onClickOK} className="Button js-ok">
                                 OK, thanks
                             </button>
-                        </footer>
+                        </div>
                     </div>
                 </div>
             </div>
