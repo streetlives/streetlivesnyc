@@ -9,6 +9,10 @@
   font-family: 'Open sans', sans-serif;
   font-size: 16px;
   line-height: 1.5;
+
+    p {
+        max-width: 600px;
+    }
 }
 .StaticPage-title {
   font-weight: bold;
@@ -91,5 +95,19 @@
     ul {
         list-style: lower-roman;
         list-style-position: inside;
+    }
+}
+
+.Outreach {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    max-width: 450px;
+
+    .social-proof {
+        width: 150px;
+        img {
+            width: 150px; 
+        }
     }
 }
