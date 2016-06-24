@@ -26,7 +26,7 @@ module.exports.About = React.createClass({
 
 
          <h4>WHY</h4>
-         <p>Over the course of the last City fiscal year (FY 2015), nearly 110,000 individuals slept in the New York City municipal shelter system. This includes nearly 24,000 different homeless New York City children.</p>
+         <p>Over the course of the last City fiscal year (FY 2015), nearly 110,000 individuals slept in the New York City municipal shelter system. This includes over 42,000 different homeless New York City children.</p>
          <p>Each night thousands of unsheltered homeless people sleep on New York City streets, in the subway system, and in other public spaces. There is no accurate measurement of New York City’s unsheltered homeless population, and recent City surveys significantly underestimate the number of unsheltered homeless New Yorkers. <br/><a href="http://www.coalitionforthehomeless.org/basic-facts-about-homelessness-new-york-city/">(source: Coalition for the Homeless)</a>
          </p>
          <p>StreetlivesNYC is a platform for community empowerment and self-representation. By improving the understanding of and access to relevant services, StreetlivesNYC can provide non personal data to advocate for and improve the efficacy of those services.</p>

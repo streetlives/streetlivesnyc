@@ -71357,7 +71357,7 @@
 	        _react2.default.createElement(
 	          'p',
 	          null,
-	          'Over the course of the last City fiscal year (FY 2015), nearly 110,000 individuals slept in the New York City municipal shelter system. This includes nearly 24,000 different homeless New York City children.'
+	          'Over the course of the last City fiscal year (FY 2015), nearly 110,000 individuals slept in the New York City municipal shelter system. This includes over 42,000 different homeless New York City children.'
 	        ),
 	        _react2.default.createElement(
 	          'p',
