@@ -547,6 +547,7 @@ module.exports.Map = React.createClass({
     render() {
         return (
             <div onkeyup={this.onKeyUp}>
+                <div>{this.props.someData}</div>
                 <div id="map" className="Map">
                   <Search gotoPlace={this._gotoPlace}/>
                 </div>
