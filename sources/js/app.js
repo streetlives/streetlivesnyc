@@ -2,7 +2,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Route, IndexRedirect, browserHistory } from 'react-router';
+import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 
 import { Map } from './map.js';
 import { Header } from './header.js';
@@ -34,12 +34,11 @@ var App = React.createClass({
 ReactDOM.render(
     <Router history={browserHistory}>
       <Route path="/" component={App}>
-        <IndexRedirect to="map" />
+        <IndexRoute component={Map} />
         <Route path="about" component={About} />
         <Route path="privacy" component={Privacy} />
         <Route path="tos" component={TermsOfService} />
         <Route path="guidelines" component={ContentGuidelines} />
-        <Route path="map" component={Map} />
       </Route>
     </Router>
   , document.getElementById('app'));
