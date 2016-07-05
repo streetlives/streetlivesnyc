@@ -64,13 +64,19 @@ function mapStateToProps(state) {
     };
 }
 
-const actionCreators = [
-    function () {
+const actionCreators = {
+    setLocationInformation: function (locationData) {
         return {
-            type: 'AN_ACTION'
+            type: 'SET_LOCATION_INFORMATION',
+            data: locationData
+        };
+    },
+    removeLocationInformation: function() {
+        return {
+            type: 'REMOVE_LOCATION_INFORMATION'
         };
     }
-];
+};
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators(actionCreators, dispatch);
@@ -87,6 +93,9 @@ ReactDOM.render(
                 <Route path="privacy" component={Privacy} />
                 <Route path="tos" component={TermsOfService} />
                 <Route path="guidelines" component={ContentGuidelines} />
+                <Route path="map" component={Map}>
+                    <Route path="location-information" component={LocationInformation} />
+                </Route>
             </Route>
         </Router>
     </Provider>

@@ -401,7 +401,9 @@ module.exports.Map = React.createClass({
             if (data.rows.length > 0) {
                 self.setState({
                     locationInformation: data.rows[0]
-                })
+                });
+                self.props.setLocationInformation(data.rows[0]);
+                
             } else {
                 self._addMarker(coordinates);
             }
@@ -547,16 +549,15 @@ module.exports.Map = React.createClass({
     render() {
         return (
             <div onkeyup={this.onKeyUp}>
-                <div>{this.props.someData}</div>
                 <div id="map" className="Map">
                   <Search gotoPlace={this._gotoPlace}/>
                 </div>
                 {this.renderLocationForm()}
-                {this.renderLocationInformation()}
                 {this.renderThanksDialog()}
                 {this.renderWelcomeDialog()}
                 {this.renderAddLocationDialog()}
                 <GeoLocateButton onClickGeolocate={this._onClickGeolocate}/>
+                {React.cloneElement(this.props.children, this.props)}
             </div>
         )
     }
