@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 
 import { Map } from './map.js';
+import { LocationInformation } from './locationInformation.js';
 import { Header } from './header.js';
 import { About} from './about.js';
 import { Privacy } from './privacy.js';
@@ -27,10 +28,8 @@ const defaultState = {
 const someDataReducer = function(state = [], action) {
     switch(action.type) {
         case 'AN_ACTION':
-            console.log('action triggered!');
             return state;
         default:
-            console.log('unknown action');
             return state;
     }
 }
@@ -93,9 +92,6 @@ ReactDOM.render(
                 <Route path="privacy" component={Privacy} />
                 <Route path="tos" component={TermsOfService} />
                 <Route path="guidelines" component={ContentGuidelines} />
-                <Route path="map" component={Map}>
-                    <Route path="location-information" component={LocationInformation} />
-                </Route>
             </Route>
         </Router>
     </Provider>

@@ -240,7 +240,6 @@ module.exports.Map = React.createClass({
     },
 
     onFeatureClick: function(e, latlng, pos, data) {
-        console.log("you clicked a feature!!");
         e.preventDefault();
         e.stopPropagation();
 
@@ -258,7 +257,6 @@ module.exports.Map = React.createClass({
 
 
     onClickMap: function(e) {
-        console.log("you clicked the map!!");
         var geocoder = this.state.geocoder;
         var onFinishedGeocoding = this.onFinishedGeocoding;
         this.t = setTimeout(function()  {
@@ -553,11 +551,11 @@ module.exports.Map = React.createClass({
                   <Search gotoPlace={this._gotoPlace}/>
                 </div>
                 {this.renderLocationForm()}
+                {this.renderLocationInformation()}
                 {this.renderThanksDialog()}
                 {this.renderWelcomeDialog()}
                 {this.renderAddLocationDialog()}
                 <GeoLocateButton onClickGeolocate={this._onClickGeolocate}/>
-                {React.cloneElement(this.props.children, this.props)}
             </div>
         )
     }
