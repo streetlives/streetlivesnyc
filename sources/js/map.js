@@ -55,20 +55,15 @@ var ThanksDialog = React.createClass({
     render: function() {
         return (
             <div className="Dialog">
-                <div className="Dialog-inner js-content">
+                <div className="Dialog-inner js-content ThanksDialogInner">
                     <div className="Dialog-content">
                         <div className="Dialog-logo"></div>
                         <div className="Dialog-message">{this.props.title}</div>
                         <p>{this.props.text}</p>
                     </div>
-                    <footer className="Footer">
-                        <button className="Button js-ok"
-                                onClick={this.props.onClickOk}>
-                            {this.props.ok_button}
-                        </button>
-                    </footer>
-                    <button className="Button--close js-cancel"
-                            onClick={this.props.onClickClose}>✕</button>
+                    <button className="Button js-ok" onClick={this.props.onClickOk}>
+                        {this.props.ok_button}
+                    </button>
                 </div>
             </div>
         )
@@ -245,7 +240,6 @@ module.exports.Map = React.createClass({
     },
 
     onFeatureClick: function(e, latlng, pos, data) {
-        console.log("you clicked a feature!!");
         e.preventDefault();
         e.stopPropagation();
 
@@ -263,7 +257,6 @@ module.exports.Map = React.createClass({
 
 
     onClickMap: function(e) {
-        console.log("you clicked the map!!");
         var geocoder = this.state.geocoder;
         var onFinishedGeocoding = this.onFinishedGeocoding;
         this.t = setTimeout(function()  {
@@ -406,7 +399,9 @@ module.exports.Map = React.createClass({
             if (data.rows.length > 0) {
                 self.setState({
                     locationInformation: data.rows[0]
-                })
+                });
+                self.props.setLocationInformation(data.rows[0]);
+                
             } else {
                 self._addMarker(coordinates);
             }
