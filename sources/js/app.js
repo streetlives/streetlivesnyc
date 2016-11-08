@@ -4,7 +4,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 
-import { Map } from './map.js';
+import { MapContainer } from './containers/MapContainer.js';
 import { LocationInformation } from './locationInformation.js';
 import { Header } from './header.js';
 import { About} from './about.js';
@@ -22,7 +22,9 @@ import '../scss/font.scss';
 import '../scss/page.scss';
 
 const defaultState = {
-    someData: "is this working?"
+    someData: "is this working?",
+
+    
 };
 
 const someDataReducer = function(state = [], action) {
@@ -87,7 +89,7 @@ ReactDOM.render(
     <Provider store={store}>
         <Router history={history}>
             <Route path="/" component={App}>
-                <IndexRoute component={Map} />
+                <IndexRoute component={MapContainer} />
                 <Route path="about" component={About} />
                 <Route path="privacy" component={Privacy} />
                 <Route path="tos" component={TermsOfService} />
