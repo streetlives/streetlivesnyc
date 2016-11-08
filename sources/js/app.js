@@ -6,6 +6,7 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 
 import { MapContainer } from './containers/MapContainer.js';
 import { Map } from './map.js';
+import { Categories } from './categories.js';
 import { LocationInformation } from './locationInformation.js';
 import { Header } from './header.js';
 import { About} from './about.js';
@@ -94,6 +95,7 @@ ReactDOM.render(
                 <Route path="privacy" component={Privacy} />
                 <Route path="tos" component={TermsOfService} />
                 <Route path="guidelines" component={ContentGuidelines} />
+                <Route path="categories" component={Categories} />
             </Route>
         </Router>
     </Provider>
