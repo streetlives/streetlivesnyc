@@ -90,6 +90,26 @@ const offeringsJson = {
 
 module.exports.Categories = React.createClass({
 
+    getInitialState() {
+        return {
+            selectedCategories: []
+        };
+    },
+
+    clickOffering(offering) {
+        if (_.indexOf(this.state.selectedCategories, offering) > -1) {
+            //unselect
+            this.setState({
+                selectedCategories: _.reject(this.state.selectedCategories, { cartodb_id: offering.cartodb_id })
+            });
+        } else {
+            //select
+            this.setState({
+                selectedCategories: this.state.selectedCategories.concat(offering)
+            });
+        }
+    },
+
     componentWillMount() {
         this.categories = offeringsJson.rows;
     },
@@ -97,11 +117,13 @@ module.exports.Categories = React.createClass({
     render() {
         return (
                 <div className="offerings">
-                {this.categories.map(function(row) {
+                {this.categories.map((row) => {
                     return (
                         <div className="offerings__offering" key={row.cartodb_id}>
                             <div>Id: {row.cartodb_id}</div>
-                            <div>Name: {row.name}</div>
+                            <div onClick={() => {
+                                this.clickOffering(row);
+                            }}>Name: {row.name}</div>
                         </div>
                     );
                 })}
