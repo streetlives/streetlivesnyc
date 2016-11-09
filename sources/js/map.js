@@ -168,7 +168,11 @@ module.exports.Map = React.createClass({
         var query = "SELECT l.*, string_agg(o.name, ', ') as offerings " +
             "FROM locations AS l " +
             "LEFT OUTER JOIN locations_offerings AS lo ON lo.location_id = l.cartodb_id " +
-            "LEFT OUTER JOIN offerings as o ON o.cartodb_id = lo.offering_id " +
+                    "LEFT OUTER JOIN offerings as o ON o.cartodb_id = lo.offering_id " +
+                    (this.props.location.query.categories ?
+                    `WHERE o.cartodb_id in (${this.props.location.query.categories}) `
+                   : ""
+                    ) +
             "GROUP BY l.cartodb_id";
         layer.setQuery(query);
 

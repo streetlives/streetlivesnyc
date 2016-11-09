@@ -2,6 +2,7 @@
 
 import React from 'react';
 import _ from 'lodash';
+import { Link } from 'react-router';
 
 // TODO: fetch from /offerings...
 const offeringsJson = {
@@ -121,12 +122,18 @@ module.exports.Categories = React.createClass({
                     return (
                         <div className="offerings__offering" key={row.cartodb_id}>
                             <div>Id: {row.cartodb_id}</div>
-                            <div onClick={() => {
+                            <div style={_.indexOf(this.state.selectedCategories, row) > -1 ? {color: "red"} : {}}
+                                 onClick={() => {
                                 this.clickOffering(row);
                             }}>Name: {row.name}</div>
                         </div>
                     );
                 })}
+                <Link to={{pathname: "/map",
+                           query: { categories: _.map(this.state.selectedCategories, "cartodb_id") }
+                          }}>
+                  Submit
+                </Link>
                 </div>
         );
     }
