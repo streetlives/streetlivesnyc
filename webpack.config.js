@@ -14,6 +14,7 @@ module.exports = {
     entry: {
         app: PATHS.app + '/js/app.js'
     },
+    devtool: "source-map",
     resolve: {
         extensions: ['', '.js', '.jsx'],
         alias: {

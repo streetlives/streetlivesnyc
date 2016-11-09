@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import { Link } from 'react-router';
+import { Link, IndexLink } from 'react-router';
 
 import '../scss/header.scss';
 
@@ -16,11 +16,11 @@ module.exports.Header = React.createClass({
 
                 <div className="HeaderItems">
                   <div className="HeaderItem">
-                      <Link to='/map'
+                      <IndexLink to='/'
                             className="HeaderItem-link js-item js-map"
                             activeClassName="HeaderItem-link js-item js-map is-selected">
                             Map
-                      </Link>
+                      </IndexLink>
                   </div>
                   <div className="HeaderItem">
                       <Link to='/about'
