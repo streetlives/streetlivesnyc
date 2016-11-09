@@ -23,31 +23,15 @@ import '../scss/app.scss';
 import '../scss/font.scss';
 import '../scss/page.scss';
 
-const defaultState = {
-    someData: "is this working?",
-
-};
-
-const someDataReducer = function(state = [], action) {
-    switch(action.type) {
-        case 'AN_ACTION':
-            return state;
-        default:
-            return state;
-    }
-}
-
 const rootReducer = combineReducers({
-    someData: someDataReducer,
     routing: routerReducer
 });
 
-const store = createStore(rootReducer, defaultState);
+const store = createStore(rootReducer);
 
 const history = syncHistoryWithStore(browserHistory, store);
 
-var Main = React.createClass({
-
+const App = React.createClass({
   render: function() {
     return (
         <div>
@@ -59,32 +43,6 @@ var Main = React.createClass({
     );
   }
 });
-
-function mapStateToProps(state) {
-    return {
-        someData: state.someData
-    };
-}
-
-const actionCreators = {
-    setLocationInformation: function (locationData) {
-        return {
-            type: 'SET_LOCATION_INFORMATION',
-            data: locationData
-        };
-    },
-    removeLocationInformation: function() {
-        return {
-            type: 'REMOVE_LOCATION_INFORMATION'
-        };
-    }
-};
-
-function mapDispatchToProps(dispatch) {
-    return bindActionCreators(actionCreators, dispatch);
-}
-
-const App = connect(mapStateToProps, mapDispatchToProps)(Main);
 
 ReactDOM.render(
     <Provider store={store}>
