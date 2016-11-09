@@ -404,8 +404,6 @@ module.exports.Map = React.createClass({
                 self.setState({
                     locationInformation: data.rows[0]
                 });
-                self.props.setLocationInformation(data.rows[0]);
-                
             } else {
                 self._addMarker(coordinates);
             }
