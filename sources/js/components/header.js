@@ -3,7 +3,7 @@
 import React from 'react';
 import { Link, IndexLink } from 'react-router';
 
-import '../scss/header.scss';
+import '../../scss/header.scss';
 
 module.exports.Header = React.createClass({
 

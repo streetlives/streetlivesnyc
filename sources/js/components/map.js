@@ -1,17 +1,21 @@
 import React from 'react';
 import Backbone from 'backbone';
+
+import AddLocationDialog from './dialogs/addLocationDialog.js'
+import ThanksDialog from './dialogs/addLocationDialog.js'
+import WelcomeDialog from './dialogs/welcomeDialog.js';
+
 import { Offerings, Locations } from './models.js';
 import { LocationInformation } from './locationInformation.js';
 import { LocationForm } from './locationForm.js';
-import { Welcome } from './welcome.js';
 import { Search } from './search.js';
 
-import '../scss/map.scss';
-import '../scss/dialog.scss';
-import '../scss/like_button.scss';
-import '../scss/likes.scss';
-import '../scss/popup.scss';
-import '../scss/button.scss';
+import '../../scss/map.scss';
+import '../../scss/dialog.scss';
+import '../../scss/like_button.scss';
+import '../../scss/likes.scss';
+import '../../scss/popup.scss';
+import '../../scss/button.scss';
 
 
 var GeoLocateButton = React.createClass({
@@ -19,52 +23,6 @@ var GeoLocateButton = React.createClass({
         return (
             <div className="GeoLocateButton" onClick={this.props.onClickGeolocate}>
                 <img src="./img/AutoLocation.svg"></img>
-            </div>
-        )
-    }
-});
-
-var AddLocationDialog = React.createClass({
-    render: function() {
-        return (
-            <div className="Dialog">
-                <div className="Dialog-inner js-content">
-                    <button className="Button--close js-cancel"
-                            onClick={this.props.onClickClose}>✕</button>
-                    <div className="Dialog-content">
-                        <p>
-                            <strong className="Popup-addressName">
-                                {this.props.nameString} {this.props.address}
-                            </strong>
-                            <br/>
-                            is not part of Streetlives yet.
-                            Do you want to add this location to the map?
-                        </p>
-                    </div>
-                    <button className="Button Button--addLocationSmall js-add-location"
-                            onClick={this.props.onClickAddLocation}>
-                        Add location
-                    </button>
-                </div>
-            </div>
-        )
-    }
-});
-
-var ThanksDialog = React.createClass({
-    render: function() {
-        return (
-            <div className="Dialog">
-                <div className="Dialog-inner js-content ThanksDialogInner">
-                    <div className="Dialog-content">
-                        <div className="Dialog-logo"></div>
-                        <div className="Dialog-message">{this.props.title}</div>
-                        <p>{this.props.text}</p>
-                    </div>
-                    <button className="Button js-ok" onClick={this.props.onClickOk}>
-                        {this.props.ok_button}
-                    </button>
-                </div>
             </div>
         )
     }

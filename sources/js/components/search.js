@@ -5,7 +5,7 @@ import { Locations } from './models.js';
 import { Typeahead } from 'react-typeahead';
 import _ from 'lodash';
 
-import '../scss/search.scss';
+import '../../scss/search.scss';
 
 module.exports.Search = React.createClass({
     focus: function() {

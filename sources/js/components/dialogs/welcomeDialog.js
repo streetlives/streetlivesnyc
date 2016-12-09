@@ -2,11 +2,11 @@
 
 import React from 'react';
 
-import '../scss/welcome.scss';
+import '../../../scss/welcome.scss';
 
-module.exports.Welcome = React.createClass({
+const WelcomeDialog = React.createClass({
 
-    render: function() {
+    render() {
         return (
             <div className="Welcome Dialog">
                 <div className="Welcome-inner Dialog-inner">
@@ -34,3 +34,4 @@ module.exports.Welcome = React.createClass({
     }
 });
 
+export default WelcomeDialog
