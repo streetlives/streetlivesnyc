@@ -21,24 +21,39 @@ module.exports.Search = React.createClass({
     },
 
     initAutoComplete: function() {
-      var input = this.refs.searchBar;
-
-      this.autocomplete = new google.maps.places.Autocomplete(input, {
-        componentRestrictions: { country: 'USA' }
-      });
-
-      google.maps.event.addListener(this.autocomplete, 'place_changed', this.onPlaceChange);
+        var input = this.refs.searchBar;
+       
+        this.autocomplete = new google.maps.places.Autocomplete(input, {
+          componentRestrictions: { country: 'USA' }
+        });
+       
+        google.maps.event.addListener(this.autocomplete, 'place_changed', this.onPlaceChange);
     },
 
     onPlaceChange: function() {
 
-      var place = this.autocomplete.getPlace();
+        var place = this.autocomplete.getPlace();
+        this.setState({searchQuery: place.name});
 
-      if (!place.geometry || !place.geometry.location) {
-        return;
-      }
+        if (!place.geometry || !place.geometry.location) {
+            return;
+        }
 
-      this.props.gotoPlace(place);
+        this.props.gotoPlace(place);
+    },
+
+    voiceSearch: function() {
+        var recognition = new webkitSpeechRecognition();
+        var self = this;
+
+        recognition.onresult = function(event) {
+            if (event.results) {
+                self.setState({ searchQuery: event.results[0][0].transcript});
+                self.focus();
+            }
+        };
+
+        recognition.start();
     },
 
     componentDidMount: function() {
@@ -54,10 +69,17 @@ module.exports.Search = React.createClass({
         });
     },
 
+    onSearchChange: function(event) {
+        this.setState({searchQuery: event.target.value});
+    },
+
     render: function() {
         return (
             <div className='InputField SearchField'>
-                <input type='text' placeholder='Search' ref="searchBar" className="Input SearchInput js-field" />
+                <input type='text' placeholder='Search' ref="searchBar" value={this.state.searchQuery}
+                                   onChange={this.onSearchChange}
+                                   className="Input SearchInput js-field" />
+                <button className="microphone" onClick={this.voiceSearch}></button>
             </div>
         )
     }

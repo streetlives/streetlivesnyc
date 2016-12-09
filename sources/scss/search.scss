@@ -7,6 +7,11 @@
   z-index: 10;
 }
 
+.SearchField {
+    display: flex;
+    flex-direction: row;
+}
+
 @media screen and (max-width: 470px) {
     .Map .SearchField {
         width: 80%;
@@ -39,4 +44,18 @@
   &:hover {
     border: 1px solid transparent;
   }
+}
+
+.microphone {
+    background-image: url(/img/lnr-mic.svg);
+    background-size: cover;
+    border: 0px;
+    width: 20px;
+    height: 20px;
+    position: relative;
+    top: -30px;
+    background-color: #ffffff;
+    position: relative;
+    left: -30px;
+    top: 10px;
 }
