@@ -23,15 +23,9 @@
   ],
   "scripts": {
     "test": "./node_modules/.bin/mocha -b test -u tdd  -R spec",
-<<<<<<< HEAD
-    "build": "webpack --progress --colors",
-    "watch": "webpack --progress --colors --watch",
-    "postinstall": "webpack --progress --colors"
-=======
     "watch": "webpack --config webpack.local.config.js --progress --colors --watch",
     "build": "webpack --config webpack.local.config.js --progress --colors",
     "build-production": "webpack --config webpack.prod.config.js --progress --colors"
->>>>>>> f639455... Making local/prod webpack configurations
   },
   "engines": {
     "node": "4.4.2"
