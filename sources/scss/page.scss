@@ -1,80 +1,28 @@
-.Page {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0,0,0, .5);
-  z-index: 1000;
-}
-
-.Page.is-hidden {
-  display: none;
-}
-
-.Page-content {
-  position: relative;
-  width: 700px;
-  height: 500px;
-  background: #FFF;
-  border: 1px solid transparent;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  border-radius: 3px;
-  padding: 25px 10px 20px 20px;
-  box-sizing: border-box;
-}
-
-.Page-inner {
-  width: 100%;
-  height: 450px;
-  font-family: 'Open sans', sans-serif;
-  font-size: 15px;
-  font-weight: 300;
-  overflow: auto;
-}
-
-.Page .scroll-pane {
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-}
-.Page-content p {
-  margin: 0 0 10px 0;
+.StaticPage-container {
+    padding: 100px;
+    overflow-y: scroll;
 }
 
 .StaticPage {
-  margin: 60px 0 0 0;
   text-align: left;
   box-sizing: border-box;
   font-family: 'Open sans', sans-serif;
   font-size: 16px;
   line-height: 1.5;
-  overflow: auto;
-  height: 100%;
-  padding-bottom: 10%;
+
+    p {
+        max-width: 600px;
+    }
 }
 .StaticPage-title {
-  margin: 0 0 10px 0;
   font-weight: bold;
   font-size: 18px;
   color: #333 ;
   line-height: normal;
-}
-.StaticPage p {
-  margin: 0 0 5px 0;
-  max-width: 60%;
-  padding-left: 20%;
-  padding-bottom: 1%;
+  margin-bottom: 30px;
 }
 
 .StaticPage h2{
-  margin: 3% 0 5px 0;
-  max-width: 60%;
-  padding-left: 20%;
-  padding-bottom: 1%;
   text-transform: uppercase;
   letter-spacing: 1px;
   font-size: 32px;
@@ -82,30 +30,19 @@
 }
 
 .StaticPage h3{
-  margin: 0 0 5px 0;
-  max-width: 60%;
-  padding-left: 20%;
-  padding-bottom: 1%;
   font-weight: lighter;
   font-size: 32px;
 }
 
 .StaticPage h4 {
-  margin: 2% 0 -5px 0;
-  max-width: 60%;
-  padding-left: 20%;
-  padding-bottom: 1%;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 1px;
+  margin: 15px 0px;
 }
 
 .StaticPage h5 {
-    margin: 0 0 5px 0;
-    max-width: 40%;
-    padding-left: 20%;
-    padding-bottom: 1%;
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 0.7px;
@@ -114,61 +51,63 @@
 }
 
 .StaticPage a {
-  max-width: 60%;
-  padding-bottom: 1%;
   font-weight: lighter;
   font-size: 12px;
   color: #444444;
-  line-height: 0px;
+  line-height: 0;
+}
+
+
+@media screen and (max-width: 470px) {
+    .StaticPage-container {
+        padding: 20px;
+    }
+
+    .StaticPage h3 {
+        font-size: 24px; 
+    }
+}
+
+.title {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.subtitle {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    margin-top: 10px;
+}
+
+.subheader {
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+.tos-content {
+    font-size: 14px;
+    p {
+        margin-bottom: 20px;
+    }
+    ul {
+        list-style: lower-roman;
+        list-style-position: inside;
+    }
 }
 
 .Outreach {
-  background: transparent url(/img/charities.png) no-repeat; 
-  margin-left: 18%;
-  width: 770px;
-  height: 94px;
-  background-size: cover;
-  background-color: #F8F8F8;  
-  background-blend-mode: multiply;
-  
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    max-width: 450px;
 
+    .social-proof {
+        width: 150px;
+        img {
+            width: 150px; 
+        }
+    }
 }
-
-// li.theBridge  {
-//  background: transparent url(/img/the_bridge_360_BW.png) no-repeat; 
-//  margin-left: 20%;
-//  background-size: 40% 40%;
-//  width: 340px;
-//  height: 110px;
-//  float:left;
-// }
-
-// li.Covenant  {
-//  background: transparent url(/img/covenant_house_360_BW.png) no-repeat; 
-//  margin-left: 20%;
-//  background-size: 40% 40%;
-//  width: 341px;
-//  height: 110px;
-//  display: inline-block;
-// }
-
-// li.MCCNY  {
-//  background: transparent url(/img/mccny.png) no-repeat; 
-//  margin-left: 20%;
-//  background-size: 40% 40%;
-//  width: 341px;
-//  height: 110px;
-//  display: inline;
-// }
-
-// li.Father  {
-//  background: transparent url(/img/father.png) no-repeat; 
-//  margin-left: 20%;
-//  background-size: 40% 40%;
-//  width: 341px;
-//  height: 110px;
-//  display: inline;
-// }
-
-
-

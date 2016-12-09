@@ -1,10 +1,7 @@
 .Header {
   display: flex;
-  position: absolute;
-  top: 0;
-  left: 0;
   flex-direction: row;
-  flex-flow: space-around;
+  //flex-flow: space-around;
   flex-wrap: nowrap;
   align-items: flex-start;
   width: 100%;
@@ -21,10 +18,15 @@
   text-decoration: none;
   text-transform: none;
   font-family: 'Open Sans', sans-serif;
+
+  @media screen and (max-width: 470px) {
+    font-size:16px;
+  }
 }
 .HeaderItems {
   flex: 1;
   text-align: right;
+  margin: none;
 }
 .HeaderItem {
   display: inline-block;
@@ -43,30 +45,11 @@
   text-transform: uppercase;
   font-family: 'Open Sans', sans-serif;
   font-weight: lighter;
-  &:hover {
-    text-decoration: none;
-    cursor: pointer;
-    animation-name: navBar-hover;
-    animation-duration: .3s;
-    color: #00D5A5;
+
+  @media screen and (max-width: 470px) {
+    font-size: 11px;
   }
 }
 .HeaderItem-link.is-selected {
   border: 1px solid #00D5A5;
-}
-
-@keyframes navBar-hover {
-  0% {color: #FFFFFF;}
-  100% {color: #00D5A5;}  
-}
-
-@-webkit-keyframes navBar-hover {
-  0% {color: #FFFFFF;}
-  100% {color: #00D5A5;}
-}
-
-@keyframes btnInfo-hover{
-  0% {background: #00D5A5;}
-  100% {background: #53F9D4;
-  }
 }

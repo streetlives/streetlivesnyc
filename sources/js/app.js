@@ -1,51 +1,60 @@
 'use strict';
 
-var App = SL.View.extend({
-  el: 'body',
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 
-  initialize: function() {
-    this.map = new MapView({ el: this.$('.Map') });
+import { Map } from './map.js';
+import { Categories } from './categories.js';
+import { LocationInformation } from './locationInformation.js';
+import { Header } from './header.js';
+import { About} from './about.js';
+import { Privacy } from './privacy.js';
+import { ContentGuidelines } from './guidelines.js';
+import { TermsOfService } from './tos.js';
 
-    this._setupRouter();
+import { Provider, connect } from 'react-redux';
+import { createStore, compose, combineReducers, bindActionCreators } from 'redux';
+import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
 
-    this.header = new Header({
-      router: this.router
-    });
+import '../scss/reset.scss';
+import '../scss/app.scss';
+import '../scss/font.scss';
+import '../scss/page.scss';
 
-    this.render();
-  },
+const rootReducer = combineReducers({
+    routing: routerReducer
+});
 
+const store = createStore(rootReducer);
+
+const history = syncHistoryWithStore(browserHistory, store);
+
+const App = React.createClass({
   render: function() {
-    this.map.render();
-    this.$el.append(this.header.render().$el);
-  },
-
-  _setupRouter: function() {
-    this.router = new Router();
-
-    this.router.bind('show_about', this._showAbout, this);
-    this.router.bind('show_privacy', this._showPrivacy, this);
-
-    Backbone.history.start({ pushState: true });
-  },
-
-  _showAbout: function() {
-    this.aboutPage = new Page({ text: 'about' });
-    this.aboutPage.bind('close', this._showMap, this);
-    this.aboutPage.open();
-  },
-
-  _showPrivacy: function() {
-    this.privacyPage = new Page({ text: 'privacy' });
-    this.privacyPage.bind('close', this._showMap, this);
-    this.privacyPage.open();
-  },
-
-  _showMap: function() {
-    this.router.navigate('', { trigger: true });
+    return (
+        <div>
+            <Header title='StreetlivesNYC'
+                         url='http://beta.streetlives.nyc'
+                         location={this.props.location}/>
+            {React.cloneElement(this.props.children, this.props)}
+        </div>
+    );
   }
 });
 
-$(function() {
-  window.app = new App();
-});
+ReactDOM.render(
+    <Provider store={store}>
+        <Router history={history}>
+            <Route path="/" component={App}>
+                <IndexRoute component={Map} />
+                <Route path="about" component={About} />
+                <Route path="privacy" component={Privacy} />
+                <Route path="tos" component={TermsOfService} />
+                <Route path="guidelines" component={ContentGuidelines} />
+                <Route path="categories" component={Categories} />
+                <Route path="map" component={Map} />
+            </Route>
+        </Router>
+    </Provider>
+  , document.getElementById('app'));

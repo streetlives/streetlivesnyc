@@ -1,51 +1,86 @@
 'use strict';
 
-var Search = SL.View.extend({
+import React from 'react';
+import { Locations } from './models.js';
+import { Typeahead } from 'react-typeahead';
+import _ from 'lodash';
 
-  className: 'InputField SearchField',
+import '../scss/search.scss';
 
-  initialize: function() {
-    _.bindAll(this, '_onPlaceChange');
+module.exports.Search = React.createClass({
+    focus: function() {
+      var self = this;
 
-    this.template = this._getTemplate('search');
-  },
+      setTimeout(function() {
+        self.refs.searchBar.focus();
+      }, 500);
+    },
 
-  render: function() {
-    this.$el.append(this.template());
+    getInitialState: function() {
+        return {searchQuery: '', locationData: {}};
+    },
 
-    this._initAutoComplete();
-    this._focus();
+    initAutoComplete: function() {
+        var input = this.refs.searchBar;
+       
+        this.autocomplete = new google.maps.places.Autocomplete(input, {
+          componentRestrictions: { country: 'USA' }
+        });
+       
+        google.maps.event.addListener(this.autocomplete, 'place_changed', this.onPlaceChange);
+    },
 
-    return this;
-  },
+    onPlaceChange: function() {
 
-  _onPlaceChange: function() {
+        var place = this.autocomplete.getPlace();
+        this.setState({searchQuery: place.name});
 
-    var place = this.autocomplete.getPlace();
+        if (!place.geometry || !place.geometry.location) {
+            return;
+        }
 
-    if (!place.geometry || !place.geometry.location) {
-      return;
+        this.props.gotoPlace(place);
+    },
+
+    voiceSearch: function() {
+        var recognition = new webkitSpeechRecognition();
+        var self = this;
+
+        recognition.onresult = function(event) {
+            if (event.results) {
+                self.setState({ searchQuery: event.results[0][0].transcript});
+                self.focus();
+            }
+        };
+
+        recognition.start();
+    },
+
+    componentDidMount: function() {
+        this.initAutoComplete();
+        this.focus();
+
+        var locationModel = new Locations();
+        var self = this;
+
+        locationModel.fetch().done(function(data) {
+            var dataDict = _.keyBy(data.rows, 'name');
+            self.setState({locationData: dataDict});
+        });
+    },
+
+    onSearchChange: function(event) {
+        this.setState({searchQuery: event.target.value});
+    },
+
+    render: function() {
+        return (
+            <div className='InputField SearchField'>
+                <input type='text' placeholder='Search' ref="searchBar" value={this.state.searchQuery}
+                                   onChange={this.onSearchChange}
+                                   className="Input SearchInput js-field" />
+                <button className="microphone" onClick={this.voiceSearch}></button>
+            </div>
+        )
     }
-
-    this.trigger('goto_place', place, this);
-  },
-
-  _focus: function() {
-    var self = this;
-
-    setTimeout(function() {
-      self.$('.js-field').focus();
-    }, 500);
-  },
-
-  _initAutoComplete: function() {
-    var input = this.$('.js-field')[0];
-
-    this.autocomplete = new google.maps.places.Autocomplete(input, {
-      componentRestrictions: { country: 'USA' }
-    });
-
-    google.maps.event.addListener(this.autocomplete, 'place_changed', this._onPlaceChange);
-  }
 });
-

@@ -1,3 +1,4 @@
+
 .Dialog {
   position: absolute;
   width: 100%;
@@ -22,9 +23,18 @@
   border: 1px solid transparent;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   border-radius: 3px;
-  padding: 50px 50px 100px 50px;
+  padding-bottom: 20px;
   box-sizing: border-box;
   text-align: center;
+}
+
+.ThanksDialogInner {
+    padding: 20px 50px;
+    width: auto;
+}
+
+.Dialog-message {
+    font-size: 25px;
 }
 
 .Dialog-content {
@@ -64,4 +74,26 @@
   width: 82px;
   height: 82px;
   margin: auto auto 10px auto;
+}
+@media screen and (max-width: 470px) {
+    .Dialog-inner.js-content {
+        width: 300px;
+    }
+
+    .ThanksDialogInner {
+        padding: 20px 20px;
+    }
+
+    div.Dialog-logo {
+        margin: auto auto 20px auto;
+    }
+
+    div.Dialog-content {
+        width: 250px;
+        margin: 0 auto;
+    }
+
+    div.Dialog-message {
+        font-size: 18px;
+    }
 }
