@@ -13,6 +13,7 @@ import '../scss/likes.scss';
 import '../scss/popup.scss';
 import '../scss/button.scss';
 
+const markerFillColor = '#00AA85'
 
 var GeoLocateButton = React.createClass({
     render: function() {
@@ -129,7 +130,7 @@ module.exports.Map = React.createClass({
             style: {
                 marker: {
                     radius: 7,
-                    fillColor: '#F05658',
+                    fillColor: markerFillColor,
                     color: '#FFFFFF',
                     weight: 1.5,
                     opacity: 0.9,
@@ -194,7 +195,7 @@ module.exports.Map = React.createClass({
              'marker-placement: point;' +
              'marker-type: ellipse;' +
              'marker-width: ' + markerWidth + ';' +
-             'marker-fill: #FF6600;' +
+             'marker-fill: ' + markerFillColor + ';' +
                 'marker-allow-overlap: true; }';
         var transparentLocationCSS = '#locations {' +
                 'marker-fill-opacity: 0.0;' +
