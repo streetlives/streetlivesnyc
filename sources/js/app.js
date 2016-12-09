@@ -4,7 +4,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 
-import { MapContainer } from './containers/MapContainer.js';
 import { Map } from './map.js';
 import { Categories } from './categories.js';
 import { LocationInformation } from './locationInformation.js';
