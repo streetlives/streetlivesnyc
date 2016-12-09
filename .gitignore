@@ -9,3 +9,4 @@ deploy
 deploy.conf
 sources/js/react*
 sources/css
+public
