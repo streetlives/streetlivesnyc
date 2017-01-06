@@ -56,7 +56,7 @@ ReactDOM.render(
                 <Route path="tos" component={TermsOfService} />
                 <Route path="guidelines" component={ContentGuidelines} />
                 <Route path="categories" component={Categories} />
-                <Route path="map" component={Map} />
+                <Route path="map" component={MapContainer} />
             </Route>
         </Router>
     </Provider>

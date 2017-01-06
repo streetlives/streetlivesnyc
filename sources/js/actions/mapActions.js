@@ -3,6 +3,11 @@ export const ADD_LOCATION_CLICKED = 'ADD_LOCATION_CLICKED'
 export const ADD_LOCATION_CANCELLED = 'ADD_LOCATION_CANCELLED'
 export const LOCATION_SELECTED = 'LOCATION_SELECTED'
 export const SEARCH_RESULT_SELECTED = 'SEARCH_RESULT_SELECTED'
+export const WELCOME_CLICKED = 'WELCOME_CLICKED'
+
+export function welcomeClicked() {
+    return { type: WELCOME_CLICKED }
+}
 
 export function mapClicked(coords) {
     return { type: MAP_CLICKED, coords }

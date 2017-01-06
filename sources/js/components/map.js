@@ -45,15 +45,6 @@ const SL = {
 
 module.exports.Map = React.createClass({
 
-    showWelcomeDialog() {
-        if (typeof(Storage) !== "undefined" &&
-            sessionStorage.welcomeDialog) {
-            return sessionStorage.welcomeDialog === "false" ? false : true;
-        } else {
-            return true;
-        }
-    },
-
     getInitialState() {
         const model = new Backbone.Model({
             marker: null
@@ -71,7 +62,6 @@ module.exports.Map = React.createClass({
             locationForm: false,
             thanksDialog: false,
             addLocationDialog: false,
-            welcomeDialog: this.showWelcomeDialog(),
             viz: {
                 templateURL: '//<%- username %>.cartodb.com/api/v2/viz/<%-id %>/viz.json'
             },
@@ -439,16 +429,6 @@ module.exports.Map = React.createClass({
         })
     },
 
-    removeWelcomeDialog() {
-        if (typeof(Storage) !== "undefined") {
-            sessionStorage.welcomeDialog = false;
-        }
-
-        this.setState({
-            welcomeDialog: false
-        })
-    },
-
     renderThanksDialog() {
         if (this.state.thanksDialog) {
             return (
@@ -464,9 +444,9 @@ module.exports.Map = React.createClass({
     },
 
     renderWelcomeDialog() {
-        if (this.state.welcomeDialog) {
+        if (this.props.showWelcome) {
             return (
-                <Welcome onClickOK={this.removeWelcomeDialog}/>
+                <WelcomeDialog onClickOK={this.props.welcomeClicked}/>
             )
         } else {
             return null;

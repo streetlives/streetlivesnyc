@@ -1,6 +1,17 @@
-import { MAP_CLICKED, ADD_LOCATION_CLICKED, ADD_LOCATION_CANCELLED, LOCATION_SELECTED, SEARCH_RESULT_SELECTED } from '../actions/mapActions'
+import { MAP_CLICKED, ADD_LOCATION_CLICKED, ADD_LOCATION_CANCELLED, LOCATION_SELECTED,
+         SEARCH_RESULT_SELECTED, WELCOME_CLICKED } from '../actions/mapActions'
+
+function getInitialWelcomeDialog() {
+    if (typeof(Storage) !== "undefined" &&
+        sessionStorage.welcomeDialog) {
+        return sessionStorage.welcomeDialog === "false" ? false : true;
+    } else {
+        return true;
+    }
+}
 
 const initialState = {
+    showWelcome: getInitialWelcomeDialog(),
     showAddLocation: false,
     activeCoords: [],
     showAddLocationInput: false,
@@ -10,19 +21,24 @@ const initialState = {
 
 const map = (state=initialState, action) => {
     switch (action.type) {
+        case WELCOME_CLICKED:
+            if (typeof(Storage) !== "undefined") {
+                sessionStorage.welcomeDialog = false;
+            }
+            return Object.assign({}, state, { showWelcome: false })
         case MAP_CLICKED:
-            return Object.assign(state, {}, { showAddLocation: true,
+            return Object.assign({}, state, { showAddLocation: true,
                                               activeCoords: action.coords })
 
         case ADD_LOCATION_CANCELLED:
-            return Object.assign(state, {}, { showAddLocation: false,
+            return Object.assign({}, state, { showAddLocation: false,
                                               activeCoords: [] })
 
         case ADD_LOCATION_CLICKED:
-            return Object.assign(state, {}, { showAddLocationInput: true,
+            return Object.assign({}, state, { showAddLocationInput: true,
                                               showAddLocation: false })
         case LOCATION_SELECTED:
-            return Object.assign(state, {}, { showLocationDetail: true,
+            return Object.assign({}, state, { showLocationDetail: true,
                                               activeCoords: action.coords })
 
         case SEARCH_RESULT_SELECTED:
@@ -30,3 +46,5 @@ const map = (state=initialState, action) => {
             return state
     }
 }
+
+export default map

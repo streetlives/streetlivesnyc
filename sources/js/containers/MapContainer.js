@@ -1,20 +1,25 @@
 import { connect } from 'react-redux'
-import { mapClicked, addLocationClicked, addLocationCancelled,
+import { welcomeClicked, mapClicked, addLocationClicked, addLocationCancelled,
          locationSelected } from '../actions/mapActions'
 import { Map } from '../components/map.js';
 
 const mapStateToProps = (state) => {
     return {
-        showAddLocation: state.showAddLocation,
-        showAddLocationInput: state.showAddLocationInput,
-        activeCoords: state.activeCoords,
-        showLocationDetail: state.showLocationDetail,
-        detailLocation: state.detailLocation
+        showWelcome: state.map.showWelcome,
+        showAddLocation: state.map.showAddLocation,
+        showAddLocationInput: state.map.showAddLocationInput,
+        activeCoords: state.map.activeCoords,
+        showLocationDetail: state.map.showLocationDetail,
+        detailLocation: state.map.detailLocation
     } 
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        welcomeClicked:() => {
+            dispatch(welcomeClicked())
+        },
+
         mapClicked:(coords) => {
             dispatch(mapClicked(coords))
         },
