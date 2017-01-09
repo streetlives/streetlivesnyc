@@ -212,6 +212,7 @@ module.exports.Map = React.createClass({
     onClickMap: function(e) {
         var geocoder = this.state.geocoder;
         var onFinishedGeocoding = this.onFinishedGeocoding;
+        this.props.mapClicked([e.latlng.lat, e.latlng.lng])
         this.t = setTimeout(function()  {
             var coordinates = [e.latlng.lat, e.latlng.lng];
             var latLng = new google.maps.LatLng(coordinates[0], coordinates[1]);

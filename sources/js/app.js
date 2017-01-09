@@ -15,8 +15,10 @@ import { ContentGuidelines } from './components/guidelines.js';
 import { TermsOfService } from './components/tos.js';
 
 import mapReducer from './reducers/mapReducer'
+import geocodeReducer from './reducers/geocodeReducer'
 import { Provider, connect } from 'react-redux';
-import { createStore, compose, combineReducers, bindActionCreators } from 'redux';
+import { createStore, compose, combineReducers, bindActionCreators, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
 
 import '../scss/reset.scss';
@@ -26,10 +28,11 @@ import '../scss/page.scss';
 
 const rootReducer = combineReducers({
     routing: routerReducer,
-    map: mapReducer
+    map: mapReducer,
+    geocode: geocodeReducer
 });
 
-const store = createStore(rootReducer);
+const store = createStore(rootReducer, applyMiddleware(thunk));
 
 const history = syncHistoryWithStore(browserHistory, store);
 

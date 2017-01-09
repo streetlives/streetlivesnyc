@@ -56,52 +56,61 @@
 	
 	var _reactRouter = __webpack_require__(159);
 	
-	var _map = __webpack_require__(417);
+	var _map = __webpack_require__(221);
 	
-	var _MapContainer = __webpack_require__(424);
+	var _MapContainer = __webpack_require__(371);
 	
 	var _MapContainer2 = _interopRequireDefault(_MapContainer);
 	
-	var _categories = __webpack_require__(426);
+	var _categories = __webpack_require__(399);
 	
-	var _locationInformation = __webpack_require__(421);
+	var _locationInformation = __webpack_require__(232);
 	
-	var _header = __webpack_require__(427);
+	var _header = __webpack_require__(400);
 	
-	var _about = __webpack_require__(428);
+	var _about = __webpack_require__(403);
 	
-	var _privacy = __webpack_require__(429);
+	var _privacy = __webpack_require__(404);
 	
-	var _guidelines = __webpack_require__(430);
+	var _guidelines = __webpack_require__(405);
 	
-	var _tos = __webpack_require__(431);
+	var _tos = __webpack_require__(406);
 	
-	var _mapReducer = __webpack_require__(432);
+	var _mapReducer = __webpack_require__(407);
 	
 	var _mapReducer2 = _interopRequireDefault(_mapReducer);
 	
-	var _reactRedux = __webpack_require__(378);
+	var _geocodeReducer = __webpack_require__(423);
 	
-	var _redux = __webpack_require__(385);
+	var _geocodeReducer2 = _interopRequireDefault(_geocodeReducer);
 	
-	var _reactRouterRedux = __webpack_require__(404);
+	var _reactRedux = __webpack_require__(372);
 	
-	__webpack_require__(409);
+	var _redux = __webpack_require__(379);
 	
-	__webpack_require__(411);
+	var _reduxThunk = __webpack_require__(421);
+	
+	var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
+	
+	var _reactRouterRedux = __webpack_require__(408);
 	
 	__webpack_require__(413);
 	
 	__webpack_require__(415);
 	
+	__webpack_require__(417);
+	
+	__webpack_require__(419);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var rootReducer = (0, _redux.combineReducers)({
 	    routing: _reactRouterRedux.routerReducer,
-	    map: _mapReducer2.default
+	    map: _mapReducer2.default,
+	    geocode: _geocodeReducer2.default
 	});
 	
-	var store = (0, _redux.createStore)(rootReducer);
+	var store = (0, _redux.createStore)(rootReducer, (0, _redux.applyMiddleware)(_reduxThunk2.default));
 	
 	var history = (0, _reactRouterRedux.syncHistoryWithStore)(_reactRouter.browserHistory, store);
 	
@@ -25304,7 +25313,474 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 221 */,
+/* 221 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _backbone = __webpack_require__(222);
+	
+	var _backbone2 = _interopRequireDefault(_backbone);
+	
+	var _addLocationDialog = __webpack_require__(225);
+	
+	var _addLocationDialog2 = _interopRequireDefault(_addLocationDialog);
+	
+	var _welcomeDialog = __webpack_require__(226);
+	
+	var _welcomeDialog2 = _interopRequireDefault(_welcomeDialog);
+	
+	var _models = __webpack_require__(231);
+	
+	var _locationInformation = __webpack_require__(232);
+	
+	var _locationForm = __webpack_require__(346);
+	
+	var _search = __webpack_require__(349);
+	
+	__webpack_require__(363);
+	
+	__webpack_require__(365);
+	
+	__webpack_require__(340);
+	
+	__webpack_require__(367);
+	
+	__webpack_require__(369);
+	
+	__webpack_require__(344);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var markerFillColor = '#00AA85';
+	
+	var GeoLocateButton = _react2.default.createClass({
+	    displayName: 'GeoLocateButton',
+	
+	    render: function render() {
+	        return _react2.default.createElement(
+	            'div',
+	            { className: 'GeoLocateButton', onClick: this.props.onClickGeolocate },
+	            _react2.default.createElement('img', { src: './img/AutoLocation.svg' })
+	        );
+	    }
+	});
+	
+	var _Popup = L.Popup.extend({
+	    initialize: function initialize(options, source) {
+	        this.options.className = 'Popup';
+	        L.setOptions(this, options);
+	        this._source = source;
+	    }
+	});
+	
+	var SL = {
+	    Popup: function Popup(options) {
+	        return new _Popup(options);
+	    }
+	};
+	
+	module.exports.Map = _react2.default.createClass({
+	    displayName: 'Map',
+	    getInitialState: function getInitialState() {
+	        var model = new _backbone2.default.Model({
+	            marker: null
+	        });
+	
+	        var geocoder = new google.maps.Geocoder();
+	
+	        var offerings = new _models.Offerings();
+	        offerings.fetch();
+	
+	        return {
+	            model: model,
+	            geocoder: geocoder,
+	            offerings: offerings,
+	            locationForm: false,
+	            thanksDialog: false,
+	            addLocationDialog: false,
+	            viz: {
+	                templateURL: '//<%- username %>.cartodb.com/api/v2/viz/<%-id %>/viz.json'
+	            },
+	            mapOptions: {
+	                center: [40.74442, -73.970],
+	                zoom: 13,
+	                https: true,
+	                zoomControl: true,
+	                scrollwheel: true,
+	                loaderControl: true,
+	                search: false,
+	                shareable: false
+	            },
+	            style: {
+	                marker: {
+	                    radius: 7,
+	                    fillColor: markerFillColor,
+	                    color: '#FFFFFF',
+	                    weight: 1.5,
+	                    opacity: 0.9,
+	                    fillOpacity: 1
+	                }
+	            }
+	        };
+	    },
+	    componentDidMount: function componentDidMount() {
+	        var url = this._getVizJSONURL();
+	        var options = this.state.mapOptions;
+	
+	        cartodb.createVis('map', url, options).done(this.onVisLoaded);
+	    },
+	    isMobile: function isMobile() {
+	        if (navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/webOS/i) || navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/BlackBerry/i) || navigator.userAgent.match(/Windows Phone/i)) {
+	            return true;
+	        } else {
+	            return false;
+	        }
+	    },
+	    onVisLoaded: function onVisLoaded(vis, layers) {
+	        var _this = this;
+	
+	        var layer = layers[1];
+	        layer.setInteraction(true);
+	        var query = "SELECT l.*, string_agg(o.name, ', ') as offerings " + "FROM locations AS l " + "LEFT OUTER JOIN locations_offerings AS lo ON lo.location_id = l.cartodb_id " + "LEFT OUTER JOIN offerings as o ON o.cartodb_id = lo.offering_id " + (this.props.location.query.categories ? 'WHERE o.cartodb_id in (' + this.props.location.query.categories + ') ' : "") + "GROUP BY l.cartodb_id";
+	        layer.setQuery(query);
+	
+	        layer.on('mouseover', this.onMouseOver);
+	        layer.on('mouseout', this.onMouseOut);
+	        layer.on('featureClick', this.onFeatureClick);
+	
+	        var sublayer = layer.getSubLayer(0);
+	        sublayer.setInteraction(true);
+	        sublayer.setInteractivity('cartodb_id, name, description, offerings, address');
+	
+	        var markerWidth = this.isMobile() ? 20 : 10;
+	        var transparentMarkerWidth = this.isMobile() ? 40 : 20;
+	        var locationCSS = '#locations {' + 'marker-fill-opacity: 0.9;' + 'marker-line-color: #FFF;' + 'marker-line-width: 1;' + 'marker-line-opacity: 1;' + 'marker-placement: point;' + 'marker-type: ellipse;' + 'marker-width: ' + markerWidth + ';' + 'marker-fill: ' + markerFillColor + ';' + 'marker-allow-overlap: true; }';
+	        var transparentLocationCSS = '#locations {' + 'marker-fill-opacity: 0.0;' + 'marker-line-color: #111;' + 'marker-type: ellipse;' + 'marker-placement: point;' + 'market-line-width: 0' + 'marker-width: ' + transparentMarkerWidth + ';' + 'marker-allow-overlap: true; }';
+	
+	        sublayer.setCartoCSS(locationCSS);
+	
+	        //TODO: fix this
+	        sublayer.on('featureClick', function (e, latlng, pos, data) {
+	            e.preventDefault();
+	            e.stopPropagation();
+	        });
+	
+	        this.map = vis.getNativeMap();
+	
+	        cartodb.createLayer(this.map, {
+	            user_name: 'streetlivesnyc',
+	            type: 'cartodb',
+	            sublayers: [{
+	                sql: query,
+	                cartocss: transparentLocationCSS
+	            }]
+	        }).done(function (layer) {
+	            layer.on('mouseover', _this.onMouseOver);
+	            layer.on('mouseout', _this.onMouseOut);
+	            layer.on('featureClick', _this.onFeatureClick);
+	            layer.setInteraction(true);
+	            layer.setInteractivity('cartodb_id, name, description, offerings, address');
+	            layer.addTo(_this.map);
+	        });
+	
+	        this.map.on('click', this.onClickMap);
+	    },
+	
+	
+	    onMouseOut: function onMouseOut() {
+	        $('.leaflet-container').css('cursor', 'auto');
+	    },
+	
+	    onMouseOver: function onMouseOver() {
+	        $('.leaflet-container').css('cursor', 'pointer');
+	    },
+	
+	    onFeatureClick: function onFeatureClick(e, latlng, pos, data) {
+	        e.preventDefault();
+	        e.stopPropagation();
+	
+	        if (this.t) {
+	            clearTimeout(this.t);
+	        }
+	
+	        this.map.closePopup();
+	
+	        this.setState({
+	            locationInformation: data,
+	            addLocationDialog: false
+	        });
+	    },
+	
+	    onClickMap: function onClickMap(e) {
+	        var geocoder = this.state.geocoder;
+	        var onFinishedGeocoding = this.onFinishedGeocoding;
+	        this.props.mapClicked([e.latlng.lat, e.latlng.lng]);
+	        this.t = setTimeout(function () {
+	            var coordinates = [e.latlng.lat, e.latlng.lng];
+	            var latLng = new google.maps.LatLng(coordinates[0], coordinates[1]);
+	
+	            geocoder.geocode({ 'latLng': latLng }, function (results, status) {
+	                onFinishedGeocoding(coordinates, null, results, status);
+	            });
+	        }, 250);
+	    },
+	
+	    onFinishedGeocoding: function onFinishedGeocoding(coordinates, place, results, status) {
+	        if (!this.state.locationInformation && status === google.maps.GeocoderStatus.OK) {
+	            if (results && results.length > 0) {
+	                var address = results[0].formatted_address;
+	                var name = place ? place.name : null;
+	                this.state.model.set({ name: name, coordinates: coordinates, address: address });
+	                this._addMarker(coordinates);
+	            }
+	        }
+	    },
+	
+	    _addMarker: function _addMarker(coordinates) {
+	        if (this.isMobile()) {
+	            this.setState({
+	                addLocationDialog: true
+	            });
+	        } else {
+	            var style = this.state.style.marker;
+	            var name = this.state.model.get('name');
+	            var nameString = name ? name + ', ' : '';
+	            var address = this.state.model.get('address');
+	
+	            var content = '<p>' + '<strong class="Popup-addressName">' + nameString + address + '</strong>' + '<br/>' + 'is not part of Streetlives yet. ' + 'Do you want to add this location to the map?' + '</p>' + '<button class="Button Button--addLocationSmall js-add-location">' + 'Add location' + '</button>';
+	
+	            var panCoords = this.isMobile() ? [0, 150] : [10, 75];
+	            this.popup = SL.Popup({ autoPanPaddingTopLeft: panCoords, offset: [0, -5] }).setLatLng(coordinates).setContent(content).openOn(this.map);
+	
+	            var self = this;
+	
+	            this.popup.on('close', function () {
+	                self.map.removeLayer(self.currentMarker);
+	            });
+	
+	            this.currentMarker = L.circleMarker(coordinates, style);
+	            this.currentMarker.addTo(this.map);
+	
+	            /**
+	             * This element is INSIDE the content of the popup generated from the template. No better
+	             * ideas on how to attach the handler to it. Hopefully React/leaflet thing can help here.
+	             */
+	            $('.js-add-location').click(this.onClickAddLocation);
+	        }
+	    },
+	
+	    onClickAddLocation: function onClickAddLocation(e) {
+	        this._killEvent(e);
+	        this.map.removeLayer(this.popup);
+	
+	        this.setState({
+	            locationForm: true
+	        });
+	        console.log(this.state);
+	    },
+	
+	    onClickAddLocationFromReactPopup: function onClickAddLocationFromReactPopup(e) {
+	        this._killEvent(e);
+	
+	        this.removeAddLocationDialog();
+	        this.setState({
+	            locationForm: true
+	        });
+	        console.log(this.state);
+	    },
+	
+	    _killEvent: function _killEvent(e) {
+	        if (e) {
+	            if (e.preventDefault) {
+	                e.preventDefault();
+	            }
+	            if (e.stopPropagation) {
+	                e.stopPropagation();
+	            }
+	        }
+	    },
+	
+	    onKeyUp: function onKeyUp(e) {
+	        if (e.keyCode === 27) {
+	            this.map.closePopup();
+	        }
+	    },
+	
+	    onAddLocation: function onAddLocation() {
+	        var marker = L.circleMarker(this.state.model.get('coordinates'), this.state.style.marker);
+	
+	        marker.on('click', function () {
+	            console.log('click');
+	        });
+	
+	        marker.addTo(this.map);
+	
+	        this.setState({
+	            thanksDialog: true
+	        });
+	
+	        this._removeCurrentSelection();
+	    },
+	
+	    _removeCurrentSelection: function _removeCurrentSelection() {
+	        if (this.currentMarker) {
+	            this.map.removeLayer(this.currentMarker);
+	            this.state.model.set({ address: null });
+	            this.setState({
+	                locationForm: false
+	            });
+	        }
+	    },
+	
+	    _reconcileCoordinates: function _reconcileCoordinates(coordinates) {
+	        var locationModel = new _models.Locations();
+	        var self = this;
+	        locationModel.fetch({ data: $.param({ address: coordinates }) }).done(function (data) {
+	            if (data.rows.length > 0) {
+	                self.setState({
+	                    locationInformation: data.rows[0]
+	                });
+	            } else {
+	                self._addMarker(coordinates);
+	            }
+	        });
+	    },
+	
+	
+	    _gotoPlace: function _gotoPlace(place) {
+	        var coordinates = [place.geometry.location.lat(), place.geometry.location.lng()];
+	        var latLng = new google.maps.LatLng(coordinates[0], coordinates[1]);
+	
+	        var self = this;
+	        this.map.panTo(coordinates);
+	
+	        var model = this.state.model;
+	        setTimeout(function () {
+	            model.set({
+	                name: place.name,
+	                address: place.formatted_address
+	            });
+	            self._reconcileCoordinates(coordinates);
+	        }, 500);
+	    },
+	
+	    _getVizJSONURL: function _getVizJSONURL() {
+	        var tpl = _.template(this.state.viz.templateURL);
+	
+	        return tpl({
+	            id: window.Config.map_id,
+	            username: window.Config.username
+	        });
+	    },
+	    removeLocationForm: function removeLocationForm() {
+	        this.setState({
+	            locationForm: false
+	        });
+	    },
+	    removeLocationInformation: function removeLocationInformation(addedNewComment) {
+	        this.setState({
+	            locationInformation: null,
+	            thanksDialog: typeof addedNewcomment === 'boolean' ? addedNewComment : false
+	        });
+	    },
+	    renderLocationInformation: function renderLocationInformation() {
+	        if (this.state.locationInformation) {
+	            return _react2.default.createElement(_locationInformation.LocationInformation, { options: this.state.locationInformation,
+	                onClickClose: this.removeLocationInformation });
+	        }
+	    },
+	    renderLocationForm: function renderLocationForm() {
+	        if (this.state.locationForm) {
+	            return _react2.default.createElement(_locationForm.LocationForm, { onAddLocation: this.onAddLocation,
+	                onClickCancel: this.removeLocationForm,
+	                offerings: this.state.offerings,
+	                name: this.state.model.get('name'),
+	                coordinates: this.state.model.get('coordinates'),
+	                address: this.state.model.get('address')
+	            });
+	        } else {
+	            return null;
+	        }
+	    },
+	    removeThanksDialog: function removeThanksDialog() {
+	        this.setState({
+	            thanksDialog: false
+	        });
+	    },
+	    renderThanksDialog: function renderThanksDialog() {
+	        if (this.state.thanksDialog) {
+	            return _react2.default.createElement(_addLocationDialog2.default, { onClickOk: this.removeThanksDialog,
+	                onClickClose: this.removeThanksDialog,
+	                title: 'Thank your for helping the community with your knowledge',
+	                text: '',
+	                ok_button: 'Ok, thanks' });
+	        } else {
+	            return null;
+	        }
+	    },
+	    renderWelcomeDialog: function renderWelcomeDialog() {
+	        if (this.props.showWelcome) {
+	            return _react2.default.createElement(_welcomeDialog2.default, { onClickOK: this.props.welcomeClicked });
+	        } else {
+	            return null;
+	        }
+	    },
+	    removeAddLocationDialog: function removeAddLocationDialog() {
+	        this.setState({
+	            addLocationDialog: false
+	        });
+	    },
+	    renderAddLocationDialog: function renderAddLocationDialog() {
+	        var name = this.state.model.get('name');
+	        var nameString = name ? name + ', ' : '';
+	        var address = this.state.model.get('address');
+	
+	        if (this.state.addLocationDialog) {
+	            return _react2.default.createElement(_addLocationDialog2.default, { name: nameString, address: address,
+	                onClickAddLocation: this.onClickAddLocationFromReactPopup,
+	                onClickClose: this.removeAddLocationDialog });
+	        } else {
+	            return null;
+	        }
+	    },
+	
+	
+	    _onClickGeolocate: function _onClickGeolocate() {
+	        var _this2 = this;
+	
+	        if (navigator.geolocation) {
+	            navigator.geolocation.getCurrentPosition(function (position) {
+	                _this2.map.panTo([position.coords.latitude, position.coords.longitude]);
+	                _this2.map.setZoom(16);
+	            });
+	        }
+	    },
+	
+	    render: function render() {
+	        return _react2.default.createElement(
+	            'div',
+	            { onkeyup: this.onKeyUp },
+	            _react2.default.createElement(
+	                'div',
+	                { id: 'map', className: 'Map' },
+	                _react2.default.createElement(_search.Search, { gotoPlace: this._gotoPlace })
+	            ),
+	            this.renderLocationForm(),
+	            this.renderLocationInformation(),
+	            this.renderThanksDialog(),
+	            this.renderWelcomeDialog(),
+	            this.renderAddLocationDialog(),
+	            _react2.default.createElement(GeoLocateButton, { onClickGeolocate: this._onClickGeolocate })
+	        );
+	    }
+	});
+
+/***/ },
 /* 222 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -38634,9 +39110,649 @@
 
 
 /***/ },
-/* 225 */,
-/* 226 */,
+/* 225 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var AddLocationDialog = _react2.default.createClass({
+	    displayName: "AddLocationDialog",
+	    render: function render() {
+	        return _react2.default.createElement(
+	            "div",
+	            { className: "Dialog" },
+	            _react2.default.createElement(
+	                "div",
+	                { className: "Dialog-inner js-content" },
+	                _react2.default.createElement(
+	                    "button",
+	                    { className: "Button--close js-cancel",
+	                        onClick: this.props.onClickClose },
+	                    "✕"
+	                ),
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "Dialog-content" },
+	                    _react2.default.createElement(
+	                        "p",
+	                        null,
+	                        _react2.default.createElement(
+	                            "strong",
+	                            { className: "Popup-addressName" },
+	                            this.props.nameString,
+	                            " ",
+	                            this.props.address
+	                        ),
+	                        _react2.default.createElement("br", null),
+	                        "is not part of Streetlives yet. Do you want to add this location to the map?"
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    "button",
+	                    { className: "Button Button--addLocationSmall js-add-location",
+	                        onClick: this.props.onClickAddLocation },
+	                    "Add location"
+	                )
+	            )
+	        );
+	    }
+	});
+	
+	exports.default = AddLocationDialog;
+
+/***/ },
+/* 226 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	__webpack_require__(227);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var WelcomeDialog = _react2.default.createClass({
+	    displayName: 'WelcomeDialog',
+	    render: function render() {
+	        return _react2.default.createElement(
+	            'div',
+	            { className: 'Welcome Dialog' },
+	            _react2.default.createElement(
+	                'div',
+	                { className: 'Welcome-inner Dialog-inner' },
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'Welcome-content Dialog-content' },
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'Welcome-title' },
+	                        'Welcome to StreetlivesNYC:'
+	                    ),
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'Welcome-subtitle' },
+	                        'Your city, your map, your voice.'
+	                    ),
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'Welcome-message' },
+	                        'StreetlivesNYC is a map providing information for and from the Homeless population of New York City. Look for what you need or post what you know.'
+	                    ),
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'Button-container' },
+	                        _react2.default.createElement(
+	                            'button',
+	                            { onClick: this.props.onClickOK, className: 'Button js-ok' },
+	                            'OK, thanks'
+	                        )
+	                    )
+	                )
+	            )
+	        );
+	    }
+	});
+	
+	exports.default = WelcomeDialog;
+
+/***/ },
 /* 227 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 228 */,
+/* 229 */,
+/* 230 */,
+/* 231 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var _backbone = __webpack_require__(222);
+	
+	var _backbone2 = _interopRequireDefault(_backbone);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	module.exports.Comment = _backbone2.default.Model.extend({
+	  validate: function validate(attrs, options) {
+	    if (!attrs.comment && attrs.liked == null) {
+	      return 'comment';
+	    }
+	  }
+	});
+	
+	module.exports.Comments = _backbone2.default.Collection.extend({
+	  model: module.exports.Comment,
+	  url: '/comments',
+	
+	  parse: function parse(response) {
+	    return response.rows;
+	  }
+	});
+	
+	module.exports.Likes = _backbone2.default.Collection.extend({
+	  url: '/likes',
+	
+	  parse: function parse(response) {
+	    return response.rows;
+	  }
+	});
+	
+	module.exports.Offering = _backbone2.default.Model.extend();
+	
+	module.exports.Offerings = _backbone2.default.Collection.extend({
+	  model: module.exports.Offering,
+	  url: '/offerings',
+	
+	  parse: function parse(response) {
+	    return response.rows;
+	  }
+	});
+	
+	module.exports.Location = _backbone2.default.Model.extend({
+	  url: '/location',
+	  defaults: {
+	    offerings: '',
+	    address: '',
+	    name: ''
+	  },
+	  validate: function validate(attrs, options) {
+	    if (!attrs.name) {
+	      return 'name';
+	    }
+	  }
+	});
+	
+	module.exports.Locations = _backbone2.default.Model.extend({
+	  url: '/locations',
+	  parse: function parse(response) {
+	    return response.rows;
+	  }
+	});
+
+/***/ },
+/* 232 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _moment = __webpack_require__(233);
+	
+	var _moment2 = _interopRequireDefault(_moment);
+	
+	var _models = __webpack_require__(231);
+	
+	__webpack_require__(336);
+	
+	__webpack_require__(338);
+	
+	__webpack_require__(340);
+	
+	__webpack_require__(342);
+	
+	__webpack_require__(344);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var CommentComponent = _react2.default.createClass({
+	    displayName: 'CommentComponent',
+	
+	
+	    renderUsername: function renderUsername() {
+	        if (this.props.comment.username) {
+	            return _react2.default.createElement(
+	                'div',
+	                { className: 'CommentList-username' },
+	                this.props.comment.username
+	            );
+	        }
+	    },
+	
+	    render: function render() {
+	        return _react2.default.createElement(
+	            'div',
+	            { className: 'CommentList-item' },
+	            _react2.default.createElement(
+	                'p',
+	                null,
+	                _react2.default.createElement(
+	                    'span',
+	                    { className: 'CommentList-itemDate' },
+	                    (0, _moment2.default)(this.props.comment.created_at).format('MMMM Do YYYY')
+	                ),
+	                this.props.comment.comment,
+	                this.renderUsername()
+	            )
+	        );
+	    }
+	});
+	
+	var LikesComponent = _react2.default.createClass({
+	    displayName: 'LikesComponent',
+	
+	
+	    getInitialState: function getInitialState() {
+	        return {
+	            likes: 0,
+	            dislikes: 0,
+	            total: 0
+	        };
+	    },
+	
+	    updateLikes: function updateLikes(likes) {
+	        likes = likes.at(0);
+	        if (likes) {
+	            this.setState({
+	                likes: likes.attributes.likes,
+	                dislikes: likes.attributes.dislikes,
+	                total: likes.attributes.total
+	            });
+	        }
+	    },
+	
+	    componentDidMount: function componentDidMount() {
+	        var likes = new _models.Likes();
+	        likes.fetch({
+	            data: { location_id: this.props.location_id },
+	            success: this.updateLikes
+	        });
+	    },
+	
+	    render: function render() {
+	        return _react2.default.createElement(
+	            'div',
+	            { className: 'LikesList' },
+	            _react2.default.createElement(
+	                'div',
+	                { className: 'LikesList-item' },
+	                _react2.default.createElement(
+	                    'span',
+	                    { className: 'LikesList-item--like' },
+	                    this.state.likes
+	                )
+	            ),
+	            _react2.default.createElement(
+	                'div',
+	                { className: 'LikesList-item' },
+	                _react2.default.createElement(
+	                    'span',
+	                    { className: 'LikesList-item--dislike' },
+	                    this.state.dislikes
+	                )
+	            ),
+	            _react2.default.createElement(
+	                'div',
+	                { className: 'LikesList-item' },
+	                _react2.default.createElement(
+	                    'span',
+	                    { className: 'LikesList-item--total' },
+	                    this.state.total
+	                )
+	            )
+	        );
+	    }
+	});
+	
+	var CommentForm = _react2.default.createClass({
+	    displayName: 'CommentForm',
+	
+	
+	    getInitialState: function getInitialState() {
+	        return {
+	            liked: 'neither',
+	            typedStuff: false
+	        };
+	    },
+	
+	    typedComments: function typedComments() {
+	        if (this.refs.comment_text.value !== "") {
+	            this.setState({
+	                typedStuff: true
+	            });
+	        } else {
+	            this.setState({
+	                typedStuff: false
+	            });
+	        }
+	    },
+	
+	    liked: function liked() {
+	        this.setState({
+	            liked: true
+	        });
+	    },
+	
+	    disliked: function disliked() {
+	        this.setState({
+	            liked: false
+	        });
+	    },
+	
+	    addComment: function addComment() {
+	        var newComment = new _models.Comment({
+	            location_id: this.props.location_id,
+	            comment: this.refs.comment_text.value,
+	            username: this.refs.username.value,
+	            liked: this.state.liked === 'neither' ? null : this.state.liked
+	        });
+	        this.props.addComment(newComment);
+	    },
+	
+	    render: function render() {
+	        var placeholder = "Feel free to add tips, warnings, comments or review about " + this.props.name;
+	        var buttonClass = this.state.typedStuff ? "Button js-ok" : "Button is-disabled js-ok";
+	
+	        var likeButtonClass;
+	        var dislikeButtonClass;
+	        if (this.state.liked === true) {
+	            likeButtonClass = "LikeButton js-like is-selected";
+	            dislikeButtonClass = "LikeButton LikeButton--dislike js-like";
+	        } else if (this.state.liked === false) {
+	            likeButtonClass = "LikeButton js-like";
+	            dislikeButtonClass = "LikeButton LikeButton--dislike js-like is-selected";
+	        } else {
+	            likeButtonClass = "LikeButton js-like";
+	            dislikeButtonClass = "LikeButton LikeButton--dislike js-like";
+	        }
+	
+	        return _react2.default.createElement(
+	            'div',
+	            { className: 'Comments-form' },
+	            _react2.default.createElement(
+	                'label',
+	                { className: 'LocationInformation-label' },
+	                'Add something to the conversation!'
+	            ),
+	            _react2.default.createElement(
+	                'div',
+	                { className: 'InputField InputField-area js-field' },
+	                _react2.default.createElement('textarea', { placeholder: placeholder,
+	                    className: 'Input InputArea js-comment',
+	                    ref: 'comment_text',
+	                    onChange: this.typedComments })
+	            ),
+	            _react2.default.createElement(
+	                'div',
+	                { className: 'LocationForm-field' },
+	                _react2.default.createElement(
+	                    'label',
+	                    { className: 'LocationForm-label' },
+	                    'Your name or initials (optional)'
+	                ),
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'InputField js-field' },
+	                    _react2.default.createElement('input', { type: 'text', className: 'Input js-username', ref: 'username' })
+	                )
+	            ),
+	            _react2.default.createElement(
+	                'div',
+	                { className: 'LikeButtons' },
+	                _react2.default.createElement(
+	                    'p',
+	                    { className: 'LikeButtons-title' },
+	                    'Would you recommend this location to others?'
+	                ),
+	                _react2.default.createElement(
+	                    'ul',
+	                    { className: 'LikeButtons-list' },
+	                    _react2.default.createElement(
+	                        'li',
+	                        { className: 'LikeButtons-listItem' },
+	                        _react2.default.createElement(
+	                            'button',
+	                            { className: likeButtonClass,
+	                                'data-value': '1',
+	                                onClick: this.liked },
+	                            _react2.default.createElement(
+	                                'p',
+	                                { className: 'LikeButtons-response' },
+	                                'Yes'
+	                            )
+	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        'li',
+	                        { className: 'LikeButtons-listItem' },
+	                        _react2.default.createElement(
+	                            'button',
+	                            { className: dislikeButtonClass,
+	                                'data-value': '0',
+	                                onClick: this.disliked },
+	                            _react2.default.createElement(
+	                                'p',
+	                                { className: 'LikeButtons-response' },
+	                                'No'
+	                            )
+	                        )
+	                    )
+	                )
+	            ),
+	            _react2.default.createElement(
+	                'button',
+	                { className: buttonClass, onClick: this.addComment },
+	                'Add comment'
+	            )
+	        );
+	    }
+	});
+	
+	var CommentsComponent = _react2.default.createClass({
+	    displayName: 'CommentsComponent',
+	
+	    getInitialState: function getInitialState() {
+	        return {
+	            comments: new _models.Comments()
+	        };
+	    },
+	
+	    updateComments: function updateComments(comments) {
+	        this.setState({
+	            comments: comments
+	        });
+	    },
+	
+	    addComment: function addComment(newComment) {
+	        this.state.comments.add(newComment);
+	        var onClickClose = this.props.onClickClose;
+	        newComment.save({}, {
+	            success: function success() {
+	                onClickClose(true);
+	            }
+	        });
+	    },
+	
+	    componentDidMount: function componentDidMount() {
+	        this.state.comments.fetch({
+	            data: { location_id: this.props.location_id },
+	            success: this.updateComments
+	        });
+	    },
+	
+	    renderComments: function renderComments() {
+	        var comments = [];
+	        this.state.comments.each(function (model) {
+	            comments.push(_react2.default.createElement(CommentComponent, { comment: model.attributes,
+	                key: model.attributes.cartodb_id }));
+	        });
+	        return comments;
+	    },
+	
+	    render: function render() {
+	        return _react2.default.createElement(
+	            'div',
+	            { className: 'Comments' },
+	            _react2.default.createElement(
+	                'div',
+	                { className: 'Comments-inner' },
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'Comments-content js-comments' },
+	                    _react2.default.createElement(
+	                        'label',
+	                        { className: 'LocationInformation-label' },
+	                        'Comments'
+	                    ),
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'js-likes' },
+	                        _react2.default.createElement(LikesComponent, { location_id: this.props.location_id })
+	                    ),
+	                    _react2.default.createElement(
+	                        'ul',
+	                        { className: 'CommentList js-comment-list scroll-pane' },
+	                        this.renderComments()
+	                    )
+	                ),
+	                _react2.default.createElement(CommentForm, { name: this.props.name,
+	                    location_id: this.props.location_id,
+	                    addComment: this.addComment })
+	            )
+	        );
+	    }
+	});
+	
+	module.exports.LocationInformation = _react2.default.createClass({
+	    displayName: 'LocationInformation',
+	
+	
+	    getInitialState: function getInitialState() {
+	        return {
+	            location: new _models.Location(this.props.options),
+	            title: 'Add location'
+	        };
+	    },
+	
+	    renderOfferings: function renderOfferings() {
+	        if (this.props.options.offerings) {
+	            return _react2.default.createElement(
+	                'div',
+	                { className: 'LocationInformation-field' },
+	                _react2.default.createElement(
+	                    'label',
+	                    { className: 'LocationInformation-label' },
+	                    'Can offer help with'
+	                ),
+	                _react2.default.createElement(
+	                    'p',
+	                    null,
+	                    this.props.options.offerings
+	                )
+	            );
+	        } else {
+	            return null;
+	        }
+	    },
+	
+	    renderDescription: function renderDescription() {
+	        if (this.props.options.description) {
+	            return _react2.default.createElement(
+	                'div',
+	                { className: 'LocationInformation-field' },
+	                _react2.default.createElement(
+	                    'label',
+	                    { className: 'LocationInformation-label' },
+	                    'Description and tips'
+	                ),
+	                _react2.default.createElement('p', { className: 'js-description',
+	                    dangerouslySetInnerHTML: { __html: this.props.options.description } })
+	            );
+	        } else {
+	            return null;
+	        }
+	    },
+	
+	    render: function render() {
+	        return _react2.default.createElement(
+	            'div',
+	            { className: 'LocationInformation' },
+	            _react2.default.createElement(
+	                'div',
+	                { className: 'LocationInformation-inner js-content' },
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'LocationInformation-content' },
+	                    _react2.default.createElement(
+	                        'button',
+	                        { className: 'Button--close js-cancel',
+	                            onClick: this.props.onClickClose },
+	                        '✕'
+	                    ),
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'LocationInformation-title' },
+	                        _react2.default.createElement(
+	                            'h2',
+	                            { className: 'LocationInformation-name' },
+	                            this.props.options.name
+	                        ),
+	                        _react2.default.createElement(
+	                            'h4',
+	                            { className: 'LocationInformation-address' },
+	                            this.props.options.address
+	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'LocationInformation-fields js-fields' },
+	                        this.renderOfferings(),
+	                        this.renderDescription(),
+	                        _react2.default.createElement(CommentsComponent, { name: this.props.options.name,
+	                            location_id: this.props.options.cartodb_id,
+	                            onClickClose: this.props.onClickClose })
+	                    )
+	                )
+	            )
+	        );
+	    }
+	});
+
+/***/ },
+/* 233 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {//! moment.js
@@ -39037,7 +40153,7 @@
 	                module && module.exports) {
 	            try {
 	                oldLocale = globalLocale._abbr;
-	                __webpack_require__(229)("./" + name);
+	                __webpack_require__(235)("./" + name);
 	                // because defineLocale currently also sets the global locale, we
 	                // want to undo that for lazy loaded locales
 	                locale_locales__getSetGlobalLocale(oldLocale);
@@ -42679,10 +43795,10 @@
 	    return _moment;
 	
 	}));
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(228)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(234)(module)))
 
 /***/ },
-/* 228 */
+/* 234 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
@@ -42698,210 +43814,210 @@
 
 
 /***/ },
-/* 229 */
+/* 235 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var map = {
-		"./af": 230,
-		"./af.js": 230,
-		"./ar": 231,
-		"./ar-ma": 232,
-		"./ar-ma.js": 232,
-		"./ar-sa": 233,
-		"./ar-sa.js": 233,
-		"./ar-tn": 234,
-		"./ar-tn.js": 234,
-		"./ar.js": 231,
-		"./az": 235,
-		"./az.js": 235,
-		"./be": 236,
-		"./be.js": 236,
-		"./bg": 237,
-		"./bg.js": 237,
-		"./bn": 238,
-		"./bn.js": 238,
-		"./bo": 239,
-		"./bo.js": 239,
-		"./br": 240,
-		"./br.js": 240,
-		"./bs": 241,
-		"./bs.js": 241,
-		"./ca": 242,
-		"./ca.js": 242,
-		"./cs": 243,
-		"./cs.js": 243,
-		"./cv": 244,
-		"./cv.js": 244,
-		"./cy": 245,
-		"./cy.js": 245,
-		"./da": 246,
-		"./da.js": 246,
-		"./de": 247,
-		"./de-at": 248,
-		"./de-at.js": 248,
-		"./de.js": 247,
-		"./dv": 249,
-		"./dv.js": 249,
-		"./el": 250,
-		"./el.js": 250,
-		"./en-au": 251,
-		"./en-au.js": 251,
-		"./en-ca": 252,
-		"./en-ca.js": 252,
-		"./en-gb": 253,
-		"./en-gb.js": 253,
-		"./en-ie": 254,
-		"./en-ie.js": 254,
-		"./en-nz": 255,
-		"./en-nz.js": 255,
-		"./eo": 256,
-		"./eo.js": 256,
-		"./es": 257,
-		"./es.js": 257,
-		"./et": 258,
-		"./et.js": 258,
-		"./eu": 259,
-		"./eu.js": 259,
-		"./fa": 260,
-		"./fa.js": 260,
-		"./fi": 261,
-		"./fi.js": 261,
-		"./fo": 262,
-		"./fo.js": 262,
-		"./fr": 263,
-		"./fr-ca": 264,
-		"./fr-ca.js": 264,
-		"./fr-ch": 265,
-		"./fr-ch.js": 265,
-		"./fr.js": 263,
-		"./fy": 266,
-		"./fy.js": 266,
-		"./gd": 267,
-		"./gd.js": 267,
-		"./gl": 268,
-		"./gl.js": 268,
-		"./he": 269,
-		"./he.js": 269,
-		"./hi": 270,
-		"./hi.js": 270,
-		"./hr": 271,
-		"./hr.js": 271,
-		"./hu": 272,
-		"./hu.js": 272,
-		"./hy-am": 273,
-		"./hy-am.js": 273,
-		"./id": 274,
-		"./id.js": 274,
-		"./is": 275,
-		"./is.js": 275,
-		"./it": 276,
-		"./it.js": 276,
-		"./ja": 277,
-		"./ja.js": 277,
-		"./jv": 278,
-		"./jv.js": 278,
-		"./ka": 279,
-		"./ka.js": 279,
-		"./kk": 280,
-		"./kk.js": 280,
-		"./km": 281,
-		"./km.js": 281,
-		"./ko": 282,
-		"./ko.js": 282,
-		"./ky": 283,
-		"./ky.js": 283,
-		"./lb": 284,
-		"./lb.js": 284,
-		"./lo": 285,
-		"./lo.js": 285,
-		"./lt": 286,
-		"./lt.js": 286,
-		"./lv": 287,
-		"./lv.js": 287,
-		"./me": 288,
-		"./me.js": 288,
-		"./mk": 289,
-		"./mk.js": 289,
-		"./ml": 290,
-		"./ml.js": 290,
-		"./mr": 291,
-		"./mr.js": 291,
-		"./ms": 292,
-		"./ms-my": 293,
-		"./ms-my.js": 293,
-		"./ms.js": 292,
-		"./my": 294,
-		"./my.js": 294,
-		"./nb": 295,
-		"./nb.js": 295,
-		"./ne": 296,
-		"./ne.js": 296,
-		"./nl": 297,
-		"./nl.js": 297,
-		"./nn": 298,
-		"./nn.js": 298,
-		"./pa-in": 299,
-		"./pa-in.js": 299,
-		"./pl": 300,
-		"./pl.js": 300,
-		"./pt": 301,
-		"./pt-br": 302,
-		"./pt-br.js": 302,
-		"./pt.js": 301,
-		"./ro": 303,
-		"./ro.js": 303,
-		"./ru": 304,
-		"./ru.js": 304,
-		"./se": 305,
-		"./se.js": 305,
-		"./si": 306,
-		"./si.js": 306,
-		"./sk": 307,
-		"./sk.js": 307,
-		"./sl": 308,
-		"./sl.js": 308,
-		"./sq": 309,
-		"./sq.js": 309,
-		"./sr": 310,
-		"./sr-cyrl": 311,
-		"./sr-cyrl.js": 311,
-		"./sr.js": 310,
-		"./ss": 312,
-		"./ss.js": 312,
-		"./sv": 313,
-		"./sv.js": 313,
-		"./sw": 314,
-		"./sw.js": 314,
-		"./ta": 315,
-		"./ta.js": 315,
-		"./te": 316,
-		"./te.js": 316,
-		"./th": 317,
-		"./th.js": 317,
-		"./tl-ph": 318,
-		"./tl-ph.js": 318,
-		"./tlh": 319,
-		"./tlh.js": 319,
-		"./tr": 320,
-		"./tr.js": 320,
-		"./tzl": 321,
-		"./tzl.js": 321,
-		"./tzm": 322,
-		"./tzm-latn": 323,
-		"./tzm-latn.js": 323,
-		"./tzm.js": 322,
-		"./uk": 324,
-		"./uk.js": 324,
-		"./uz": 325,
-		"./uz.js": 325,
-		"./vi": 326,
-		"./vi.js": 326,
-		"./x-pseudo": 327,
-		"./x-pseudo.js": 327,
-		"./zh-cn": 328,
-		"./zh-cn.js": 328,
-		"./zh-tw": 329,
-		"./zh-tw.js": 329
+		"./af": 236,
+		"./af.js": 236,
+		"./ar": 237,
+		"./ar-ma": 238,
+		"./ar-ma.js": 238,
+		"./ar-sa": 239,
+		"./ar-sa.js": 239,
+		"./ar-tn": 240,
+		"./ar-tn.js": 240,
+		"./ar.js": 237,
+		"./az": 241,
+		"./az.js": 241,
+		"./be": 242,
+		"./be.js": 242,
+		"./bg": 243,
+		"./bg.js": 243,
+		"./bn": 244,
+		"./bn.js": 244,
+		"./bo": 245,
+		"./bo.js": 245,
+		"./br": 246,
+		"./br.js": 246,
+		"./bs": 247,
+		"./bs.js": 247,
+		"./ca": 248,
+		"./ca.js": 248,
+		"./cs": 249,
+		"./cs.js": 249,
+		"./cv": 250,
+		"./cv.js": 250,
+		"./cy": 251,
+		"./cy.js": 251,
+		"./da": 252,
+		"./da.js": 252,
+		"./de": 253,
+		"./de-at": 254,
+		"./de-at.js": 254,
+		"./de.js": 253,
+		"./dv": 255,
+		"./dv.js": 255,
+		"./el": 256,
+		"./el.js": 256,
+		"./en-au": 257,
+		"./en-au.js": 257,
+		"./en-ca": 258,
+		"./en-ca.js": 258,
+		"./en-gb": 259,
+		"./en-gb.js": 259,
+		"./en-ie": 260,
+		"./en-ie.js": 260,
+		"./en-nz": 261,
+		"./en-nz.js": 261,
+		"./eo": 262,
+		"./eo.js": 262,
+		"./es": 263,
+		"./es.js": 263,
+		"./et": 264,
+		"./et.js": 264,
+		"./eu": 265,
+		"./eu.js": 265,
+		"./fa": 266,
+		"./fa.js": 266,
+		"./fi": 267,
+		"./fi.js": 267,
+		"./fo": 268,
+		"./fo.js": 268,
+		"./fr": 269,
+		"./fr-ca": 270,
+		"./fr-ca.js": 270,
+		"./fr-ch": 271,
+		"./fr-ch.js": 271,
+		"./fr.js": 269,
+		"./fy": 272,
+		"./fy.js": 272,
+		"./gd": 273,
+		"./gd.js": 273,
+		"./gl": 274,
+		"./gl.js": 274,
+		"./he": 275,
+		"./he.js": 275,
+		"./hi": 276,
+		"./hi.js": 276,
+		"./hr": 277,
+		"./hr.js": 277,
+		"./hu": 278,
+		"./hu.js": 278,
+		"./hy-am": 279,
+		"./hy-am.js": 279,
+		"./id": 280,
+		"./id.js": 280,
+		"./is": 281,
+		"./is.js": 281,
+		"./it": 282,
+		"./it.js": 282,
+		"./ja": 283,
+		"./ja.js": 283,
+		"./jv": 284,
+		"./jv.js": 284,
+		"./ka": 285,
+		"./ka.js": 285,
+		"./kk": 286,
+		"./kk.js": 286,
+		"./km": 287,
+		"./km.js": 287,
+		"./ko": 288,
+		"./ko.js": 288,
+		"./ky": 289,
+		"./ky.js": 289,
+		"./lb": 290,
+		"./lb.js": 290,
+		"./lo": 291,
+		"./lo.js": 291,
+		"./lt": 292,
+		"./lt.js": 292,
+		"./lv": 293,
+		"./lv.js": 293,
+		"./me": 294,
+		"./me.js": 294,
+		"./mk": 295,
+		"./mk.js": 295,
+		"./ml": 296,
+		"./ml.js": 296,
+		"./mr": 297,
+		"./mr.js": 297,
+		"./ms": 298,
+		"./ms-my": 299,
+		"./ms-my.js": 299,
+		"./ms.js": 298,
+		"./my": 300,
+		"./my.js": 300,
+		"./nb": 301,
+		"./nb.js": 301,
+		"./ne": 302,
+		"./ne.js": 302,
+		"./nl": 303,
+		"./nl.js": 303,
+		"./nn": 304,
+		"./nn.js": 304,
+		"./pa-in": 305,
+		"./pa-in.js": 305,
+		"./pl": 306,
+		"./pl.js": 306,
+		"./pt": 307,
+		"./pt-br": 308,
+		"./pt-br.js": 308,
+		"./pt.js": 307,
+		"./ro": 309,
+		"./ro.js": 309,
+		"./ru": 310,
+		"./ru.js": 310,
+		"./se": 311,
+		"./se.js": 311,
+		"./si": 312,
+		"./si.js": 312,
+		"./sk": 313,
+		"./sk.js": 313,
+		"./sl": 314,
+		"./sl.js": 314,
+		"./sq": 315,
+		"./sq.js": 315,
+		"./sr": 316,
+		"./sr-cyrl": 317,
+		"./sr-cyrl.js": 317,
+		"./sr.js": 316,
+		"./ss": 318,
+		"./ss.js": 318,
+		"./sv": 319,
+		"./sv.js": 319,
+		"./sw": 320,
+		"./sw.js": 320,
+		"./ta": 321,
+		"./ta.js": 321,
+		"./te": 322,
+		"./te.js": 322,
+		"./th": 323,
+		"./th.js": 323,
+		"./tl-ph": 324,
+		"./tl-ph.js": 324,
+		"./tlh": 325,
+		"./tlh.js": 325,
+		"./tr": 326,
+		"./tr.js": 326,
+		"./tzl": 327,
+		"./tzl.js": 327,
+		"./tzm": 328,
+		"./tzm-latn": 329,
+		"./tzm-latn.js": 329,
+		"./tzm.js": 328,
+		"./uk": 330,
+		"./uk.js": 330,
+		"./uz": 331,
+		"./uz.js": 331,
+		"./vi": 332,
+		"./vi.js": 332,
+		"./x-pseudo": 333,
+		"./x-pseudo.js": 333,
+		"./zh-cn": 334,
+		"./zh-cn.js": 334,
+		"./zh-tw": 335,
+		"./zh-tw.js": 335
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -42914,11 +44030,11 @@
 	};
 	webpackContext.resolve = webpackContextResolve;
 	module.exports = webpackContext;
-	webpackContext.id = 229;
+	webpackContext.id = 235;
 
 
 /***/ },
-/* 230 */
+/* 236 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -42926,7 +44042,7 @@
 	//! author : Werner Mollentze : https://github.com/wernerm
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -42995,7 +44111,7 @@
 	}));
 
 /***/ },
-/* 231 */
+/* 237 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -43005,7 +44121,7 @@
 	//! Native plural forms: forabi https://github.com/forabi
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -43136,7 +44252,7 @@
 	}));
 
 /***/ },
-/* 232 */
+/* 238 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -43145,7 +44261,7 @@
 	//! author : Abdel Said : https://github.com/abdelsaid
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -43200,7 +44316,7 @@
 	}));
 
 /***/ },
-/* 233 */
+/* 239 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -43208,7 +44324,7 @@
 	//! author : Suhail Alkowaileet : https://github.com/xsoh
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -43308,14 +44424,14 @@
 	}));
 
 /***/ },
-/* 234 */
+/* 240 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 	//! locale  : Tunisian Arabic (ar-tn)
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -43370,7 +44486,7 @@
 	}));
 
 /***/ },
-/* 235 */
+/* 241 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -43378,7 +44494,7 @@
 	//! author : topchiyev : https://github.com/topchiyev
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -43479,7 +44595,7 @@
 	}));
 
 /***/ },
-/* 236 */
+/* 242 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -43489,7 +44605,7 @@
 	//! Author : Menelion Elensúle : https://github.com/Oire
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -43617,7 +44733,7 @@
 	}));
 
 /***/ },
-/* 237 */
+/* 243 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -43625,7 +44741,7 @@
 	//! author : Krasen Borisov : https://github.com/kraz
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -43711,7 +44827,7 @@
 	}));
 
 /***/ },
-/* 238 */
+/* 244 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -43719,7 +44835,7 @@
 	//! author : Kaushik Gandhi : https://github.com/kaushikgandhi
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -43834,7 +44950,7 @@
 	}));
 
 /***/ },
-/* 239 */
+/* 245 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -43842,7 +44958,7 @@
 	//! author : Thupten N. Chakrishar : https://github.com/vajradog
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -43957,7 +45073,7 @@
 	}));
 
 /***/ },
-/* 240 */
+/* 246 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -43965,7 +45081,7 @@
 	//! author : Jean-Baptiste Le Duigou : https://github.com/jbleduigou
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -44069,7 +45185,7 @@
 	}));
 
 /***/ },
-/* 241 */
+/* 247 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -44078,7 +45194,7 @@
 	//! based on (hr) translation by Bojan Marković
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -44216,7 +45332,7 @@
 	}));
 
 /***/ },
-/* 242 */
+/* 248 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -44224,7 +45340,7 @@
 	//! author : Juan G. Hurtado : https://github.com/juanghurtado
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -44301,7 +45417,7 @@
 	}));
 
 /***/ },
-/* 243 */
+/* 249 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -44309,7 +45425,7 @@
 	//! author : petrbela : https://github.com/petrbela
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -44476,7 +45592,7 @@
 	}));
 
 /***/ },
-/* 244 */
+/* 250 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -44484,7 +45600,7 @@
 	//! author : Anatoly Mironov : https://github.com/mirontoli
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -44543,7 +45659,7 @@
 	}));
 
 /***/ },
-/* 245 */
+/* 251 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -44551,7 +45667,7 @@
 	//! author : Robert Allen
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -44627,7 +45743,7 @@
 	}));
 
 /***/ },
-/* 246 */
+/* 252 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -44635,7 +45751,7 @@
 	//! author : Ulrik Nielsen : https://github.com/mrbase
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -44691,7 +45807,7 @@
 	}));
 
 /***/ },
-/* 247 */
+/* 253 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -44701,7 +45817,7 @@
 	//! author : Mikolaj Dadela : https://github.com/mik01aj
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -44773,7 +45889,7 @@
 	}));
 
 /***/ },
-/* 248 */
+/* 254 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -44784,7 +45900,7 @@
 	//! author : Mikolaj Dadela : https://github.com/mik01aj
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -44856,7 +45972,7 @@
 	}));
 
 /***/ },
-/* 249 */
+/* 255 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -44864,7 +45980,7 @@
 	//! author : Jawish Hameed : https://github.com/jawish
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -44959,7 +46075,7 @@
 	}));
 
 /***/ },
-/* 250 */
+/* 256 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -44967,7 +46083,7 @@
 	//! author : Aggelos Karalias : https://github.com/mehiel
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -45061,14 +46177,14 @@
 	}));
 
 /***/ },
-/* 251 */
+/* 257 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 	//! locale : australian english (en-au)
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -45131,7 +46247,7 @@
 	}));
 
 /***/ },
-/* 252 */
+/* 258 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -45139,7 +46255,7 @@
 	//! author : Jonathan Abourbih : https://github.com/jonbca
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -45198,7 +46314,7 @@
 	}));
 
 /***/ },
-/* 253 */
+/* 259 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -45206,7 +46322,7 @@
 	//! author : Chris Gedrim : https://github.com/chrisgedrim
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -45269,7 +46385,7 @@
 	}));
 
 /***/ },
-/* 254 */
+/* 260 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -45277,7 +46393,7 @@
 	//! author : Chris Cartlidge : https://github.com/chriscartlidge
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -45340,14 +46456,14 @@
 	}));
 
 /***/ },
-/* 255 */
+/* 261 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 	//! locale : New Zealand english (en-nz)
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -45410,7 +46526,7 @@
 	}));
 
 /***/ },
-/* 256 */
+/* 262 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -45420,7 +46536,7 @@
 	//!          Se ne, bonvolu korekti kaj avizi min por ke mi povas lerni!
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -45487,7 +46603,7 @@
 	}));
 
 /***/ },
-/* 257 */
+/* 263 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -45495,7 +46611,7 @@
 	//! author : Julio Napurí : https://github.com/julionc
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -45572,7 +46688,7 @@
 	}));
 
 /***/ },
-/* 258 */
+/* 264 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -45581,7 +46697,7 @@
 	//! improvements : Illimar Tambek : https://github.com/ragulka
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -45656,7 +46772,7 @@
 	}));
 
 /***/ },
-/* 259 */
+/* 265 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -45664,7 +46780,7 @@
 	//! author : Eneko Illarramendi : https://github.com/eillarra
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -45726,7 +46842,7 @@
 	}));
 
 /***/ },
-/* 260 */
+/* 266 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -45734,7 +46850,7 @@
 	//! author : Ebrahim Byagowi : https://github.com/ebraminio
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -45836,7 +46952,7 @@
 	}));
 
 /***/ },
-/* 261 */
+/* 267 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -45844,7 +46960,7 @@
 	//! author : Tarmo Aidantausta : https://github.com/bleadof
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -45947,7 +47063,7 @@
 	}));
 
 /***/ },
-/* 262 */
+/* 268 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -45955,7 +47071,7 @@
 	//! author : Ragnar Johannesen : https://github.com/ragnar123
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -46011,7 +47127,7 @@
 	}));
 
 /***/ },
-/* 263 */
+/* 269 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -46019,7 +47135,7 @@
 	//! author : John Fischer : https://github.com/jfroffice
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -46079,7 +47195,7 @@
 	}));
 
 /***/ },
-/* 264 */
+/* 270 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -46087,7 +47203,7 @@
 	//! author : Jonathan Abourbih : https://github.com/jonbca
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -46143,7 +47259,7 @@
 	}));
 
 /***/ },
-/* 265 */
+/* 271 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -46151,7 +47267,7 @@
 	//! author : Gaspard Bucher : https://github.com/gaspard
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -46211,7 +47327,7 @@
 	}));
 
 /***/ },
-/* 266 */
+/* 272 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -46219,7 +47335,7 @@
 	//! author : Robin van der Vliet : https://github.com/robin0van0der0v
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -46288,7 +47404,7 @@
 	}));
 
 /***/ },
-/* 267 */
+/* 273 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -46296,7 +47412,7 @@
 	//! author : Jon Ashdown : https://github.com/jonashdown
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -46368,7 +47484,7 @@
 	}));
 
 /***/ },
-/* 268 */
+/* 274 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -46376,7 +47492,7 @@
 	//! author : Juan G. Hurtado : https://github.com/juanghurtado
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -46449,7 +47565,7 @@
 	}));
 
 /***/ },
-/* 269 */
+/* 275 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -46459,7 +47575,7 @@
 	//! author : Tal Ater : https://github.com/TalAter
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -46552,7 +47668,7 @@
 	}));
 
 /***/ },
-/* 270 */
+/* 276 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -46560,7 +47676,7 @@
 	//! author : Mayank Singhal : https://github.com/mayanksinghal
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -46680,7 +47796,7 @@
 	}));
 
 /***/ },
-/* 271 */
+/* 277 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -46688,7 +47804,7 @@
 	//! author : Bojan Marković : https://github.com/bmarkovic
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -46829,7 +47945,7 @@
 	}));
 
 /***/ },
-/* 272 */
+/* 278 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -46837,7 +47953,7 @@
 	//! author : Adam Brunner : https://github.com/adambrunner
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -46942,7 +48058,7 @@
 	}));
 
 /***/ },
-/* 273 */
+/* 279 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -46950,7 +48066,7 @@
 	//! author : Armendarabyan : https://github.com/armendarabyan
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -47041,7 +48157,7 @@
 	}));
 
 /***/ },
-/* 274 */
+/* 280 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -47050,7 +48166,7 @@
 	//! reference: http://id.wikisource.org/wiki/Pedoman_Umum_Ejaan_Bahasa_Indonesia_yang_Disempurnakan
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -47128,7 +48244,7 @@
 	}));
 
 /***/ },
-/* 275 */
+/* 281 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -47136,7 +48252,7 @@
 	//! author : Hinrik Örn Sigurðsson : https://github.com/hinrik
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -47259,7 +48375,7 @@
 	}));
 
 /***/ },
-/* 276 */
+/* 282 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -47268,7 +48384,7 @@
 	//! author: Mattia Larentis: https://github.com/nostalgiaz
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -47333,7 +48449,7 @@
 	}));
 
 /***/ },
-/* 277 */
+/* 283 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -47341,7 +48457,7 @@
 	//! author : LI Long : https://github.com/baryon
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -47413,7 +48529,7 @@
 	}));
 
 /***/ },
-/* 278 */
+/* 284 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -47422,7 +48538,7 @@
 	//! reference: http://jv.wikipedia.org/wiki/Basa_Jawa
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -47500,7 +48616,7 @@
 	}));
 
 /***/ },
-/* 279 */
+/* 285 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -47508,7 +48624,7 @@
 	//! author : Irakli Janiashvili : https://github.com/irakli-janiashvili
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -47593,7 +48709,7 @@
 	}));
 
 /***/ },
-/* 280 */
+/* 286 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -47601,7 +48717,7 @@
 	//! authors : Nurlan Rakhimzhanov : https://github.com/nurlan
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -47684,7 +48800,7 @@
 	}));
 
 /***/ },
-/* 281 */
+/* 287 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -47692,7 +48808,7 @@
 	//! author : Kruy Vanna : https://github.com/kruyvanna
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -47746,7 +48862,7 @@
 	}));
 
 /***/ },
-/* 282 */
+/* 288 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -47758,7 +48874,7 @@
 	//! - Jeeeyul Lee <jeeeyul@gmail.com>
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -47818,7 +48934,7 @@
 	}));
 
 /***/ },
-/* 283 */
+/* 289 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -47826,7 +48942,7 @@
 	//! author : Chyngyz Arystan uulu : https://github.com/chyngyz
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -47910,7 +49026,7 @@
 	}));
 
 /***/ },
-/* 284 */
+/* 290 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -47918,7 +49034,7 @@
 	//! author : mweimerskirch : https://github.com/mweimerskirch, David Raison : https://github.com/kwisatz
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -48050,7 +49166,7 @@
 	}));
 
 /***/ },
-/* 285 */
+/* 291 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -48058,7 +49174,7 @@
 	//! author : Ryan Hart : https://github.com/ryanhart2
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -48124,7 +49240,7 @@
 	}));
 
 /***/ },
-/* 286 */
+/* 292 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -48132,7 +49248,7 @@
 	//! author : Mindaugas Mozūras : https://github.com/mmozuras
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -48244,7 +49360,7 @@
 	}));
 
 /***/ },
-/* 287 */
+/* 293 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -48253,7 +49369,7 @@
 	//! author : Jānis Elmeris : https://github.com/JanisE
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -48345,7 +49461,7 @@
 	}));
 
 /***/ },
-/* 288 */
+/* 294 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -48353,7 +49469,7 @@
 	//! author : Miodrag Nikač <miodrag@restartit.me> : https://github.com/miodragnikac
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -48460,7 +49576,7 @@
 	}));
 
 /***/ },
-/* 289 */
+/* 295 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -48468,7 +49584,7 @@
 	//! author : Borislav Mickov : https://github.com/B0k0
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -48554,7 +49670,7 @@
 	}));
 
 /***/ },
-/* 290 */
+/* 296 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -48562,7 +49678,7 @@
 	//! author : Floyd Pink : https://github.com/floydpink
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -48639,7 +49755,7 @@
 	}));
 
 /***/ },
-/* 291 */
+/* 297 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -48648,7 +49764,7 @@
 	//! author : Vivek Athalye : https://github.com/vnathalye
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -48802,7 +49918,7 @@
 	}));
 
 /***/ },
-/* 292 */
+/* 298 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -48810,7 +49926,7 @@
 	//! author : Weldan Jamili : https://github.com/weldan
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -48888,7 +50004,7 @@
 	}));
 
 /***/ },
-/* 293 */
+/* 299 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -48896,7 +50012,7 @@
 	//! author : Weldan Jamili : https://github.com/weldan
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -48974,7 +50090,7 @@
 	}));
 
 /***/ },
-/* 294 */
+/* 300 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -48982,7 +50098,7 @@
 	//! author : Squar team, mysquar.com
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -49071,7 +50187,7 @@
 	}));
 
 /***/ },
-/* 295 */
+/* 301 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -49080,7 +50196,7 @@
 	//!           Sigurd Gartmann : https://github.com/sigurdga
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -49138,7 +50254,7 @@
 	}));
 
 /***/ },
-/* 296 */
+/* 302 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -49146,7 +50262,7 @@
 	//! author : suvash : https://github.com/suvash
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -49265,7 +50381,7 @@
 	}));
 
 /***/ },
-/* 297 */
+/* 303 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -49273,7 +50389,7 @@
 	//! author : Joris Röling : https://github.com/jjupiter
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -49342,7 +50458,7 @@
 	}));
 
 /***/ },
-/* 298 */
+/* 304 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -49350,7 +50466,7 @@
 	//! author : https://github.com/mechuwind
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -49406,7 +50522,7 @@
 	}));
 
 /***/ },
-/* 299 */
+/* 305 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -49414,7 +50530,7 @@
 	//! author : Harpreet Singh : https://github.com/harpreetkhalsagtbit
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -49534,7 +50650,7 @@
 	}));
 
 /***/ },
-/* 300 */
+/* 306 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -49542,7 +50658,7 @@
 	//! author : Rafal Hirsz : https://github.com/evoL
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -49643,7 +50759,7 @@
 	}));
 
 /***/ },
-/* 301 */
+/* 307 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -49651,7 +50767,7 @@
 	//! author : Jefferson : https://github.com/jalex79
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -49712,7 +50828,7 @@
 	}));
 
 /***/ },
-/* 302 */
+/* 308 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -49720,7 +50836,7 @@
 	//! author : Caio Ribeiro Pereira : https://github.com/caio-ribeiro-pereira
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -49777,7 +50893,7 @@
 	}));
 
 /***/ },
-/* 303 */
+/* 309 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -49786,7 +50902,7 @@
 	//! author : Valentin Agachi : https://github.com/avaly
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -49856,7 +50972,7 @@
 	}));
 
 /***/ },
-/* 304 */
+/* 310 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -49866,7 +50982,7 @@
 	//! author : Коренберг Марк : https://github.com/socketpair
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -50035,7 +51151,7 @@
 	}));
 
 /***/ },
-/* 305 */
+/* 311 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -50043,7 +51159,7 @@
 	//! authors : Bård Rolstad Henriksen : https://github.com/karamell
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -50100,7 +51216,7 @@
 	}));
 
 /***/ },
-/* 306 */
+/* 312 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -50108,7 +51224,7 @@
 	//! author : Sampath Sitinamaluwa : https://github.com/sampathsris
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -50175,7 +51291,7 @@
 	}));
 
 /***/ },
-/* 307 */
+/* 313 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -50184,7 +51300,7 @@
 	//! based on work of petrbela : https://github.com/petrbela
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -50329,7 +51445,7 @@
 	}));
 
 /***/ },
-/* 308 */
+/* 314 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -50337,7 +51453,7 @@
 	//! author : Robert Sedovšek : https://github.com/sedovsek
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -50495,7 +51611,7 @@
 	}));
 
 /***/ },
-/* 309 */
+/* 315 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -50505,7 +51621,7 @@
 	//! author : Oerd Cukalla : https://github.com/oerd (fixes)
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -50569,7 +51685,7 @@
 	}));
 
 /***/ },
-/* 310 */
+/* 316 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -50577,7 +51693,7 @@
 	//! author : Milan Janačković<milanjanackovic@gmail.com> : https://github.com/milan-j
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -50683,7 +51799,7 @@
 	}));
 
 /***/ },
-/* 311 */
+/* 317 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -50691,7 +51807,7 @@
 	//! author : Milan Janačković<milanjanackovic@gmail.com> : https://github.com/milan-j
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -50797,7 +51913,7 @@
 	}));
 
 /***/ },
-/* 312 */
+/* 318 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -50805,7 +51921,7 @@
 	//! author : Nicolai Davies<mail@nicolai.io> : https://github.com/nicolaidavies
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -50890,7 +52006,7 @@
 	}));
 
 /***/ },
-/* 313 */
+/* 319 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -50898,7 +52014,7 @@
 	//! author : Jens Alm : https://github.com/ulmus
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -50963,7 +52079,7 @@
 	}));
 
 /***/ },
-/* 314 */
+/* 320 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -50971,7 +52087,7 @@
 	//! author : Fahad Kassim : https://github.com/fadsel
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -51026,7 +52142,7 @@
 	}));
 
 /***/ },
-/* 315 */
+/* 321 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -51034,7 +52150,7 @@
 	//! author : Arjunkumar Krishnamoorthy : https://github.com/tk120404
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -51159,7 +52275,7 @@
 	}));
 
 /***/ },
-/* 316 */
+/* 322 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -51167,7 +52283,7 @@
 	//! author : Krishna Chaitanya Thota : https://github.com/kcthota
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -51252,7 +52368,7 @@
 	}));
 
 /***/ },
-/* 317 */
+/* 323 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -51260,7 +52376,7 @@
 	//! author : Kridsada Thanabulpong : https://github.com/sirn
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -51323,7 +52439,7 @@
 	}));
 
 /***/ },
-/* 318 */
+/* 324 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -51331,7 +52447,7 @@
 	//! author : Dan Hagman
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -51389,7 +52505,7 @@
 	}));
 
 /***/ },
-/* 319 */
+/* 325 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -51397,7 +52513,7 @@
 	//! author : Dominika Kruk : https://github.com/amaranthrose
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -51513,7 +52629,7 @@
 	}));
 
 /***/ },
-/* 320 */
+/* 326 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -51522,7 +52638,7 @@
 	//!           Burak Yiğit Kaya: https://github.com/BYK
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -51607,7 +52723,7 @@
 	}));
 
 /***/ },
-/* 321 */
+/* 327 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -51615,7 +52731,7 @@
 	//! author : Robin van der Vliet : https://github.com/robin0van0der0v with the help of Iustì Canun
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -51702,7 +52818,7 @@
 	}));
 
 /***/ },
-/* 322 */
+/* 328 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -51710,7 +52826,7 @@
 	//! author : Abdel Said : https://github.com/abdelsaid
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -51764,7 +52880,7 @@
 	}));
 
 /***/ },
-/* 323 */
+/* 329 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -51772,7 +52888,7 @@
 	//! author : Abdel Said : https://github.com/abdelsaid
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -51826,7 +52942,7 @@
 	}));
 
 /***/ },
-/* 324 */
+/* 330 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -51835,7 +52951,7 @@
 	//! Author : Menelion Elensúle : https://github.com/Oire
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -51976,7 +53092,7 @@
 	}));
 
 /***/ },
-/* 325 */
+/* 331 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -51984,7 +53100,7 @@
 	//! author : Sardor Muminov : https://github.com/muminoff
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -52038,7 +53154,7 @@
 	}));
 
 /***/ },
-/* 326 */
+/* 332 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -52046,7 +53162,7 @@
 	//! author : Bang Nguyen : https://github.com/bangnk
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -52121,7 +53237,7 @@
 	}));
 
 /***/ },
-/* 327 */
+/* 333 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -52129,7 +53245,7 @@
 	//! author : Andrew Hood : https://github.com/andrewhood125
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -52193,7 +53309,7 @@
 	}));
 
 /***/ },
-/* 328 */
+/* 334 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -52202,7 +53318,7 @@
 	//! author : Zeno Zeng : https://github.com/zenozeng
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -52324,7 +53440,7 @@
 	}));
 
 /***/ },
-/* 329 */
+/* 335 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -52332,7 +53448,7 @@
 	//! author : Ben : https://github.com/ben-lin
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(227)) :
+	    true ? factory(__webpack_require__(233)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -52429,22 +53545,6 @@
 	}));
 
 /***/ },
-/* 330 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 331 */,
-/* 332 */,
-/* 333 */,
-/* 334 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 335 */,
 /* 336 */
 /***/ function(module, exports) {
 
@@ -52466,28 +53566,320 @@
 
 /***/ },
 /* 341 */,
-/* 342 */,
-/* 343 */
+/* 342 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 344 */,
+/* 343 */,
+/* 344 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
 /* 345 */,
 /* 346 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _models = __webpack_require__(231);
+	
+	__webpack_require__(347);
+	
+	__webpack_require__(342);
+	
+	__webpack_require__(344);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	module.exports.LocationForm = _react2.default.createClass({
+	    displayName: 'LocationForm',
+	
+	
+	    getInitialState: function getInitialState() {
+	        return {
+	            enableSubmit: false
+	        };
+	    },
+	
+	    addLocation: function addLocation() {
+	        var ids = _.filter(this.refs.offerings.children, function (child) {
+	            return child.children[0].children[0].checked;
+	        }).map(function (child) {
+	            return child.children[0].children[0].value;
+	        });
+	
+	        var name = this.refs.name.value;
+	        var username = this.refs.username.value;
+	        var comment = this.refs.comment.value;
+	
+	        var location = new _models.Location(this.props);
+	        var onAddLocation = this.props.onAddLocation;
+	        var onClickCancel = this.props.onClickCancel;
+	        location.save({ name: name, comment: comment, username: username, offerings: ids }, {
+	            success: function success() {
+	                onAddLocation(location);
+	                onClickCancel();
+	            }
+	        });
+	    },
+	
+	    checkSubmitButton: function checkSubmitButton() {
+	        this.setState({
+	            enableSubmit: this.refs.name.value.length > 0
+	        });
+	    },
+	
+	    renderOfferingList: function renderOfferingList(offering) {
+	        var id = offering.get('cartodb_id');
+	        return _react2.default.createElement(
+	            'div',
+	            { className: 'OfferingList-item', key: id },
+	            _react2.default.createElement(
+	                'label',
+	                { htmlFor: 'offering_' + id, className: 'InputCheck-label' },
+	                _react2.default.createElement('input', { type: 'checkbox',
+	                    value: id,
+	                    id: 'offering_' + id,
+	                    className: 'InputCheck js-checkbox' }),
+	                offering.get('name')
+	            )
+	        );
+	    },
+	
+	    render: function render() {
+	        return _react2.default.createElement(
+	            'div',
+	            { className: 'LocationForm' },
+	            _react2.default.createElement(
+	                'div',
+	                { className: 'LocationForm-inner js-content' },
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'LocationForm-content js-content' },
+	                    _react2.default.createElement(
+	                        'button',
+	                        { className: 'Button--close js-cancel',
+	                            onClick: this.props.onClickCancel },
+	                        '✕'
+	                    ),
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'LocationForm-fields' },
+	                        _react2.default.createElement(
+	                            'div',
+	                            { className: 'LocationForm-field' },
+	                            _react2.default.createElement(
+	                                'label',
+	                                { className: 'LocationForm-label' },
+	                                'Address'
+	                            ),
+	                            _react2.default.createElement(
+	                                'span',
+	                                { className: 'js-address' },
+	                                this.props.address
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            'div',
+	                            { className: 'LocationForm-field' },
+	                            _react2.default.createElement(
+	                                'label',
+	                                { className: 'LocationForm-label' },
+	                                'Name'
+	                            ),
+	                            _react2.default.createElement(
+	                                'div',
+	                                { className: 'InputField js-field' },
+	                                _react2.default.createElement('input', { type: 'text', placeholder: 'Name of this location',
+	                                    className: 'Input js-name',
+	                                    ref: 'name',
+	                                    defaultValue: this.props.name,
+	                                    onChange: this.checkSubmitButton })
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            'div',
+	                            { className: 'LocationForm-field' },
+	                            _react2.default.createElement(
+	                                'label',
+	                                { className: 'LocationForm-label' },
+	                                'What does it offer?'
+	                            ),
+	                            _react2.default.createElement(
+	                                'div',
+	                                { className: 'OfferingList', ref: 'offerings' },
+	                                this.props.offerings.map(this.renderOfferingList)
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            'div',
+	                            { className: 'LocationForm-field' },
+	                            _react2.default.createElement(
+	                                'label',
+	                                { className: 'LocationForm-label' },
+	                                'Add something to the conversation!'
+	                            ),
+	                            _react2.default.createElement(
+	                                'div',
+	                                { className: 'InputField js-field' },
+	                                _react2.default.createElement('textarea', { placeholder: 'Feel free to add tips, warnings, comments or review about this place',
+	                                    className: 'Input InputArea js-comment', ref: 'comment' })
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            'div',
+	                            { className: 'LocationForm-field' },
+	                            _react2.default.createElement(
+	                                'label',
+	                                { className: 'LocationForm-label' },
+	                                'Your name or initials (optional)'
+	                            ),
+	                            _react2.default.createElement(
+	                                'div',
+	                                { className: 'InputField js-field' },
+	                                _react2.default.createElement('input', { type: 'text', className: 'Input js-username', ref: 'username' })
+	                            )
+	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        'footer',
+	                        { className: 'Footer' },
+	                        _react2.default.createElement(
+	                            'button',
+	                            { className: this.props.name || this.state.enableSubmit ? 'Button js-ok' : 'Button js-ok is-disabled',
+	                                onClick: this.addLocation },
+	                            'Add location'
+	                        )
+	                    )
+	                )
+	            )
+	        );
+	    }
+	});
+
+/***/ },
+/* 347 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 347 */,
 /* 348 */,
 /* 349 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Typeahead = __webpack_require__(350);
-	var Tokenizer = __webpack_require__(357);
+	'use strict';
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _models = __webpack_require__(231);
+	
+	var _reactTypeahead = __webpack_require__(350);
+	
+	var _lodash = __webpack_require__(360);
+	
+	var _lodash2 = _interopRequireDefault(_lodash);
+	
+	__webpack_require__(361);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	module.exports.Search = _react2.default.createClass({
+	    displayName: 'Search',
+	
+	    focus: function focus() {
+	        var self = this;
+	
+	        setTimeout(function () {
+	            self.refs.searchBar.focus();
+	        }, 500);
+	    },
+	
+	    getInitialState: function getInitialState() {
+	        return { searchQuery: '', locationData: {} };
+	    },
+	
+	    initAutoComplete: function initAutoComplete() {
+	        var input = this.refs.searchBar;
+	
+	        this.autocomplete = new google.maps.places.Autocomplete(input, {
+	            componentRestrictions: { country: 'USA' }
+	        });
+	
+	        google.maps.event.addListener(this.autocomplete, 'place_changed', this.onPlaceChange);
+	    },
+	
+	    onPlaceChange: function onPlaceChange() {
+	
+	        var place = this.autocomplete.getPlace();
+	        this.setState({ searchQuery: place.name });
+	
+	        if (!place.geometry || !place.geometry.location) {
+	            return;
+	        }
+	
+	        this.props.gotoPlace(place);
+	    },
+	
+	    voiceSearch: function voiceSearch() {
+	        var recognition = new webkitSpeechRecognition();
+	        var self = this;
+	
+	        recognition.onresult = function (event) {
+	            if (event.results) {
+	                self.setState({ searchQuery: event.results[0][0].transcript });
+	                self.focus();
+	            }
+	        };
+	
+	        recognition.start();
+	    },
+	
+	    componentDidMount: function componentDidMount() {
+	        this.initAutoComplete();
+	        this.focus();
+	
+	        var locationModel = new _models.Locations();
+	        var self = this;
+	
+	        locationModel.fetch().done(function (data) {
+	            var dataDict = _lodash2.default.keyBy(data.rows, 'name');
+	            self.setState({ locationData: dataDict });
+	        });
+	    },
+	
+	    onSearchChange: function onSearchChange(event) {
+	        this.setState({ searchQuery: event.target.value });
+	    },
+	
+	    render: function render() {
+	        return _react2.default.createElement(
+	            'div',
+	            { className: 'InputField SearchField' },
+	            _react2.default.createElement('input', { type: 'text', placeholder: 'Search', ref: 'searchBar', value: this.state.searchQuery,
+	                onChange: this.onSearchChange,
+	                className: 'Input SearchInput js-field' }),
+	            _react2.default.createElement('button', { className: 'microphone', onClick: this.voiceSearch })
+	        );
+	    }
+	});
+
+/***/ },
+/* 350 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Typeahead = __webpack_require__(351);
+	var Tokenizer = __webpack_require__(358);
 	
 	module.exports = {
 	  Typeahead: Typeahead,
@@ -52495,17 +53887,17 @@
 	};
 
 /***/ },
-/* 350 */
+/* 351 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
-	var Accessor = __webpack_require__(351);
+	var Accessor = __webpack_require__(352);
 	var React = __webpack_require__(1);
-	var TypeaheadSelector = __webpack_require__(352);
-	var KeyEvent = __webpack_require__(355);
-	var fuzzy = __webpack_require__(356);
-	var classNames = __webpack_require__(354);
+	var TypeaheadSelector = __webpack_require__(353);
+	var KeyEvent = __webpack_require__(356);
+	var fuzzy = __webpack_require__(357);
+	var classNames = __webpack_require__(355);
 	
 	/**
 	 * A "typeahead", an auto-completing text input
@@ -52858,7 +54250,7 @@
 	module.exports = Typeahead;
 
 /***/ },
-/* 351 */
+/* 352 */
 /***/ function(module, exports) {
 
 	var Accessor = {
@@ -52896,12 +54288,12 @@
 	module.exports = Accessor;
 
 /***/ },
-/* 352 */
+/* 353 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var TypeaheadOption = __webpack_require__(353);
-	var classNames = __webpack_require__(354);
+	var TypeaheadOption = __webpack_require__(354);
+	var classNames = __webpack_require__(355);
 	
 	/**
 	 * Container for the options rendered as part of the autocompletion process
@@ -52990,11 +54382,11 @@
 	module.exports = TypeaheadSelector;
 
 /***/ },
-/* 353 */
+/* 354 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var classNames = __webpack_require__(354);
+	var classNames = __webpack_require__(355);
 	
 	/**
 	 * A single option within the TypeaheadSelector
@@ -53059,7 +54451,7 @@
 	module.exports = TypeaheadOption;
 
 /***/ },
-/* 354 */
+/* 355 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -53108,7 +54500,7 @@
 
 
 /***/ },
-/* 355 */
+/* 356 */
 /***/ function(module, exports) {
 
 	/**
@@ -53126,7 +54518,7 @@
 	module.exports = KeyEvent;
 
 /***/ },
-/* 356 */
+/* 357 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -53268,15 +54660,15 @@
 
 
 /***/ },
-/* 357 */
+/* 358 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Accessor = __webpack_require__(351);
+	var Accessor = __webpack_require__(352);
 	var React = __webpack_require__(1);
-	var Token = __webpack_require__(358);
-	var KeyEvent = __webpack_require__(355);
-	var Typeahead = __webpack_require__(350);
-	var classNames = __webpack_require__(354);
+	var Token = __webpack_require__(359);
+	var KeyEvent = __webpack_require__(356);
+	var Typeahead = __webpack_require__(351);
+	var classNames = __webpack_require__(355);
 	
 	function _arraysAreDifferent(array1, array2) {
 	  if (array1.length != array2.length) {
@@ -53480,11 +54872,11 @@
 	module.exports = TypeaheadTokenizer;
 
 /***/ },
-/* 358 */
+/* 359 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var classNames = __webpack_require__(354);
+	var classNames = __webpack_require__(355);
 	
 	/**
 	 * Encapsulates the rendering of an option that has been "selected" in a
@@ -53545,7 +54937,7 @@
 	module.exports = Token;
 
 /***/ },
-/* 359 */
+/* 360 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(global, module) {/**
@@ -70567,58 +71959,105 @@
 	  }
 	}.call(this));
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(228)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(234)(module)))
 
 /***/ },
-/* 360 */
+/* 361 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 361 */,
-/* 362 */
+/* 362 */,
+/* 363 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 363 */,
-/* 364 */
+/* 364 */,
+/* 365 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 365 */,
-/* 366 */
+/* 366 */,
+/* 367 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 367 */,
-/* 368 */
+/* 368 */,
+/* 369 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 369 */,
 /* 370 */,
-/* 371 */,
-/* 372 */
-/***/ function(module, exports) {
+/* 371 */
+/***/ function(module, exports, __webpack_require__) {
 
-	// removed by extract-text-webpack-plugin
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _reactRedux = __webpack_require__(372);
+	
+	var _mapActions = __webpack_require__(398);
+	
+	var _geocodeActions = __webpack_require__(422);
+	
+	var _map = __webpack_require__(221);
+	
+	var mapStateToProps = function mapStateToProps(state) {
+	    return {
+	        showWelcome: state.map.showWelcome,
+	        showAddLocation: state.map.showAddLocation,
+	        showAddLocationInput: state.map.showAddLocationInput,
+	        activeCoords: state.map.activeCoords,
+	        showLocationDetail: state.map.showLocationDetail,
+	        detailLocation: state.map.detailLocation,
+	        placeName: state.geocode.name,
+	        address: state.geocode.address
+	    };
+	};
+	
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	    return {
+	        welcomeClicked: function welcomeClicked() {
+	            dispatch((0, _mapActions.welcomeClicked)());
+	        },
+	
+	        mapClicked: function mapClicked(coords) {
+	            dispatch((0, _mapActions.mapClicked)(coords));
+	            dispatch((0, _geocodeActions.geocode)(coords));
+	        },
+	
+	        addLocationClicked: function addLocationClicked() {
+	            dispatch((0, _mapActions.addLocationClicked)());
+	        },
+	
+	        locationSelected: function locationSelected(coords) {
+	            dispatch((0, _mapActions.locationSelected)(coords));
+	        },
+	
+	        addLocationCancelled: function addLocationCancelled() {
+	            dispatch((0, _mapActions.addLocationCancelled)());
+	        }
+	    };
+	};
+	
+	var MapContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_map.Map);
+	
+	exports.default = MapContainer;
 
 /***/ },
-/* 373 */,
-/* 374 */,
-/* 375 */,
-/* 376 */,
-/* 377 */,
-/* 378 */
+/* 372 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -70626,11 +72065,11 @@
 	exports.__esModule = true;
 	exports.connect = exports.Provider = undefined;
 	
-	var _Provider = __webpack_require__(379);
+	var _Provider = __webpack_require__(373);
 	
 	var _Provider2 = _interopRequireDefault(_Provider);
 	
-	var _connect = __webpack_require__(382);
+	var _connect = __webpack_require__(376);
 	
 	var _connect2 = _interopRequireDefault(_connect);
 	
@@ -70640,7 +72079,7 @@
 	exports.connect = _connect2["default"];
 
 /***/ },
-/* 379 */
+/* 373 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -70650,11 +72089,11 @@
 	
 	var _react = __webpack_require__(1);
 	
-	var _storeShape = __webpack_require__(380);
+	var _storeShape = __webpack_require__(374);
 	
 	var _storeShape2 = _interopRequireDefault(_storeShape);
 	
-	var _warning = __webpack_require__(381);
+	var _warning = __webpack_require__(375);
 	
 	var _warning2 = _interopRequireDefault(_warning);
 	
@@ -70724,7 +72163,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 380 */
+/* 374 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -70740,7 +72179,7 @@
 	});
 
 /***/ },
-/* 381 */
+/* 375 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -70769,7 +72208,7 @@
 	}
 
 /***/ },
-/* 382 */
+/* 376 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -70781,23 +72220,23 @@
 	
 	var _react = __webpack_require__(1);
 	
-	var _storeShape = __webpack_require__(380);
+	var _storeShape = __webpack_require__(374);
 	
 	var _storeShape2 = _interopRequireDefault(_storeShape);
 	
-	var _shallowEqual = __webpack_require__(383);
+	var _shallowEqual = __webpack_require__(377);
 	
 	var _shallowEqual2 = _interopRequireDefault(_shallowEqual);
 	
-	var _wrapActionCreators = __webpack_require__(384);
+	var _wrapActionCreators = __webpack_require__(378);
 	
 	var _wrapActionCreators2 = _interopRequireDefault(_wrapActionCreators);
 	
-	var _warning = __webpack_require__(381);
+	var _warning = __webpack_require__(375);
 	
 	var _warning2 = _interopRequireDefault(_warning);
 	
-	var _isPlainObject = __webpack_require__(387);
+	var _isPlainObject = __webpack_require__(381);
 	
 	var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
 	
@@ -71168,7 +72607,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 383 */
+/* 377 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -71199,7 +72638,7 @@
 	}
 
 /***/ },
-/* 384 */
+/* 378 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -71207,7 +72646,7 @@
 	exports.__esModule = true;
 	exports["default"] = wrapActionCreators;
 	
-	var _redux = __webpack_require__(385);
+	var _redux = __webpack_require__(379);
 	
 	function wrapActionCreators(actionCreators) {
 	  return function (dispatch) {
@@ -71216,7 +72655,7 @@
 	}
 
 /***/ },
-/* 385 */
+/* 379 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -71224,27 +72663,27 @@
 	exports.__esModule = true;
 	exports.compose = exports.applyMiddleware = exports.bindActionCreators = exports.combineReducers = exports.createStore = undefined;
 	
-	var _createStore = __webpack_require__(386);
+	var _createStore = __webpack_require__(380);
 	
 	var _createStore2 = _interopRequireDefault(_createStore);
 	
-	var _combineReducers = __webpack_require__(399);
+	var _combineReducers = __webpack_require__(393);
 	
 	var _combineReducers2 = _interopRequireDefault(_combineReducers);
 	
-	var _bindActionCreators = __webpack_require__(401);
+	var _bindActionCreators = __webpack_require__(395);
 	
 	var _bindActionCreators2 = _interopRequireDefault(_bindActionCreators);
 	
-	var _applyMiddleware = __webpack_require__(402);
+	var _applyMiddleware = __webpack_require__(396);
 	
 	var _applyMiddleware2 = _interopRequireDefault(_applyMiddleware);
 	
-	var _compose = __webpack_require__(403);
+	var _compose = __webpack_require__(397);
 	
 	var _compose2 = _interopRequireDefault(_compose);
 	
-	var _warning = __webpack_require__(400);
+	var _warning = __webpack_require__(394);
 	
 	var _warning2 = _interopRequireDefault(_warning);
 	
@@ -71268,7 +72707,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 386 */
+/* 380 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -71277,11 +72716,11 @@
 	exports.ActionTypes = undefined;
 	exports["default"] = createStore;
 	
-	var _isPlainObject = __webpack_require__(387);
+	var _isPlainObject = __webpack_require__(381);
 	
 	var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
 	
-	var _symbolObservable = __webpack_require__(397);
+	var _symbolObservable = __webpack_require__(391);
 	
 	var _symbolObservable2 = _interopRequireDefault(_symbolObservable);
 	
@@ -71535,12 +72974,12 @@
 	}
 
 /***/ },
-/* 387 */
+/* 381 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var baseGetTag = __webpack_require__(388),
-	    getPrototype = __webpack_require__(394),
-	    isObjectLike = __webpack_require__(396);
+	var baseGetTag = __webpack_require__(382),
+	    getPrototype = __webpack_require__(388),
+	    isObjectLike = __webpack_require__(390);
 	
 	/** `Object#toString` result references. */
 	var objectTag = '[object Object]';
@@ -71603,12 +73042,12 @@
 
 
 /***/ },
-/* 388 */
+/* 382 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Symbol = __webpack_require__(389),
-	    getRawTag = __webpack_require__(392),
-	    objectToString = __webpack_require__(393);
+	var Symbol = __webpack_require__(383),
+	    getRawTag = __webpack_require__(386),
+	    objectToString = __webpack_require__(387);
 	
 	/** `Object#toString` result references. */
 	var nullTag = '[object Null]',
@@ -71638,10 +73077,10 @@
 
 
 /***/ },
-/* 389 */
+/* 383 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var root = __webpack_require__(390);
+	var root = __webpack_require__(384);
 	
 	/** Built-in value references. */
 	var Symbol = root.Symbol;
@@ -71650,10 +73089,10 @@
 
 
 /***/ },
-/* 390 */
+/* 384 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var freeGlobal = __webpack_require__(391);
+	var freeGlobal = __webpack_require__(385);
 	
 	/** Detect free variable `self`. */
 	var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
@@ -71665,7 +73104,7 @@
 
 
 /***/ },
-/* 391 */
+/* 385 */
 /***/ function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/** Detect free variable `global` from Node.js. */
@@ -71676,10 +73115,10 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 392 */
+/* 386 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Symbol = __webpack_require__(389);
+	var Symbol = __webpack_require__(383);
 	
 	/** Used for built-in method references. */
 	var objectProto = Object.prototype;
@@ -71728,7 +73167,7 @@
 
 
 /***/ },
-/* 393 */
+/* 387 */
 /***/ function(module, exports) {
 
 	/** Used for built-in method references. */
@@ -71756,10 +73195,10 @@
 
 
 /***/ },
-/* 394 */
+/* 388 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var overArg = __webpack_require__(395);
+	var overArg = __webpack_require__(389);
 	
 	/** Built-in value references. */
 	var getPrototype = overArg(Object.getPrototypeOf, Object);
@@ -71768,7 +73207,7 @@
 
 
 /***/ },
-/* 395 */
+/* 389 */
 /***/ function(module, exports) {
 
 	/**
@@ -71789,7 +73228,7 @@
 
 
 /***/ },
-/* 396 */
+/* 390 */
 /***/ function(module, exports) {
 
 	/**
@@ -71824,18 +73263,18 @@
 
 
 /***/ },
-/* 397 */
+/* 391 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/* global window */
 	'use strict';
 	
-	module.exports = __webpack_require__(398)(global || window || this);
+	module.exports = __webpack_require__(392)(global || window || this);
 	
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 398 */
+/* 392 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -71860,7 +73299,7 @@
 
 
 /***/ },
-/* 399 */
+/* 393 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -71868,13 +73307,13 @@
 	exports.__esModule = true;
 	exports["default"] = combineReducers;
 	
-	var _createStore = __webpack_require__(386);
+	var _createStore = __webpack_require__(380);
 	
-	var _isPlainObject = __webpack_require__(387);
+	var _isPlainObject = __webpack_require__(381);
 	
 	var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
 	
-	var _warning = __webpack_require__(400);
+	var _warning = __webpack_require__(394);
 	
 	var _warning2 = _interopRequireDefault(_warning);
 	
@@ -71993,7 +73432,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 400 */
+/* 394 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -72023,7 +73462,7 @@
 	}
 
 /***/ },
-/* 401 */
+/* 395 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -72079,7 +73518,7 @@
 	}
 
 /***/ },
-/* 402 */
+/* 396 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -72090,7 +73529,7 @@
 	
 	exports["default"] = applyMiddleware;
 	
-	var _compose = __webpack_require__(403);
+	var _compose = __webpack_require__(397);
 	
 	var _compose2 = _interopRequireDefault(_compose);
 	
@@ -72142,7 +73581,7 @@
 	}
 
 /***/ },
-/* 403 */
+/* 397 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -72187,1840 +73626,7 @@
 	}
 
 /***/ },
-/* 404 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.routerMiddleware = exports.routerActions = exports.goForward = exports.goBack = exports.go = exports.replace = exports.push = exports.CALL_HISTORY_METHOD = exports.routerReducer = exports.LOCATION_CHANGE = exports.syncHistoryWithStore = undefined;
-	
-	var _reducer = __webpack_require__(405);
-	
-	Object.defineProperty(exports, 'LOCATION_CHANGE', {
-	  enumerable: true,
-	  get: function get() {
-	    return _reducer.LOCATION_CHANGE;
-	  }
-	});
-	Object.defineProperty(exports, 'routerReducer', {
-	  enumerable: true,
-	  get: function get() {
-	    return _reducer.routerReducer;
-	  }
-	});
-	
-	var _actions = __webpack_require__(406);
-	
-	Object.defineProperty(exports, 'CALL_HISTORY_METHOD', {
-	  enumerable: true,
-	  get: function get() {
-	    return _actions.CALL_HISTORY_METHOD;
-	  }
-	});
-	Object.defineProperty(exports, 'push', {
-	  enumerable: true,
-	  get: function get() {
-	    return _actions.push;
-	  }
-	});
-	Object.defineProperty(exports, 'replace', {
-	  enumerable: true,
-	  get: function get() {
-	    return _actions.replace;
-	  }
-	});
-	Object.defineProperty(exports, 'go', {
-	  enumerable: true,
-	  get: function get() {
-	    return _actions.go;
-	  }
-	});
-	Object.defineProperty(exports, 'goBack', {
-	  enumerable: true,
-	  get: function get() {
-	    return _actions.goBack;
-	  }
-	});
-	Object.defineProperty(exports, 'goForward', {
-	  enumerable: true,
-	  get: function get() {
-	    return _actions.goForward;
-	  }
-	});
-	Object.defineProperty(exports, 'routerActions', {
-	  enumerable: true,
-	  get: function get() {
-	    return _actions.routerActions;
-	  }
-	});
-	
-	var _sync = __webpack_require__(407);
-	
-	var _sync2 = _interopRequireDefault(_sync);
-	
-	var _middleware = __webpack_require__(408);
-	
-	var _middleware2 = _interopRequireDefault(_middleware);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-	
-	exports.syncHistoryWithStore = _sync2['default'];
-	exports.routerMiddleware = _middleware2['default'];
-
-/***/ },
-/* 405 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-	
-	exports.routerReducer = routerReducer;
-	/**
-	 * This action type will be dispatched when your history
-	 * receives a location change.
-	 */
-	var LOCATION_CHANGE = exports.LOCATION_CHANGE = '@@router/LOCATION_CHANGE';
-	
-	var initialState = {
-	  locationBeforeTransitions: null
-	};
-	
-	/**
-	 * This reducer will update the state with the most recent location history
-	 * has transitioned to. This may not be in sync with the router, particularly
-	 * if you have asynchronously-loaded routes, so reading from and relying on
-	 * this state is discouraged.
-	 */
-	function routerReducer() {
-	  var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
-	
-	  var _ref = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-	
-	  var type = _ref.type;
-	  var payload = _ref.payload;
-	
-	  if (type === LOCATION_CHANGE) {
-	    return _extends({}, state, { locationBeforeTransitions: payload });
-	  }
-	
-	  return state;
-	}
-
-/***/ },
-/* 406 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	/**
-	 * This action type will be dispatched by the history actions below.
-	 * If you're writing a middleware to watch for navigation events, be sure to
-	 * look for actions of this type.
-	 */
-	var CALL_HISTORY_METHOD = exports.CALL_HISTORY_METHOD = '@@router/CALL_HISTORY_METHOD';
-	
-	function updateLocation(method) {
-	  return function () {
-	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-	      args[_key] = arguments[_key];
-	    }
-	
-	    return {
-	      type: CALL_HISTORY_METHOD,
-	      payload: { method: method, args: args }
-	    };
-	  };
-	}
-	
-	/**
-	 * These actions correspond to the history API.
-	 * The associated routerMiddleware will capture these events before they get to
-	 * your reducer and reissue them as the matching function on your history.
-	 */
-	var push = exports.push = updateLocation('push');
-	var replace = exports.replace = updateLocation('replace');
-	var go = exports.go = updateLocation('go');
-	var goBack = exports.goBack = updateLocation('goBack');
-	var goForward = exports.goForward = updateLocation('goForward');
-	
-	var routerActions = exports.routerActions = { push: push, replace: replace, go: go, goBack: goBack, goForward: goForward };
-
-/***/ },
-/* 407 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-	
-	exports['default'] = syncHistoryWithStore;
-	
-	var _reducer = __webpack_require__(405);
-	
-	var defaultSelectLocationState = function defaultSelectLocationState(state) {
-	  return state.routing;
-	};
-	
-	/**
-	 * This function synchronizes your history state with the Redux store.
-	 * Location changes flow from history to the store. An enhanced history is
-	 * returned with a listen method that responds to store updates for location.
-	 *
-	 * When this history is provided to the router, this means the location data
-	 * will flow like this:
-	 * history.push -> store.dispatch -> enhancedHistory.listen -> router
-	 * This ensures that when the store state changes due to a replay or other
-	 * event, the router will be updated appropriately and can transition to the
-	 * correct router state.
-	 */
-	function syncHistoryWithStore(history, store) {
-	  var _ref = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
-	
-	  var _ref$selectLocationSt = _ref.selectLocationState;
-	  var selectLocationState = _ref$selectLocationSt === undefined ? defaultSelectLocationState : _ref$selectLocationSt;
-	  var _ref$adjustUrlOnRepla = _ref.adjustUrlOnReplay;
-	  var adjustUrlOnReplay = _ref$adjustUrlOnRepla === undefined ? true : _ref$adjustUrlOnRepla;
-	
-	  // Ensure that the reducer is mounted on the store and functioning properly.
-	  if (typeof selectLocationState(store.getState()) === 'undefined') {
-	    throw new Error('Expected the routing state to be available either as `state.routing` ' + 'or as the custom expression you can specify as `selectLocationState` ' + 'in the `syncHistoryWithStore()` options. ' + 'Ensure you have added the `routerReducer` to your store\'s ' + 'reducers via `combineReducers` or whatever method you use to isolate ' + 'your reducers.');
-	  }
-	
-	  var initialLocation = void 0;
-	  var isTimeTraveling = void 0;
-	  var unsubscribeFromStore = void 0;
-	  var unsubscribeFromHistory = void 0;
-	
-	  // What does the store say about current location?
-	  var getLocationInStore = function getLocationInStore(useInitialIfEmpty) {
-	    var locationState = selectLocationState(store.getState());
-	    return locationState.locationBeforeTransitions || (useInitialIfEmpty ? initialLocation : undefined);
-	  };
-	
-	  // Init currentLocation with potential location in store
-	  var currentLocation = getLocationInStore();
-	
-	  // If the store is replayed, update the URL in the browser to match.
-	  if (adjustUrlOnReplay) {
-	    var handleStoreChange = function handleStoreChange() {
-	      var locationInStore = getLocationInStore(true);
-	      if (currentLocation === locationInStore) {
-	        return;
-	      }
-	
-	      // Update address bar to reflect store state
-	      isTimeTraveling = true;
-	      currentLocation = locationInStore;
-	      history.transitionTo(_extends({}, locationInStore, {
-	        action: 'PUSH'
-	      }));
-	      isTimeTraveling = false;
-	    };
-	
-	    unsubscribeFromStore = store.subscribe(handleStoreChange);
-	    handleStoreChange();
-	  }
-	
-	  // Whenever location changes, dispatch an action to get it in the store
-	  var handleLocationChange = function handleLocationChange(location) {
-	    // ... unless we just caused that location change
-	    if (isTimeTraveling) {
-	      return;
-	    }
-	
-	    // Remember where we are
-	    currentLocation = location;
-	
-	    // Are we being called for the first time?
-	    if (!initialLocation) {
-	      // Remember as a fallback in case state is reset
-	      initialLocation = location;
-	
-	      // Respect persisted location, if any
-	      if (getLocationInStore()) {
-	        return;
-	      }
-	    }
-	
-	    // Tell the store to update by dispatching an action
-	    store.dispatch({
-	      type: _reducer.LOCATION_CHANGE,
-	      payload: location
-	    });
-	  };
-	  unsubscribeFromHistory = history.listen(handleLocationChange);
-	
-	  // The enhanced history uses store as source of truth
-	  return _extends({}, history, {
-	    // The listeners are subscribed to the store instead of history
-	
-	    listen: function listen(listener) {
-	      // Copy of last location.
-	      var lastPublishedLocation = getLocationInStore(true);
-	
-	      // Keep track of whether we unsubscribed, as Redux store
-	      // only applies changes in subscriptions on next dispatch
-	      var unsubscribed = false;
-	      var unsubscribeFromStore = store.subscribe(function () {
-	        var currentLocation = getLocationInStore(true);
-	        if (currentLocation === lastPublishedLocation) {
-	          return;
-	        }
-	        lastPublishedLocation = currentLocation;
-	        if (!unsubscribed) {
-	          listener(lastPublishedLocation);
-	        }
-	      });
-	
-	      // History listeners expect a synchronous call. Make the first call to the
-	      // listener after subscribing to the store, in case the listener causes a
-	      // location change (e.g. when it redirects)
-	      listener(lastPublishedLocation);
-	
-	      // Let user unsubscribe later
-	      return function () {
-	        unsubscribed = true;
-	        unsubscribeFromStore();
-	      };
-	    },
-	
-	
-	    // It also provides a way to destroy internal listeners
-	    unsubscribe: function unsubscribe() {
-	      if (adjustUrlOnReplay) {
-	        unsubscribeFromStore();
-	      }
-	      unsubscribeFromHistory();
-	    }
-	  });
-	}
-
-/***/ },
-/* 408 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports['default'] = routerMiddleware;
-	
-	var _actions = __webpack_require__(406);
-	
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-	
-	/**
-	 * This middleware captures CALL_HISTORY_METHOD actions to redirect to the
-	 * provided history object. This will prevent these actions from reaching your
-	 * reducer or any middleware that comes after this one.
-	 */
-	function routerMiddleware(history) {
-	  return function () {
-	    return function (next) {
-	      return function (action) {
-	        if (action.type !== _actions.CALL_HISTORY_METHOD) {
-	          return next(action);
-	        }
-	
-	        var _action$payload = action.payload;
-	        var method = _action$payload.method;
-	        var args = _action$payload.args;
-	
-	        history[method].apply(history, _toConsumableArray(args));
-	      };
-	    };
-	  };
-	}
-
-/***/ },
-/* 409 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 410 */,
-/* 411 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 412 */,
-/* 413 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 414 */,
-/* 415 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 416 */,
-/* 417 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _backbone = __webpack_require__(222);
-	
-	var _backbone2 = _interopRequireDefault(_backbone);
-	
-	var _addLocationDialog = __webpack_require__(418);
-	
-	var _addLocationDialog2 = _interopRequireDefault(_addLocationDialog);
-	
-	var _welcomeDialog = __webpack_require__(419);
-	
-	var _welcomeDialog2 = _interopRequireDefault(_welcomeDialog);
-	
-	var _models = __webpack_require__(420);
-	
-	var _locationInformation = __webpack_require__(421);
-	
-	var _locationForm = __webpack_require__(422);
-	
-	var _search = __webpack_require__(423);
-	
-	__webpack_require__(362);
-	
-	__webpack_require__(364);
-	
-	__webpack_require__(336);
-	
-	__webpack_require__(366);
-	
-	__webpack_require__(368);
-	
-	__webpack_require__(340);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var markerFillColor = '#00AA85';
-	
-	var GeoLocateButton = _react2.default.createClass({
-	    displayName: 'GeoLocateButton',
-	
-	    render: function render() {
-	        return _react2.default.createElement(
-	            'div',
-	            { className: 'GeoLocateButton', onClick: this.props.onClickGeolocate },
-	            _react2.default.createElement('img', { src: './img/AutoLocation.svg' })
-	        );
-	    }
-	});
-	
-	var _Popup = L.Popup.extend({
-	    initialize: function initialize(options, source) {
-	        this.options.className = 'Popup';
-	        L.setOptions(this, options);
-	        this._source = source;
-	    }
-	});
-	
-	var SL = {
-	    Popup: function Popup(options) {
-	        return new _Popup(options);
-	    }
-	};
-	
-	module.exports.Map = _react2.default.createClass({
-	    displayName: 'Map',
-	    getInitialState: function getInitialState() {
-	        var model = new _backbone2.default.Model({
-	            marker: null
-	        });
-	
-	        var geocoder = new google.maps.Geocoder();
-	
-	        var offerings = new _models.Offerings();
-	        offerings.fetch();
-	
-	        return {
-	            model: model,
-	            geocoder: geocoder,
-	            offerings: offerings,
-	            locationForm: false,
-	            thanksDialog: false,
-	            addLocationDialog: false,
-	            viz: {
-	                templateURL: '//<%- username %>.cartodb.com/api/v2/viz/<%-id %>/viz.json'
-	            },
-	            mapOptions: {
-	                center: [40.74442, -73.970],
-	                zoom: 13,
-	                https: true,
-	                zoomControl: true,
-	                scrollwheel: true,
-	                loaderControl: true,
-	                search: false,
-	                shareable: false
-	            },
-	            style: {
-	                marker: {
-	                    radius: 7,
-	                    fillColor: markerFillColor,
-	                    color: '#FFFFFF',
-	                    weight: 1.5,
-	                    opacity: 0.9,
-	                    fillOpacity: 1
-	                }
-	            }
-	        };
-	    },
-	    componentDidMount: function componentDidMount() {
-	        var url = this._getVizJSONURL();
-	        var options = this.state.mapOptions;
-	
-	        cartodb.createVis('map', url, options).done(this.onVisLoaded);
-	    },
-	    isMobile: function isMobile() {
-	        if (navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/webOS/i) || navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/BlackBerry/i) || navigator.userAgent.match(/Windows Phone/i)) {
-	            return true;
-	        } else {
-	            return false;
-	        }
-	    },
-	    onVisLoaded: function onVisLoaded(vis, layers) {
-	        var _this = this;
-	
-	        var layer = layers[1];
-	        layer.setInteraction(true);
-	        var query = "SELECT l.*, string_agg(o.name, ', ') as offerings " + "FROM locations AS l " + "LEFT OUTER JOIN locations_offerings AS lo ON lo.location_id = l.cartodb_id " + "LEFT OUTER JOIN offerings as o ON o.cartodb_id = lo.offering_id " + (this.props.location.query.categories ? 'WHERE o.cartodb_id in (' + this.props.location.query.categories + ') ' : "") + "GROUP BY l.cartodb_id";
-	        layer.setQuery(query);
-	
-	        layer.on('mouseover', this.onMouseOver);
-	        layer.on('mouseout', this.onMouseOut);
-	        layer.on('featureClick', this.onFeatureClick);
-	
-	        var sublayer = layer.getSubLayer(0);
-	        sublayer.setInteraction(true);
-	        sublayer.setInteractivity('cartodb_id, name, description, offerings, address');
-	
-	        var markerWidth = this.isMobile() ? 20 : 10;
-	        var transparentMarkerWidth = this.isMobile() ? 40 : 20;
-	        var locationCSS = '#locations {' + 'marker-fill-opacity: 0.9;' + 'marker-line-color: #FFF;' + 'marker-line-width: 1;' + 'marker-line-opacity: 1;' + 'marker-placement: point;' + 'marker-type: ellipse;' + 'marker-width: ' + markerWidth + ';' + 'marker-fill: ' + markerFillColor + ';' + 'marker-allow-overlap: true; }';
-	        var transparentLocationCSS = '#locations {' + 'marker-fill-opacity: 0.0;' + 'marker-line-color: #111;' + 'marker-type: ellipse;' + 'marker-placement: point;' + 'market-line-width: 0' + 'marker-width: ' + transparentMarkerWidth + ';' + 'marker-allow-overlap: true; }';
-	
-	        sublayer.setCartoCSS(locationCSS);
-	
-	        //TODO: fix this
-	        sublayer.on('featureClick', function (e, latlng, pos, data) {
-	            e.preventDefault();
-	            e.stopPropagation();
-	        });
-	
-	        this.map = vis.getNativeMap();
-	
-	        cartodb.createLayer(this.map, {
-	            user_name: 'streetlivesnyc',
-	            type: 'cartodb',
-	            sublayers: [{
-	                sql: query,
-	                cartocss: transparentLocationCSS
-	            }]
-	        }).done(function (layer) {
-	            layer.on('mouseover', _this.onMouseOver);
-	            layer.on('mouseout', _this.onMouseOut);
-	            layer.on('featureClick', _this.onFeatureClick);
-	            layer.setInteraction(true);
-	            layer.setInteractivity('cartodb_id, name, description, offerings, address');
-	            layer.addTo(_this.map);
-	        });
-	
-	        this.map.on('click', this.onClickMap);
-	    },
-	
-	
-	    onMouseOut: function onMouseOut() {
-	        $('.leaflet-container').css('cursor', 'auto');
-	    },
-	
-	    onMouseOver: function onMouseOver() {
-	        $('.leaflet-container').css('cursor', 'pointer');
-	    },
-	
-	    onFeatureClick: function onFeatureClick(e, latlng, pos, data) {
-	        e.preventDefault();
-	        e.stopPropagation();
-	
-	        if (this.t) {
-	            clearTimeout(this.t);
-	        }
-	
-	        this.map.closePopup();
-	
-	        this.setState({
-	            locationInformation: data,
-	            addLocationDialog: false
-	        });
-	    },
-	
-	    onClickMap: function onClickMap(e) {
-	        var geocoder = this.state.geocoder;
-	        var onFinishedGeocoding = this.onFinishedGeocoding;
-	        this.t = setTimeout(function () {
-	            var coordinates = [e.latlng.lat, e.latlng.lng];
-	            var latLng = new google.maps.LatLng(coordinates[0], coordinates[1]);
-	
-	            geocoder.geocode({ 'latLng': latLng }, function (results, status) {
-	                onFinishedGeocoding(coordinates, null, results, status);
-	            });
-	        }, 250);
-	    },
-	
-	    onFinishedGeocoding: function onFinishedGeocoding(coordinates, place, results, status) {
-	        if (!this.state.locationInformation && status === google.maps.GeocoderStatus.OK) {
-	            if (results && results.length > 0) {
-	                var address = results[0].formatted_address;
-	                var name = place ? place.name : null;
-	                this.state.model.set({ name: name, coordinates: coordinates, address: address });
-	                this._addMarker(coordinates);
-	            }
-	        }
-	    },
-	
-	    _addMarker: function _addMarker(coordinates) {
-	        if (this.isMobile()) {
-	            this.setState({
-	                addLocationDialog: true
-	            });
-	        } else {
-	            var style = this.state.style.marker;
-	            var name = this.state.model.get('name');
-	            var nameString = name ? name + ', ' : '';
-	            var address = this.state.model.get('address');
-	
-	            var content = '<p>' + '<strong class="Popup-addressName">' + nameString + address + '</strong>' + '<br/>' + 'is not part of Streetlives yet. ' + 'Do you want to add this location to the map?' + '</p>' + '<button class="Button Button--addLocationSmall js-add-location">' + 'Add location' + '</button>';
-	
-	            var panCoords = this.isMobile() ? [0, 150] : [10, 75];
-	            this.popup = SL.Popup({ autoPanPaddingTopLeft: panCoords, offset: [0, -5] }).setLatLng(coordinates).setContent(content).openOn(this.map);
-	
-	            var self = this;
-	
-	            this.popup.on('close', function () {
-	                self.map.removeLayer(self.currentMarker);
-	            });
-	
-	            this.currentMarker = L.circleMarker(coordinates, style);
-	            this.currentMarker.addTo(this.map);
-	
-	            /**
-	             * This element is INSIDE the content of the popup generated from the template. No better
-	             * ideas on how to attach the handler to it. Hopefully React/leaflet thing can help here.
-	             */
-	            $('.js-add-location').click(this.onClickAddLocation);
-	        }
-	    },
-	
-	    onClickAddLocation: function onClickAddLocation(e) {
-	        this._killEvent(e);
-	        this.map.removeLayer(this.popup);
-	
-	        this.setState({
-	            locationForm: true
-	        });
-	        console.log(this.state);
-	    },
-	
-	    onClickAddLocationFromReactPopup: function onClickAddLocationFromReactPopup(e) {
-	        this._killEvent(e);
-	
-	        this.removeAddLocationDialog();
-	        this.setState({
-	            locationForm: true
-	        });
-	        console.log(this.state);
-	    },
-	
-	    _killEvent: function _killEvent(e) {
-	        if (e) {
-	            if (e.preventDefault) {
-	                e.preventDefault();
-	            }
-	            if (e.stopPropagation) {
-	                e.stopPropagation();
-	            }
-	        }
-	    },
-	
-	    onKeyUp: function onKeyUp(e) {
-	        if (e.keyCode === 27) {
-	            this.map.closePopup();
-	        }
-	    },
-	
-	    onAddLocation: function onAddLocation() {
-	        var marker = L.circleMarker(this.state.model.get('coordinates'), this.state.style.marker);
-	
-	        marker.on('click', function () {
-	            console.log('click');
-	        });
-	
-	        marker.addTo(this.map);
-	
-	        this.setState({
-	            thanksDialog: true
-	        });
-	
-	        this._removeCurrentSelection();
-	    },
-	
-	    _removeCurrentSelection: function _removeCurrentSelection() {
-	        if (this.currentMarker) {
-	            this.map.removeLayer(this.currentMarker);
-	            this.state.model.set({ address: null });
-	            this.setState({
-	                locationForm: false
-	            });
-	        }
-	    },
-	
-	    _reconcileCoordinates: function _reconcileCoordinates(coordinates) {
-	        var locationModel = new _models.Locations();
-	        var self = this;
-	        locationModel.fetch({ data: $.param({ address: coordinates }) }).done(function (data) {
-	            if (data.rows.length > 0) {
-	                self.setState({
-	                    locationInformation: data.rows[0]
-	                });
-	            } else {
-	                self._addMarker(coordinates);
-	            }
-	        });
-	    },
-	
-	
-	    _gotoPlace: function _gotoPlace(place) {
-	        var coordinates = [place.geometry.location.lat(), place.geometry.location.lng()];
-	        var latLng = new google.maps.LatLng(coordinates[0], coordinates[1]);
-	
-	        var self = this;
-	        this.map.panTo(coordinates);
-	
-	        var model = this.state.model;
-	        setTimeout(function () {
-	            model.set({
-	                name: place.name,
-	                address: place.formatted_address
-	            });
-	            self._reconcileCoordinates(coordinates);
-	        }, 500);
-	    },
-	
-	    _getVizJSONURL: function _getVizJSONURL() {
-	        var tpl = _.template(this.state.viz.templateURL);
-	
-	        return tpl({
-	            id: window.Config.map_id,
-	            username: window.Config.username
-	        });
-	    },
-	    removeLocationForm: function removeLocationForm() {
-	        this.setState({
-	            locationForm: false
-	        });
-	    },
-	    removeLocationInformation: function removeLocationInformation(addedNewComment) {
-	        this.setState({
-	            locationInformation: null,
-	            thanksDialog: typeof addedNewcomment === 'boolean' ? addedNewComment : false
-	        });
-	    },
-	    renderLocationInformation: function renderLocationInformation() {
-	        if (this.state.locationInformation) {
-	            return _react2.default.createElement(_locationInformation.LocationInformation, { options: this.state.locationInformation,
-	                onClickClose: this.removeLocationInformation });
-	        }
-	    },
-	    renderLocationForm: function renderLocationForm() {
-	        if (this.state.locationForm) {
-	            return _react2.default.createElement(_locationForm.LocationForm, { onAddLocation: this.onAddLocation,
-	                onClickCancel: this.removeLocationForm,
-	                offerings: this.state.offerings,
-	                name: this.state.model.get('name'),
-	                coordinates: this.state.model.get('coordinates'),
-	                address: this.state.model.get('address')
-	            });
-	        } else {
-	            return null;
-	        }
-	    },
-	    removeThanksDialog: function removeThanksDialog() {
-	        this.setState({
-	            thanksDialog: false
-	        });
-	    },
-	    renderThanksDialog: function renderThanksDialog() {
-	        if (this.state.thanksDialog) {
-	            return _react2.default.createElement(_addLocationDialog2.default, { onClickOk: this.removeThanksDialog,
-	                onClickClose: this.removeThanksDialog,
-	                title: 'Thank your for helping the community with your knowledge',
-	                text: '',
-	                ok_button: 'Ok, thanks' });
-	        } else {
-	            return null;
-	        }
-	    },
-	    renderWelcomeDialog: function renderWelcomeDialog() {
-	        if (this.props.showWelcome) {
-	            return _react2.default.createElement(_welcomeDialog2.default, { onClickOK: this.props.welcomeClicked });
-	        } else {
-	            return null;
-	        }
-	    },
-	    removeAddLocationDialog: function removeAddLocationDialog() {
-	        this.setState({
-	            addLocationDialog: false
-	        });
-	    },
-	    renderAddLocationDialog: function renderAddLocationDialog() {
-	        var name = this.state.model.get('name');
-	        var nameString = name ? name + ', ' : '';
-	        var address = this.state.model.get('address');
-	
-	        if (this.state.addLocationDialog) {
-	            return _react2.default.createElement(_addLocationDialog2.default, { name: nameString, address: address,
-	                onClickAddLocation: this.onClickAddLocationFromReactPopup,
-	                onClickClose: this.removeAddLocationDialog });
-	        } else {
-	            return null;
-	        }
-	    },
-	
-	
-	    _onClickGeolocate: function _onClickGeolocate() {
-	        var _this2 = this;
-	
-	        if (navigator.geolocation) {
-	            navigator.geolocation.getCurrentPosition(function (position) {
-	                _this2.map.panTo([position.coords.latitude, position.coords.longitude]);
-	                _this2.map.setZoom(16);
-	            });
-	        }
-	    },
-	
-	    render: function render() {
-	        return _react2.default.createElement(
-	            'div',
-	            { onkeyup: this.onKeyUp },
-	            _react2.default.createElement(
-	                'div',
-	                { id: 'map', className: 'Map' },
-	                _react2.default.createElement(_search.Search, { gotoPlace: this._gotoPlace })
-	            ),
-	            this.renderLocationForm(),
-	            this.renderLocationInformation(),
-	            this.renderThanksDialog(),
-	            this.renderWelcomeDialog(),
-	            this.renderAddLocationDialog(),
-	            _react2.default.createElement(GeoLocateButton, { onClickGeolocate: this._onClickGeolocate })
-	        );
-	    }
-	});
-
-/***/ },
-/* 418 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var AddLocationDialog = _react2.default.createClass({
-	    displayName: "AddLocationDialog",
-	    render: function render() {
-	        return _react2.default.createElement(
-	            "div",
-	            { className: "Dialog" },
-	            _react2.default.createElement(
-	                "div",
-	                { className: "Dialog-inner js-content" },
-	                _react2.default.createElement(
-	                    "button",
-	                    { className: "Button--close js-cancel",
-	                        onClick: this.props.onClickClose },
-	                    "✕"
-	                ),
-	                _react2.default.createElement(
-	                    "div",
-	                    { className: "Dialog-content" },
-	                    _react2.default.createElement(
-	                        "p",
-	                        null,
-	                        _react2.default.createElement(
-	                            "strong",
-	                            { className: "Popup-addressName" },
-	                            this.props.nameString,
-	                            " ",
-	                            this.props.address
-	                        ),
-	                        _react2.default.createElement("br", null),
-	                        "is not part of Streetlives yet. Do you want to add this location to the map?"
-	                    )
-	                ),
-	                _react2.default.createElement(
-	                    "button",
-	                    { className: "Button Button--addLocationSmall js-add-location",
-	                        onClick: this.props.onClickAddLocation },
-	                    "Add location"
-	                )
-	            )
-	        );
-	    }
-	});
-	
-	exports.default = AddLocationDialog;
-
-/***/ },
-/* 419 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	__webpack_require__(346);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var WelcomeDialog = _react2.default.createClass({
-	    displayName: 'WelcomeDialog',
-	    render: function render() {
-	        return _react2.default.createElement(
-	            'div',
-	            { className: 'Welcome Dialog' },
-	            _react2.default.createElement(
-	                'div',
-	                { className: 'Welcome-inner Dialog-inner' },
-	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'Welcome-content Dialog-content' },
-	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'Welcome-title' },
-	                        'Welcome to StreetlivesNYC:'
-	                    ),
-	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'Welcome-subtitle' },
-	                        'Your city, your map, your voice.'
-	                    ),
-	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'Welcome-message' },
-	                        'StreetlivesNYC is a map providing information for and from the Homeless population of New York City. Look for what you need or post what you know.'
-	                    ),
-	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'Button-container' },
-	                        _react2.default.createElement(
-	                            'button',
-	                            { onClick: this.props.onClickOK, className: 'Button js-ok' },
-	                            'OK, thanks'
-	                        )
-	                    )
-	                )
-	            )
-	        );
-	    }
-	});
-	
-	exports.default = WelcomeDialog;
-
-/***/ },
-/* 420 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var _backbone = __webpack_require__(222);
-	
-	var _backbone2 = _interopRequireDefault(_backbone);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	module.exports.Comment = _backbone2.default.Model.extend({
-	  validate: function validate(attrs, options) {
-	    if (!attrs.comment && attrs.liked == null) {
-	      return 'comment';
-	    }
-	  }
-	});
-	
-	module.exports.Comments = _backbone2.default.Collection.extend({
-	  model: module.exports.Comment,
-	  url: '/comments',
-	
-	  parse: function parse(response) {
-	    return response.rows;
-	  }
-	});
-	
-	module.exports.Likes = _backbone2.default.Collection.extend({
-	  url: '/likes',
-	
-	  parse: function parse(response) {
-	    return response.rows;
-	  }
-	});
-	
-	module.exports.Offering = _backbone2.default.Model.extend();
-	
-	module.exports.Offerings = _backbone2.default.Collection.extend({
-	  model: module.exports.Offering,
-	  url: '/offerings',
-	
-	  parse: function parse(response) {
-	    return response.rows;
-	  }
-	});
-	
-	module.exports.Location = _backbone2.default.Model.extend({
-	  url: '/location',
-	  defaults: {
-	    offerings: '',
-	    address: '',
-	    name: ''
-	  },
-	  validate: function validate(attrs, options) {
-	    if (!attrs.name) {
-	      return 'name';
-	    }
-	  }
-	});
-	
-	module.exports.Locations = _backbone2.default.Model.extend({
-	  url: '/locations',
-	  parse: function parse(response) {
-	    return response.rows;
-	  }
-	});
-
-/***/ },
-/* 421 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _moment = __webpack_require__(227);
-	
-	var _moment2 = _interopRequireDefault(_moment);
-	
-	var _models = __webpack_require__(420);
-	
-	__webpack_require__(330);
-	
-	__webpack_require__(334);
-	
-	__webpack_require__(336);
-	
-	__webpack_require__(338);
-	
-	__webpack_require__(340);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var CommentComponent = _react2.default.createClass({
-	    displayName: 'CommentComponent',
-	
-	
-	    renderUsername: function renderUsername() {
-	        if (this.props.comment.username) {
-	            return _react2.default.createElement(
-	                'div',
-	                { className: 'CommentList-username' },
-	                this.props.comment.username
-	            );
-	        }
-	    },
-	
-	    render: function render() {
-	        return _react2.default.createElement(
-	            'div',
-	            { className: 'CommentList-item' },
-	            _react2.default.createElement(
-	                'p',
-	                null,
-	                _react2.default.createElement(
-	                    'span',
-	                    { className: 'CommentList-itemDate' },
-	                    (0, _moment2.default)(this.props.comment.created_at).format('MMMM Do YYYY')
-	                ),
-	                this.props.comment.comment,
-	                this.renderUsername()
-	            )
-	        );
-	    }
-	});
-	
-	var LikesComponent = _react2.default.createClass({
-	    displayName: 'LikesComponent',
-	
-	
-	    getInitialState: function getInitialState() {
-	        return {
-	            likes: 0,
-	            dislikes: 0,
-	            total: 0
-	        };
-	    },
-	
-	    updateLikes: function updateLikes(likes) {
-	        likes = likes.at(0);
-	        if (likes) {
-	            this.setState({
-	                likes: likes.attributes.likes,
-	                dislikes: likes.attributes.dislikes,
-	                total: likes.attributes.total
-	            });
-	        }
-	    },
-	
-	    componentDidMount: function componentDidMount() {
-	        var likes = new _models.Likes();
-	        likes.fetch({
-	            data: { location_id: this.props.location_id },
-	            success: this.updateLikes
-	        });
-	    },
-	
-	    render: function render() {
-	        return _react2.default.createElement(
-	            'div',
-	            { className: 'LikesList' },
-	            _react2.default.createElement(
-	                'div',
-	                { className: 'LikesList-item' },
-	                _react2.default.createElement(
-	                    'span',
-	                    { className: 'LikesList-item--like' },
-	                    this.state.likes
-	                )
-	            ),
-	            _react2.default.createElement(
-	                'div',
-	                { className: 'LikesList-item' },
-	                _react2.default.createElement(
-	                    'span',
-	                    { className: 'LikesList-item--dislike' },
-	                    this.state.dislikes
-	                )
-	            ),
-	            _react2.default.createElement(
-	                'div',
-	                { className: 'LikesList-item' },
-	                _react2.default.createElement(
-	                    'span',
-	                    { className: 'LikesList-item--total' },
-	                    this.state.total
-	                )
-	            )
-	        );
-	    }
-	});
-	
-	var CommentForm = _react2.default.createClass({
-	    displayName: 'CommentForm',
-	
-	
-	    getInitialState: function getInitialState() {
-	        return {
-	            liked: 'neither',
-	            typedStuff: false
-	        };
-	    },
-	
-	    typedComments: function typedComments() {
-	        if (this.refs.comment_text.value !== "") {
-	            this.setState({
-	                typedStuff: true
-	            });
-	        } else {
-	            this.setState({
-	                typedStuff: false
-	            });
-	        }
-	    },
-	
-	    liked: function liked() {
-	        this.setState({
-	            liked: true
-	        });
-	    },
-	
-	    disliked: function disliked() {
-	        this.setState({
-	            liked: false
-	        });
-	    },
-	
-	    addComment: function addComment() {
-	        var newComment = new _models.Comment({
-	            location_id: this.props.location_id,
-	            comment: this.refs.comment_text.value,
-	            username: this.refs.username.value,
-	            liked: this.state.liked === 'neither' ? null : this.state.liked
-	        });
-	        this.props.addComment(newComment);
-	    },
-	
-	    render: function render() {
-	        var placeholder = "Feel free to add tips, warnings, comments or review about " + this.props.name;
-	        var buttonClass = this.state.typedStuff ? "Button js-ok" : "Button is-disabled js-ok";
-	
-	        var likeButtonClass;
-	        var dislikeButtonClass;
-	        if (this.state.liked === true) {
-	            likeButtonClass = "LikeButton js-like is-selected";
-	            dislikeButtonClass = "LikeButton LikeButton--dislike js-like";
-	        } else if (this.state.liked === false) {
-	            likeButtonClass = "LikeButton js-like";
-	            dislikeButtonClass = "LikeButton LikeButton--dislike js-like is-selected";
-	        } else {
-	            likeButtonClass = "LikeButton js-like";
-	            dislikeButtonClass = "LikeButton LikeButton--dislike js-like";
-	        }
-	
-	        return _react2.default.createElement(
-	            'div',
-	            { className: 'Comments-form' },
-	            _react2.default.createElement(
-	                'label',
-	                { className: 'LocationInformation-label' },
-	                'Add something to the conversation!'
-	            ),
-	            _react2.default.createElement(
-	                'div',
-	                { className: 'InputField InputField-area js-field' },
-	                _react2.default.createElement('textarea', { placeholder: placeholder,
-	                    className: 'Input InputArea js-comment',
-	                    ref: 'comment_text',
-	                    onChange: this.typedComments })
-	            ),
-	            _react2.default.createElement(
-	                'div',
-	                { className: 'LocationForm-field' },
-	                _react2.default.createElement(
-	                    'label',
-	                    { className: 'LocationForm-label' },
-	                    'Your name or initials (optional)'
-	                ),
-	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'InputField js-field' },
-	                    _react2.default.createElement('input', { type: 'text', className: 'Input js-username', ref: 'username' })
-	                )
-	            ),
-	            _react2.default.createElement(
-	                'div',
-	                { className: 'LikeButtons' },
-	                _react2.default.createElement(
-	                    'p',
-	                    { className: 'LikeButtons-title' },
-	                    'Would you recommend this location to others?'
-	                ),
-	                _react2.default.createElement(
-	                    'ul',
-	                    { className: 'LikeButtons-list' },
-	                    _react2.default.createElement(
-	                        'li',
-	                        { className: 'LikeButtons-listItem' },
-	                        _react2.default.createElement(
-	                            'button',
-	                            { className: likeButtonClass,
-	                                'data-value': '1',
-	                                onClick: this.liked },
-	                            _react2.default.createElement(
-	                                'p',
-	                                { className: 'LikeButtons-response' },
-	                                'Yes'
-	                            )
-	                        )
-	                    ),
-	                    _react2.default.createElement(
-	                        'li',
-	                        { className: 'LikeButtons-listItem' },
-	                        _react2.default.createElement(
-	                            'button',
-	                            { className: dislikeButtonClass,
-	                                'data-value': '0',
-	                                onClick: this.disliked },
-	                            _react2.default.createElement(
-	                                'p',
-	                                { className: 'LikeButtons-response' },
-	                                'No'
-	                            )
-	                        )
-	                    )
-	                )
-	            ),
-	            _react2.default.createElement(
-	                'button',
-	                { className: buttonClass, onClick: this.addComment },
-	                'Add comment'
-	            )
-	        );
-	    }
-	});
-	
-	var CommentsComponent = _react2.default.createClass({
-	    displayName: 'CommentsComponent',
-	
-	    getInitialState: function getInitialState() {
-	        return {
-	            comments: new _models.Comments()
-	        };
-	    },
-	
-	    updateComments: function updateComments(comments) {
-	        this.setState({
-	            comments: comments
-	        });
-	    },
-	
-	    addComment: function addComment(newComment) {
-	        this.state.comments.add(newComment);
-	        var onClickClose = this.props.onClickClose;
-	        newComment.save({}, {
-	            success: function success() {
-	                onClickClose(true);
-	            }
-	        });
-	    },
-	
-	    componentDidMount: function componentDidMount() {
-	        this.state.comments.fetch({
-	            data: { location_id: this.props.location_id },
-	            success: this.updateComments
-	        });
-	    },
-	
-	    renderComments: function renderComments() {
-	        var comments = [];
-	        this.state.comments.each(function (model) {
-	            comments.push(_react2.default.createElement(CommentComponent, { comment: model.attributes,
-	                key: model.attributes.cartodb_id }));
-	        });
-	        return comments;
-	    },
-	
-	    render: function render() {
-	        return _react2.default.createElement(
-	            'div',
-	            { className: 'Comments' },
-	            _react2.default.createElement(
-	                'div',
-	                { className: 'Comments-inner' },
-	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'Comments-content js-comments' },
-	                    _react2.default.createElement(
-	                        'label',
-	                        { className: 'LocationInformation-label' },
-	                        'Comments'
-	                    ),
-	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'js-likes' },
-	                        _react2.default.createElement(LikesComponent, { location_id: this.props.location_id })
-	                    ),
-	                    _react2.default.createElement(
-	                        'ul',
-	                        { className: 'CommentList js-comment-list scroll-pane' },
-	                        this.renderComments()
-	                    )
-	                ),
-	                _react2.default.createElement(CommentForm, { name: this.props.name,
-	                    location_id: this.props.location_id,
-	                    addComment: this.addComment })
-	            )
-	        );
-	    }
-	});
-	
-	module.exports.LocationInformation = _react2.default.createClass({
-	    displayName: 'LocationInformation',
-	
-	
-	    getInitialState: function getInitialState() {
-	        return {
-	            location: new _models.Location(this.props.options),
-	            title: 'Add location'
-	        };
-	    },
-	
-	    renderOfferings: function renderOfferings() {
-	        if (this.props.options.offerings) {
-	            return _react2.default.createElement(
-	                'div',
-	                { className: 'LocationInformation-field' },
-	                _react2.default.createElement(
-	                    'label',
-	                    { className: 'LocationInformation-label' },
-	                    'Can offer help with'
-	                ),
-	                _react2.default.createElement(
-	                    'p',
-	                    null,
-	                    this.props.options.offerings
-	                )
-	            );
-	        } else {
-	            return null;
-	        }
-	    },
-	
-	    renderDescription: function renderDescription() {
-	        if (this.props.options.description) {
-	            return _react2.default.createElement(
-	                'div',
-	                { className: 'LocationInformation-field' },
-	                _react2.default.createElement(
-	                    'label',
-	                    { className: 'LocationInformation-label' },
-	                    'Description and tips'
-	                ),
-	                _react2.default.createElement('p', { className: 'js-description',
-	                    dangerouslySetInnerHTML: { __html: this.props.options.description } })
-	            );
-	        } else {
-	            return null;
-	        }
-	    },
-	
-	    render: function render() {
-	        return _react2.default.createElement(
-	            'div',
-	            { className: 'LocationInformation' },
-	            _react2.default.createElement(
-	                'div',
-	                { className: 'LocationInformation-inner js-content' },
-	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'LocationInformation-content' },
-	                    _react2.default.createElement(
-	                        'button',
-	                        { className: 'Button--close js-cancel',
-	                            onClick: this.props.onClickClose },
-	                        '✕'
-	                    ),
-	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'LocationInformation-title' },
-	                        _react2.default.createElement(
-	                            'h2',
-	                            { className: 'LocationInformation-name' },
-	                            this.props.options.name
-	                        ),
-	                        _react2.default.createElement(
-	                            'h4',
-	                            { className: 'LocationInformation-address' },
-	                            this.props.options.address
-	                        )
-	                    ),
-	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'LocationInformation-fields js-fields' },
-	                        this.renderOfferings(),
-	                        this.renderDescription(),
-	                        _react2.default.createElement(CommentsComponent, { name: this.props.options.name,
-	                            location_id: this.props.options.cartodb_id,
-	                            onClickClose: this.props.onClickClose })
-	                    )
-	                )
-	            )
-	        );
-	    }
-	});
-
-/***/ },
-/* 422 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _models = __webpack_require__(420);
-	
-	__webpack_require__(343);
-	
-	__webpack_require__(338);
-	
-	__webpack_require__(340);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	module.exports.LocationForm = _react2.default.createClass({
-	    displayName: 'LocationForm',
-	
-	
-	    getInitialState: function getInitialState() {
-	        return {
-	            enableSubmit: false
-	        };
-	    },
-	
-	    addLocation: function addLocation() {
-	        var ids = _.filter(this.refs.offerings.children, function (child) {
-	            return child.children[0].children[0].checked;
-	        }).map(function (child) {
-	            return child.children[0].children[0].value;
-	        });
-	
-	        var name = this.refs.name.value;
-	        var username = this.refs.username.value;
-	        var comment = this.refs.comment.value;
-	
-	        var location = new _models.Location(this.props);
-	        var onAddLocation = this.props.onAddLocation;
-	        var onClickCancel = this.props.onClickCancel;
-	        location.save({ name: name, comment: comment, username: username, offerings: ids }, {
-	            success: function success() {
-	                onAddLocation(location);
-	                onClickCancel();
-	            }
-	        });
-	    },
-	
-	    checkSubmitButton: function checkSubmitButton() {
-	        this.setState({
-	            enableSubmit: this.refs.name.value.length > 0
-	        });
-	    },
-	
-	    renderOfferingList: function renderOfferingList(offering) {
-	        var id = offering.get('cartodb_id');
-	        return _react2.default.createElement(
-	            'div',
-	            { className: 'OfferingList-item', key: id },
-	            _react2.default.createElement(
-	                'label',
-	                { htmlFor: 'offering_' + id, className: 'InputCheck-label' },
-	                _react2.default.createElement('input', { type: 'checkbox',
-	                    value: id,
-	                    id: 'offering_' + id,
-	                    className: 'InputCheck js-checkbox' }),
-	                offering.get('name')
-	            )
-	        );
-	    },
-	
-	    render: function render() {
-	        return _react2.default.createElement(
-	            'div',
-	            { className: 'LocationForm' },
-	            _react2.default.createElement(
-	                'div',
-	                { className: 'LocationForm-inner js-content' },
-	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'LocationForm-content js-content' },
-	                    _react2.default.createElement(
-	                        'button',
-	                        { className: 'Button--close js-cancel',
-	                            onClick: this.props.onClickCancel },
-	                        '✕'
-	                    ),
-	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'LocationForm-fields' },
-	                        _react2.default.createElement(
-	                            'div',
-	                            { className: 'LocationForm-field' },
-	                            _react2.default.createElement(
-	                                'label',
-	                                { className: 'LocationForm-label' },
-	                                'Address'
-	                            ),
-	                            _react2.default.createElement(
-	                                'span',
-	                                { className: 'js-address' },
-	                                this.props.address
-	                            )
-	                        ),
-	                        _react2.default.createElement(
-	                            'div',
-	                            { className: 'LocationForm-field' },
-	                            _react2.default.createElement(
-	                                'label',
-	                                { className: 'LocationForm-label' },
-	                                'Name'
-	                            ),
-	                            _react2.default.createElement(
-	                                'div',
-	                                { className: 'InputField js-field' },
-	                                _react2.default.createElement('input', { type: 'text', placeholder: 'Name of this location',
-	                                    className: 'Input js-name',
-	                                    ref: 'name',
-	                                    defaultValue: this.props.name,
-	                                    onChange: this.checkSubmitButton })
-	                            )
-	                        ),
-	                        _react2.default.createElement(
-	                            'div',
-	                            { className: 'LocationForm-field' },
-	                            _react2.default.createElement(
-	                                'label',
-	                                { className: 'LocationForm-label' },
-	                                'What does it offer?'
-	                            ),
-	                            _react2.default.createElement(
-	                                'div',
-	                                { className: 'OfferingList', ref: 'offerings' },
-	                                this.props.offerings.map(this.renderOfferingList)
-	                            )
-	                        ),
-	                        _react2.default.createElement(
-	                            'div',
-	                            { className: 'LocationForm-field' },
-	                            _react2.default.createElement(
-	                                'label',
-	                                { className: 'LocationForm-label' },
-	                                'Add something to the conversation!'
-	                            ),
-	                            _react2.default.createElement(
-	                                'div',
-	                                { className: 'InputField js-field' },
-	                                _react2.default.createElement('textarea', { placeholder: 'Feel free to add tips, warnings, comments or review about this place',
-	                                    className: 'Input InputArea js-comment', ref: 'comment' })
-	                            )
-	                        ),
-	                        _react2.default.createElement(
-	                            'div',
-	                            { className: 'LocationForm-field' },
-	                            _react2.default.createElement(
-	                                'label',
-	                                { className: 'LocationForm-label' },
-	                                'Your name or initials (optional)'
-	                            ),
-	                            _react2.default.createElement(
-	                                'div',
-	                                { className: 'InputField js-field' },
-	                                _react2.default.createElement('input', { type: 'text', className: 'Input js-username', ref: 'username' })
-	                            )
-	                        )
-	                    ),
-	                    _react2.default.createElement(
-	                        'footer',
-	                        { className: 'Footer' },
-	                        _react2.default.createElement(
-	                            'button',
-	                            { className: this.props.name || this.state.enableSubmit ? 'Button js-ok' : 'Button js-ok is-disabled',
-	                                onClick: this.addLocation },
-	                            'Add location'
-	                        )
-	                    )
-	                )
-	            )
-	        );
-	    }
-	});
-
-/***/ },
-/* 423 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _models = __webpack_require__(420);
-	
-	var _reactTypeahead = __webpack_require__(349);
-	
-	var _lodash = __webpack_require__(359);
-	
-	var _lodash2 = _interopRequireDefault(_lodash);
-	
-	__webpack_require__(360);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	module.exports.Search = _react2.default.createClass({
-	    displayName: 'Search',
-	
-	    focus: function focus() {
-	        var self = this;
-	
-	        setTimeout(function () {
-	            self.refs.searchBar.focus();
-	        }, 500);
-	    },
-	
-	    getInitialState: function getInitialState() {
-	        return { searchQuery: '', locationData: {} };
-	    },
-	
-	    initAutoComplete: function initAutoComplete() {
-	        var input = this.refs.searchBar;
-	
-	        this.autocomplete = new google.maps.places.Autocomplete(input, {
-	            componentRestrictions: { country: 'USA' }
-	        });
-	
-	        google.maps.event.addListener(this.autocomplete, 'place_changed', this.onPlaceChange);
-	    },
-	
-	    onPlaceChange: function onPlaceChange() {
-	
-	        var place = this.autocomplete.getPlace();
-	        this.setState({ searchQuery: place.name });
-	
-	        if (!place.geometry || !place.geometry.location) {
-	            return;
-	        }
-	
-	        this.props.gotoPlace(place);
-	    },
-	
-	    voiceSearch: function voiceSearch() {
-	        var recognition = new webkitSpeechRecognition();
-	        var self = this;
-	
-	        recognition.onresult = function (event) {
-	            if (event.results) {
-	                self.setState({ searchQuery: event.results[0][0].transcript });
-	                self.focus();
-	            }
-	        };
-	
-	        recognition.start();
-	    },
-	
-	    componentDidMount: function componentDidMount() {
-	        this.initAutoComplete();
-	        this.focus();
-	
-	        var locationModel = new _models.Locations();
-	        var self = this;
-	
-	        locationModel.fetch().done(function (data) {
-	            var dataDict = _lodash2.default.keyBy(data.rows, 'name');
-	            self.setState({ locationData: dataDict });
-	        });
-	    },
-	
-	    onSearchChange: function onSearchChange(event) {
-	        this.setState({ searchQuery: event.target.value });
-	    },
-	
-	    render: function render() {
-	        return _react2.default.createElement(
-	            'div',
-	            { className: 'InputField SearchField' },
-	            _react2.default.createElement('input', { type: 'text', placeholder: 'Search', ref: 'searchBar', value: this.state.searchQuery,
-	                onChange: this.onSearchChange,
-	                className: 'Input SearchInput js-field' }),
-	            _react2.default.createElement('button', { className: 'microphone', onClick: this.voiceSearch })
-	        );
-	    }
-	});
-
-/***/ },
-/* 424 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	
-	var _reactRedux = __webpack_require__(378);
-	
-	var _mapActions = __webpack_require__(425);
-	
-	var _map = __webpack_require__(417);
-	
-	var mapStateToProps = function mapStateToProps(state) {
-	    return {
-	        showWelcome: state.map.showWelcome,
-	        showAddLocation: state.map.showAddLocation,
-	        showAddLocationInput: state.map.showAddLocationInput,
-	        activeCoords: state.map.activeCoords,
-	        showLocationDetail: state.map.showLocationDetail,
-	        detailLocation: state.map.detailLocation
-	    };
-	};
-	
-	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-	    return {
-	        welcomeClicked: function welcomeClicked() {
-	            dispatch((0, _mapActions.welcomeClicked)());
-	        },
-	
-	        mapClicked: function mapClicked(coords) {
-	            dispatch((0, _mapActions.mapClicked)(coords));
-	        },
-	
-	        addLocationClicked: function addLocationClicked() {
-	            dispatch((0, _mapActions.addLocationClicked)());
-	        },
-	
-	        locationSelected: function locationSelected(coords) {
-	            dispatch((0, _mapActions.locationSelected)(coords));
-	        },
-	
-	        addLocationCancelled: function addLocationCancelled() {
-	            dispatch((0, _mapActions.addLocationCancelled)());
-	        }
-	    };
-	};
-	
-	var MapContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_map.Map);
-	
-	exports.default = MapContainer;
-
-/***/ },
-/* 425 */
+/* 398 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -74061,7 +73667,7 @@
 	}
 
 /***/ },
-/* 426 */
+/* 399 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -74070,7 +73676,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _lodash = __webpack_require__(359);
+	var _lodash = __webpack_require__(360);
 	
 	var _lodash2 = _interopRequireDefault(_lodash);
 	
@@ -74218,7 +73824,7 @@
 	});
 
 /***/ },
-/* 427 */
+/* 400 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -74229,7 +73835,7 @@
 	
 	var _reactRouter = __webpack_require__(159);
 	
-	__webpack_require__(372);
+	__webpack_require__(401);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -74288,7 +73894,14 @@
 	});
 
 /***/ },
-/* 428 */
+/* 401 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 402 */,
+/* 403 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -74483,7 +74096,7 @@
 	});
 
 /***/ },
-/* 429 */
+/* 404 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -74736,7 +74349,7 @@
 	});
 
 /***/ },
-/* 430 */
+/* 405 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -75432,7 +75045,7 @@
 	});
 
 /***/ },
-/* 431 */
+/* 406 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -76069,7 +75682,7 @@
 	});
 
 /***/ },
-/* 432 */
+/* 407 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -76078,7 +75691,7 @@
 	    value: true
 	});
 	
-	var _mapActions = __webpack_require__(425);
+	var _mapActions = __webpack_require__(398);
 	
 	function getInitialWelcomeDialog() {
 	    if (typeof Storage !== "undefined" && sessionStorage.welcomeDialog) {
@@ -76129,6 +75742,515 @@
 	};
 	
 	exports.default = map;
+
+/***/ },
+/* 408 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.routerMiddleware = exports.routerActions = exports.goForward = exports.goBack = exports.go = exports.replace = exports.push = exports.CALL_HISTORY_METHOD = exports.routerReducer = exports.LOCATION_CHANGE = exports.syncHistoryWithStore = undefined;
+	
+	var _reducer = __webpack_require__(409);
+	
+	Object.defineProperty(exports, 'LOCATION_CHANGE', {
+	  enumerable: true,
+	  get: function get() {
+	    return _reducer.LOCATION_CHANGE;
+	  }
+	});
+	Object.defineProperty(exports, 'routerReducer', {
+	  enumerable: true,
+	  get: function get() {
+	    return _reducer.routerReducer;
+	  }
+	});
+	
+	var _actions = __webpack_require__(410);
+	
+	Object.defineProperty(exports, 'CALL_HISTORY_METHOD', {
+	  enumerable: true,
+	  get: function get() {
+	    return _actions.CALL_HISTORY_METHOD;
+	  }
+	});
+	Object.defineProperty(exports, 'push', {
+	  enumerable: true,
+	  get: function get() {
+	    return _actions.push;
+	  }
+	});
+	Object.defineProperty(exports, 'replace', {
+	  enumerable: true,
+	  get: function get() {
+	    return _actions.replace;
+	  }
+	});
+	Object.defineProperty(exports, 'go', {
+	  enumerable: true,
+	  get: function get() {
+	    return _actions.go;
+	  }
+	});
+	Object.defineProperty(exports, 'goBack', {
+	  enumerable: true,
+	  get: function get() {
+	    return _actions.goBack;
+	  }
+	});
+	Object.defineProperty(exports, 'goForward', {
+	  enumerable: true,
+	  get: function get() {
+	    return _actions.goForward;
+	  }
+	});
+	Object.defineProperty(exports, 'routerActions', {
+	  enumerable: true,
+	  get: function get() {
+	    return _actions.routerActions;
+	  }
+	});
+	
+	var _sync = __webpack_require__(411);
+	
+	var _sync2 = _interopRequireDefault(_sync);
+	
+	var _middleware = __webpack_require__(412);
+	
+	var _middleware2 = _interopRequireDefault(_middleware);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	exports.syncHistoryWithStore = _sync2['default'];
+	exports.routerMiddleware = _middleware2['default'];
+
+/***/ },
+/* 409 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
+	exports.routerReducer = routerReducer;
+	/**
+	 * This action type will be dispatched when your history
+	 * receives a location change.
+	 */
+	var LOCATION_CHANGE = exports.LOCATION_CHANGE = '@@router/LOCATION_CHANGE';
+	
+	var initialState = {
+	  locationBeforeTransitions: null
+	};
+	
+	/**
+	 * This reducer will update the state with the most recent location history
+	 * has transitioned to. This may not be in sync with the router, particularly
+	 * if you have asynchronously-loaded routes, so reading from and relying on
+	 * this state is discouraged.
+	 */
+	function routerReducer() {
+	  var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
+	
+	  var _ref = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+	
+	  var type = _ref.type;
+	  var payload = _ref.payload;
+	
+	  if (type === LOCATION_CHANGE) {
+	    return _extends({}, state, { locationBeforeTransitions: payload });
+	  }
+	
+	  return state;
+	}
+
+/***/ },
+/* 410 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	/**
+	 * This action type will be dispatched by the history actions below.
+	 * If you're writing a middleware to watch for navigation events, be sure to
+	 * look for actions of this type.
+	 */
+	var CALL_HISTORY_METHOD = exports.CALL_HISTORY_METHOD = '@@router/CALL_HISTORY_METHOD';
+	
+	function updateLocation(method) {
+	  return function () {
+	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	      args[_key] = arguments[_key];
+	    }
+	
+	    return {
+	      type: CALL_HISTORY_METHOD,
+	      payload: { method: method, args: args }
+	    };
+	  };
+	}
+	
+	/**
+	 * These actions correspond to the history API.
+	 * The associated routerMiddleware will capture these events before they get to
+	 * your reducer and reissue them as the matching function on your history.
+	 */
+	var push = exports.push = updateLocation('push');
+	var replace = exports.replace = updateLocation('replace');
+	var go = exports.go = updateLocation('go');
+	var goBack = exports.goBack = updateLocation('goBack');
+	var goForward = exports.goForward = updateLocation('goForward');
+	
+	var routerActions = exports.routerActions = { push: push, replace: replace, go: go, goBack: goBack, goForward: goForward };
+
+/***/ },
+/* 411 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
+	exports['default'] = syncHistoryWithStore;
+	
+	var _reducer = __webpack_require__(409);
+	
+	var defaultSelectLocationState = function defaultSelectLocationState(state) {
+	  return state.routing;
+	};
+	
+	/**
+	 * This function synchronizes your history state with the Redux store.
+	 * Location changes flow from history to the store. An enhanced history is
+	 * returned with a listen method that responds to store updates for location.
+	 *
+	 * When this history is provided to the router, this means the location data
+	 * will flow like this:
+	 * history.push -> store.dispatch -> enhancedHistory.listen -> router
+	 * This ensures that when the store state changes due to a replay or other
+	 * event, the router will be updated appropriately and can transition to the
+	 * correct router state.
+	 */
+	function syncHistoryWithStore(history, store) {
+	  var _ref = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+	
+	  var _ref$selectLocationSt = _ref.selectLocationState;
+	  var selectLocationState = _ref$selectLocationSt === undefined ? defaultSelectLocationState : _ref$selectLocationSt;
+	  var _ref$adjustUrlOnRepla = _ref.adjustUrlOnReplay;
+	  var adjustUrlOnReplay = _ref$adjustUrlOnRepla === undefined ? true : _ref$adjustUrlOnRepla;
+	
+	  // Ensure that the reducer is mounted on the store and functioning properly.
+	  if (typeof selectLocationState(store.getState()) === 'undefined') {
+	    throw new Error('Expected the routing state to be available either as `state.routing` ' + 'or as the custom expression you can specify as `selectLocationState` ' + 'in the `syncHistoryWithStore()` options. ' + 'Ensure you have added the `routerReducer` to your store\'s ' + 'reducers via `combineReducers` or whatever method you use to isolate ' + 'your reducers.');
+	  }
+	
+	  var initialLocation = void 0;
+	  var isTimeTraveling = void 0;
+	  var unsubscribeFromStore = void 0;
+	  var unsubscribeFromHistory = void 0;
+	
+	  // What does the store say about current location?
+	  var getLocationInStore = function getLocationInStore(useInitialIfEmpty) {
+	    var locationState = selectLocationState(store.getState());
+	    return locationState.locationBeforeTransitions || (useInitialIfEmpty ? initialLocation : undefined);
+	  };
+	
+	  // Init currentLocation with potential location in store
+	  var currentLocation = getLocationInStore();
+	
+	  // If the store is replayed, update the URL in the browser to match.
+	  if (adjustUrlOnReplay) {
+	    var handleStoreChange = function handleStoreChange() {
+	      var locationInStore = getLocationInStore(true);
+	      if (currentLocation === locationInStore) {
+	        return;
+	      }
+	
+	      // Update address bar to reflect store state
+	      isTimeTraveling = true;
+	      currentLocation = locationInStore;
+	      history.transitionTo(_extends({}, locationInStore, {
+	        action: 'PUSH'
+	      }));
+	      isTimeTraveling = false;
+	    };
+	
+	    unsubscribeFromStore = store.subscribe(handleStoreChange);
+	    handleStoreChange();
+	  }
+	
+	  // Whenever location changes, dispatch an action to get it in the store
+	  var handleLocationChange = function handleLocationChange(location) {
+	    // ... unless we just caused that location change
+	    if (isTimeTraveling) {
+	      return;
+	    }
+	
+	    // Remember where we are
+	    currentLocation = location;
+	
+	    // Are we being called for the first time?
+	    if (!initialLocation) {
+	      // Remember as a fallback in case state is reset
+	      initialLocation = location;
+	
+	      // Respect persisted location, if any
+	      if (getLocationInStore()) {
+	        return;
+	      }
+	    }
+	
+	    // Tell the store to update by dispatching an action
+	    store.dispatch({
+	      type: _reducer.LOCATION_CHANGE,
+	      payload: location
+	    });
+	  };
+	  unsubscribeFromHistory = history.listen(handleLocationChange);
+	
+	  // The enhanced history uses store as source of truth
+	  return _extends({}, history, {
+	    // The listeners are subscribed to the store instead of history
+	
+	    listen: function listen(listener) {
+	      // Copy of last location.
+	      var lastPublishedLocation = getLocationInStore(true);
+	
+	      // Keep track of whether we unsubscribed, as Redux store
+	      // only applies changes in subscriptions on next dispatch
+	      var unsubscribed = false;
+	      var unsubscribeFromStore = store.subscribe(function () {
+	        var currentLocation = getLocationInStore(true);
+	        if (currentLocation === lastPublishedLocation) {
+	          return;
+	        }
+	        lastPublishedLocation = currentLocation;
+	        if (!unsubscribed) {
+	          listener(lastPublishedLocation);
+	        }
+	      });
+	
+	      // History listeners expect a synchronous call. Make the first call to the
+	      // listener after subscribing to the store, in case the listener causes a
+	      // location change (e.g. when it redirects)
+	      listener(lastPublishedLocation);
+	
+	      // Let user unsubscribe later
+	      return function () {
+	        unsubscribed = true;
+	        unsubscribeFromStore();
+	      };
+	    },
+	
+	
+	    // It also provides a way to destroy internal listeners
+	    unsubscribe: function unsubscribe() {
+	      if (adjustUrlOnReplay) {
+	        unsubscribeFromStore();
+	      }
+	      unsubscribeFromHistory();
+	    }
+	  });
+	}
+
+/***/ },
+/* 412 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports['default'] = routerMiddleware;
+	
+	var _actions = __webpack_require__(410);
+	
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+	
+	/**
+	 * This middleware captures CALL_HISTORY_METHOD actions to redirect to the
+	 * provided history object. This will prevent these actions from reaching your
+	 * reducer or any middleware that comes after this one.
+	 */
+	function routerMiddleware(history) {
+	  return function () {
+	    return function (next) {
+	      return function (action) {
+	        if (action.type !== _actions.CALL_HISTORY_METHOD) {
+	          return next(action);
+	        }
+	
+	        var _action$payload = action.payload;
+	        var method = _action$payload.method;
+	        var args = _action$payload.args;
+	
+	        history[method].apply(history, _toConsumableArray(args));
+	      };
+	    };
+	  };
+	}
+
+/***/ },
+/* 413 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 414 */,
+/* 415 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 416 */,
+/* 417 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 418 */,
+/* 419 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 420 */,
+/* 421 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	exports.__esModule = true;
+	function createThunkMiddleware(extraArgument) {
+	  return function (_ref) {
+	    var dispatch = _ref.dispatch;
+	    var getState = _ref.getState;
+	    return function (next) {
+	      return function (action) {
+	        if (typeof action === 'function') {
+	          return action(dispatch, getState, extraArgument);
+	        }
+	
+	        return next(action);
+	      };
+	    };
+	  };
+	}
+	
+	var thunk = createThunkMiddleware();
+	thunk.withExtraArgument = createThunkMiddleware;
+	
+	exports['default'] = thunk;
+
+/***/ },
+/* 422 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.geocode = geocode;
+	var GEOCODE_REQUEST = exports.GEOCODE_REQUEST = 'GEOCODE_REQUEST';
+	var GEOCODE_RESPONSE = exports.GEOCODE_RESPONSE = 'GEOCODE_RESPONSE';
+	
+	var geocoder = new google.maps.Geocoder();
+	
+	function geocodeLatLng(coords) {
+	    var latLng = new google.maps.LatLng(coords[0], coords[1]);
+	    return new Promise(function (resolve, reject) {
+	        geocoder.geocode({ 'latLng': latLng }, function (results, status) {
+	            if (status == google.maps.GeocoderStatus.OK) {
+	                resolve(results);
+	            } else {
+	                reject(status);
+	            }
+	        });
+	    });
+	}
+	
+	function geocodeRequest(coords) {
+	    return {
+	        type: GEOCODE_REQUEST,
+	        coords: coords
+	    };
+	}
+	
+	function geocodeResponse(address, name) {
+	    return {
+	        type: GEOCODE_RESPONSE,
+	        address: address
+	    };
+	}
+	
+	function geocode(coords) {
+	    return function (dispatch) {
+	        dispatch(geocodeRequest(coords));
+	        geocodeLatLng(coords).then(function (results) {
+	            if (results && results.length > 0) {
+	                var address = results[0].formatted_address;
+	                return dispatch(geocodeResponse(address));
+	            }
+	        });
+	    };
+	}
+
+/***/ },
+/* 423 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _geocodeActions = __webpack_require__(422);
+	
+	var initialState = {
+	    coords: [],
+	    address: null
+	};
+	
+	var geocode = function geocode() {
+	    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+	    var action = arguments[1];
+	
+	    switch (action.type) {
+	        case _geocodeActions.GEOCODE_REQUEST:
+	            console.log('Initiating geocode');
+	            console.log(action);
+	            return Object.assign({}, state, { coords: action.coords });
+	        case _geocodeActions.GEOCODE_RESPONSE:
+	            console.log('Received geocode response');
+	            console.log(action);
+	            return Object.assign({}, state, { address: action.address });
+	        default:
+	            return state;
+	    }
+	};
+	
+	exports.default = geocode;
 
 /***/ }
 /******/ ]);

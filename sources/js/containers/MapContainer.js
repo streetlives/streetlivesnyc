@@ -1,6 +1,8 @@
 import { connect } from 'react-redux'
 import { welcomeClicked, mapClicked, addLocationClicked, addLocationCancelled,
          locationSelected } from '../actions/mapActions'
+import { geocode } from '../actions/geocodeActions'
+
 import { Map } from '../components/map.js';
 
 const mapStateToProps = (state) => {
@@ -10,7 +12,9 @@ const mapStateToProps = (state) => {
         showAddLocationInput: state.map.showAddLocationInput,
         activeCoords: state.map.activeCoords,
         showLocationDetail: state.map.showLocationDetail,
-        detailLocation: state.map.detailLocation
+        detailLocation: state.map.detailLocation,
+        placeName: state.geocode.name,
+        address: state.geocode.address
     } 
 }
 
@@ -22,6 +26,7 @@ const mapDispatchToProps = (dispatch) => {
 
         mapClicked:(coords) => {
             dispatch(mapClicked(coords))
+            dispatch(geocode(coords))
         },
 
         addLocationClicked:() => {
