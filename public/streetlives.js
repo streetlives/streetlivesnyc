@@ -27125,6 +27125,7 @@
 	        return {
 	            model: model,
 	            locations: [],
+	            drawLocations: true,
 	            geocoder: geocoder,
 	            offerings: offerings,
 	            locationForm: false,
@@ -27159,9 +27160,18 @@
 	        this._fetchLocations();
 	    },
 	    componentDidMount: function componentDidMount() {
+	        var _this = this;
+	
 	        var url = this._getVizJSONURL();
 	        var options = this.state.mapOptions;
+	        var leafletMap = this.refs.map.leafletElement;
+	        leafletMap.on('zoomstart', function () {
+	            _this.setState({ drawLocations: false });
+	        });
 	
+	        leafletMap.on('zoomend', function () {
+	            _this.setState({ drawLocations: true });
+	        });
 	        //cartodb.createVis('map', url, options).done(this.onVisLoaded);
 	    },
 	    isMobile: function isMobile() {
@@ -27172,7 +27182,7 @@
 	        }
 	    },
 	    onVisLoaded: function onVisLoaded(vis, layers) {
-	        var _this = this;
+	        var _this2 = this;
 	
 	        var layer = layers[1];
 	        layer.setInteraction(true);
@@ -27210,12 +27220,12 @@
 	                cartocss: transparentLocationCSS
 	            }]
 	        }).done(function (layer) {
-	            layer.on('mouseover', _this.onMouseOver);
-	            layer.on('mouseout', _this.onMouseOut);
-	            layer.on('featureClick', _this.onFeatureClick);
+	            layer.on('mouseover', _this2.onMouseOver);
+	            layer.on('mouseout', _this2.onMouseOut);
+	            layer.on('featureClick', _this2.onFeatureClick);
 	            layer.setInteraction(true);
 	            layer.setInteractivity('cartodb_id, name, description, offerings, address');
-	            layer.addTo(_this.map);
+	            layer.addTo(_this2.map);
 	        });
 	
 	        this.map.on('click', this.onClickMap);
@@ -27489,12 +27499,12 @@
 	
 	
 	    _onClickGeolocate: function _onClickGeolocate() {
-	        var _this2 = this;
+	        var _this3 = this;
 	
 	        if (navigator.geolocation) {
 	            navigator.geolocation.getCurrentPosition(function (position) {
-	                _this2.map.panTo([position.coords.latitude, position.coords.longitude]);
-	                _this2.map.setZoom(16);
+	                _this3.map.panTo([position.coords.latitude, position.coords.longitude]);
+	                _this3.map.setZoom(16);
 	            });
 	        }
 	    },
@@ -27517,6 +27527,10 @@
 	    renderLocations: function renderLocations() {
 	        var locations = this.state.locations;
 	        var renderedLocations = [];
+	        if (!this.state.drawLocations) {
+	            return renderedLocations;
+	        }
+	
 	        var markerStyle = { radius: 7, fillColor: markerFillColor,
 	            color: '#FFFFFF', weight: 1.5, opacity: 0.9, fillOpacity: 1 };
 	        if (this.isMobile()) {
@@ -27536,7 +27550,7 @@
 	            { onkeyup: this.onKeyUp },
 	            _react2.default.createElement(
 	                _reactLeaflet.Map,
-	                _extends({}, this.state.mapOptions, { id: 'map', url: this._getVizJSONURL(), className: 'Map' }),
+	                _extends({}, this.state.mapOptions, { ref: 'map', id: 'map', url: this._getVizJSONURL(), className: 'Map' }),
 	                _react2.default.createElement(_reactLeaflet.TileLayer, { url: 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png',
 	                    attribution: '© <a href=\'http://www.openstreetmap.org/copyright\'>OpenStreetMap</a>, ©<a href=\'https://carto.com/attribution\'>CARTO</a>\'' }),
 	                _react2.default.createElement(_search.Search, { gotoPlace: this._gotoPlace }),

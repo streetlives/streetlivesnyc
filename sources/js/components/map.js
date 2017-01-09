@@ -59,6 +59,7 @@ module.exports.StreetlivesMap = React.createClass({
         return {
             model: model,
             locations: [],
+            drawLocations: true,
             geocoder: geocoder,
             offerings: offerings,
             locationForm: false,
@@ -97,7 +98,14 @@ module.exports.StreetlivesMap = React.createClass({
     componentDidMount() {
         var url = this._getVizJSONURL();
         var options = this.state.mapOptions;
+        var leafletMap = this.refs.map.leafletElement;
+        leafletMap.on('zoomstart', ()=> {
+            this.setState({drawLocations: false});
+        });
 
+        leafletMap.on('zoomend', ()=> {
+            this.setState({drawLocations: true});
+        });
         //cartodb.createVis('map', url, options).done(this.onVisLoaded);
     },
 
@@ -519,6 +527,10 @@ module.exports.StreetlivesMap = React.createClass({
     renderLocations() {
         var locations = this.state.locations;
         var renderedLocations = []
+        if (!this.state.drawLocations) {
+            return renderedLocations
+        }
+
         var markerStyle = { radius: 7, fillColor: markerFillColor,
                             color: '#FFFFFF', weight: 1.5, opacity: 0.9, fillOpacity: 1 }
         if (this.isMobile()) {
@@ -535,7 +547,7 @@ module.exports.StreetlivesMap = React.createClass({
 
     render() {
         return (<div onkeyup={this.onKeyUp}>
-                <Map {...this.state.mapOptions} id="map" url={this._getVizJSONURL()} className="Map">
+                <Map {...this.state.mapOptions} ref="map" id="map" url={this._getVizJSONURL()} className="Map">
                    <TileLayer url='https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png'
                               attribution="&copy; <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a>, &copy;<a href='https://carto.com/attribution'>CARTO</a>'"/>
                    <Search gotoPlace={this._gotoPlace}/>
