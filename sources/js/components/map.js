@@ -1,5 +1,6 @@
 import React from 'react';
 import Backbone from 'backbone';
+import { Map, CircleMarker, Popup, TileLayer } from 'react-leaflet';
 
 import AddLocationDialog from './dialogs/addLocationDialog.js'
 import ThanksDialog from './dialogs/addLocationDialog.js'
@@ -29,7 +30,7 @@ var GeoLocateButton = React.createClass({
     }
 });
 
-const Popup = L.Popup.extend({
+const StreetlivesPopup = L.Popup.extend({
   initialize: function (options, source) {
     this.options.className = 'Popup';
     L.setOptions(this, options);
@@ -39,11 +40,11 @@ const Popup = L.Popup.extend({
 
 const SL = {
     Popup: function(options) {
-        return new Popup(options);
+        return new StreetlivesPopup(options);
     }
 };
 
-module.exports.Map = React.createClass({
+module.exports.StreetlivesMap = React.createClass({
 
     getInitialState() {
         const model = new Backbone.Model({
@@ -57,6 +58,7 @@ module.exports.Map = React.createClass({
 
         return {
             model: model,
+            locations: [],
             geocoder: geocoder,
             offerings: offerings,
             locationForm: false,
@@ -88,11 +90,15 @@ module.exports.Map = React.createClass({
         }
     },
 
+    componentWillMount() {
+        this._fetchLocations();
+    },
+
     componentDidMount() {
         var url = this._getVizJSONURL();
         var options = this.state.mapOptions;
 
-        cartodb.createVis('map', url, options).done(this.onVisLoaded);
+        //cartodb.createVis('map', url, options).done(this.onVisLoaded);
     },
 
     isMobile() {
@@ -346,6 +352,15 @@ module.exports.Map = React.createClass({
         }
     },
 
+    // TODO: move this into redux
+    _fetchLocations() {
+        var locationModel = new Locations();
+        var self = this;
+        locationModel.fetch({}).done(function(data) {
+            self.setState({ locations: data.rows });
+        });
+    },
+
     _reconcileCoordinates(coordinates) {
         var locationModel = new Locations();
         var self = this;
@@ -486,7 +501,7 @@ module.exports.Map = React.createClass({
     },
 
 
-    render() {
+    /*render() {
         return (
             <div onkeyup={this.onKeyUp}>
                 <div id="map" className="Map">
@@ -500,6 +515,39 @@ module.exports.Map = React.createClass({
                 <GeoLocateButton onClickGeolocate={this._onClickGeolocate}/>
             </div>
         )
+    }*/
+    renderLocations() {
+        var locations = this.state.locations;
+        var renderedLocations = []
+        var markerStyle = { radius: 7, fillColor: markerFillColor,
+                            color: '#FFFFFF', weight: 1.5, opacity: 0.9, fillOpacity: 1 }
+        if (this.isMobile()) {
+            markerStyle.radius = 20
+        }
+
+        for (var i=0; i < locations.length; i++) {
+            var nextLocation = locations[i]; 
+            renderedLocations.push(<CircleMarker key={`locaiton-${i}`} {...markerStyle}
+                                                 center={[nextLocation.lat, nextLocation.long]}/>)
+        }
+        return renderedLocations
+    },
+
+    render() {
+        return (<div onkeyup={this.onKeyUp}>
+                <Map {...this.state.mapOptions} id="map" url={this._getVizJSONURL()} className="Map">
+                   <TileLayer url='https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png'
+                              attribution="&copy; <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a>, &copy;<a href='https://carto.com/attribution'>CARTO</a>'"/>
+                   <Search gotoPlace={this._gotoPlace}/>
+                   {this.renderLocations()}
+                </Map>
+                {this.renderLocationForm()}
+                {this.renderLocationInformation()}
+                {this.renderThanksDialog()}
+                {this.renderWelcomeDialog()}
+                {this.renderAddLocationDialog()}
+                <GeoLocateButton onClickGeolocate={this._onClickGeolocate}/>
+            </div>)
     }
 
 });

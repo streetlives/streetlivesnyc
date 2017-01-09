@@ -3,7 +3,7 @@ import { welcomeClicked, mapClicked, addLocationClicked, addLocationCancelled,
          locationSelected } from '../actions/mapActions'
 import { geocode } from '../actions/geocodeActions'
 
-import { Map } from '../components/map.js';
+import { StreetlivesMap } from '../components/map.js';
 
 const mapStateToProps = (state) => {
     return {
@@ -46,6 +46,6 @@ const mapDispatchToProps = (dispatch) => {
 const MapContainer = connect(
     mapStateToProps,
     mapDispatchToProps
-)(Map)
+)(StreetlivesMap)
 
 export default MapContainer
