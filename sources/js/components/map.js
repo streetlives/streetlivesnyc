@@ -426,29 +426,14 @@ module.exports.StreetlivesMap = React.createClass({
 
     _onClickGeolocate: function() {
         if (navigator.geolocation) {
+            let map = this.refs.map.leafletElement
             navigator.geolocation.getCurrentPosition(position => {
-                this.map.panTo([position.coords.latitude, position.coords.longitude]);
-                this.map.setZoom(16);
+                map.panTo([position.coords.latitude, position.coords.longitude]);
+                map.setZoom(16);
             });
         }
     },
 
-
-    /*render() {
-        return (
-            <div onkeyup={this.onKeyUp}>
-                <div id="map" className="Map">
-                  <Search gotoPlace={this._gotoPlace}/>
-                </div>
-                {this.renderLocationForm()}
-                {this.renderLocationInformation()}
-                {this.renderThanksDialog()}
-                {this.renderWelcomeDialog()}
-                {this.renderAddLocationDialog()}
-                <GeoLocateButton onClickGeolocate={this._onClickGeolocate}/>
-            </div>
-        )
-    }*/
     renderLocations() {
         var locations = this.state.locations;
         var renderedLocations = []

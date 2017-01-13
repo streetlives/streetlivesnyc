@@ -27468,28 +27468,16 @@
 	        var _this3 = this;
 	
 	        if (navigator.geolocation) {
-	            navigator.geolocation.getCurrentPosition(function (position) {
-	                _this3.map.panTo([position.coords.latitude, position.coords.longitude]);
-	                _this3.map.setZoom(16);
-	            });
+	            (function () {
+	                var map = _this3.refs.map.leafletElement;
+	                navigator.geolocation.getCurrentPosition(function (position) {
+	                    map.panTo([position.coords.latitude, position.coords.longitude]);
+	                    map.setZoom(16);
+	                });
+	            })();
 	        }
 	    },
 	
-	    /*render() {
-	        return (
-	            <div onkeyup={this.onKeyUp}>
-	                <div id="map" className="Map">
-	                  <Search gotoPlace={this._gotoPlace}/>
-	                </div>
-	                {this.renderLocationForm()}
-	                {this.renderLocationInformation()}
-	                {this.renderThanksDialog()}
-	                {this.renderWelcomeDialog()}
-	                {this.renderAddLocationDialog()}
-	                <GeoLocateButton onClickGeolocate={this._onClickGeolocate}/>
-	            </div>
-	        )
-	    }*/
 	    renderLocations: function renderLocations() {
 	        var locations = this.state.locations;
 	        var renderedLocations = [];
