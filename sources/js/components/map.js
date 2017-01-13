@@ -1,6 +1,6 @@
 import React from 'react';
 import Backbone from 'backbone';
-import { Map, CircleMarker, Popup, TileLayer } from 'react-leaflet';
+import { Map, CircleMarker, Popup, TileLayer, LayerGroup, FeatureGroup } from 'react-leaflet';
 
 import AddLocationDialog from './dialogs/addLocationDialog.js'
 import ThanksDialog from './dialogs/addLocationDialog.js'
@@ -59,6 +59,7 @@ module.exports.StreetlivesMap = React.createClass({
         return {
             model: model,
             locations: [],
+            boundClickEvents: false,
             drawLocations: true,
             geocoder: geocoder,
             offerings: offerings,
@@ -95,17 +96,43 @@ module.exports.StreetlivesMap = React.createClass({
         this._fetchLocations();
     },
 
+    componentDidUpdate() {
+        if (this.state.locations.length && !this.state.boundClickEvents) {
+            let locations = this.state.locations
+
+            for (var i=0; i < locations.length; i++) {
+                let nextLocation = locations[i]
+                let nextMarker = this.refs[`location_${i}`]
+                if (nextMarker) {
+                    console.log('bound handler')
+                    let nextLeaflet = nextMarker.leafletElement
+                    nextLeaflet.interactive = true
+                    nextLeaflet.on('click', (e) => {
+                        console.log('clicked')
+                        console.log(e);
+                    })
+
+                    nextLeaflet.bringToFront()
+                }
+            }
+
+            this.setState({boundClickEvents: true})
+        }
+    },
+
     componentDidMount() {
         var url = this._getVizJSONURL();
         var options = this.state.mapOptions;
-        var leafletMap = this.refs.map.leafletElement;
+
+        var leafletMap = this.refs.map.leafletElement
         leafletMap.on('zoomstart', ()=> {
-            this.setState({drawLocations: false});
+            this.setState({drawLocations: false})
         });
 
         leafletMap.on('zoomend', ()=> {
-            this.setState({drawLocations: true});
+            this.setState({drawLocations: true})
         });
+
         //cartodb.createVis('map', url, options).done(this.onVisLoaded);
     },
 
@@ -171,7 +198,7 @@ module.exports.StreetlivesMap = React.createClass({
         sublayer.setCartoCSS(locationCSS);
 
         //TODO: fix this
-        sublayer.on('featureClick', function(e, latlng, pos, data) {
+        sublayer.on('featureClick', function(e, data) {
             e.preventDefault();
             e.stopPropagation();
         });
@@ -206,7 +233,8 @@ module.exports.StreetlivesMap = React.createClass({
         $('.leaflet-container').css('cursor', 'pointer');
     },
 
-    onFeatureClick: function(e, latlng, pos, data) {
+    onFeatureClick: function(e, data) {
+        console.log('got here')
         e.preventDefault();
         e.stopPropagation();
 
@@ -539,8 +567,10 @@ module.exports.StreetlivesMap = React.createClass({
 
         for (var i=0; i < locations.length; i++) {
             var nextLocation = locations[i]; 
-            renderedLocations.push(<CircleMarker key={`locaiton-${i}`} {...markerStyle}
-                                                 center={[nextLocation.lat, nextLocation.long]}/>)
+            var nextMarker = <CircleMarker className='location-marker'
+                                           ref={`location_${i}`} key={`locaiton-${i}`} {...markerStyle}
+                                           center={[nextLocation.lat, nextLocation.long]} />
+            renderedLocations.push(nextMarker)
         }
         return renderedLocations
     },

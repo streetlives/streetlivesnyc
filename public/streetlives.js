@@ -27125,6 +27125,7 @@
 	        return {
 	            model: model,
 	            locations: [],
+	            boundClickEvents: false,
 	            drawLocations: true,
 	            geocoder: geocoder,
 	            offerings: offerings,
@@ -27159,11 +27160,35 @@
 	    componentWillMount: function componentWillMount() {
 	        this._fetchLocations();
 	    },
+	    componentDidUpdate: function componentDidUpdate() {
+	        if (this.state.locations.length && !this.state.boundClickEvents) {
+	            var locations = this.state.locations;
+	
+	            for (var i = 0; i < locations.length; i++) {
+	                var nextLocation = locations[i];
+	                var nextMarker = this.refs['location_' + i];
+	                if (nextMarker) {
+	                    console.log('bound handler');
+	                    var nextLeaflet = nextMarker.leafletElement;
+	                    nextLeaflet.interactive = true;
+	                    nextLeaflet.on('click', function (e) {
+	                        console.log('clicked');
+	                        console.log(e);
+	                    });
+	
+	                    nextLeaflet.bringToFront();
+	                }
+	            }
+	
+	            this.setState({ boundClickEvents: true });
+	        }
+	    },
 	    componentDidMount: function componentDidMount() {
 	        var _this = this;
 	
 	        var url = this._getVizJSONURL();
 	        var options = this.state.mapOptions;
+	
 	        var leafletMap = this.refs.map.leafletElement;
 	        leafletMap.on('zoomstart', function () {
 	            _this.setState({ drawLocations: false });
@@ -27172,6 +27197,7 @@
 	        leafletMap.on('zoomend', function () {
 	            _this.setState({ drawLocations: true });
 	        });
+	
 	        //cartodb.createVis('map', url, options).done(this.onVisLoaded);
 	    },
 	    isMobile: function isMobile() {
@@ -27205,7 +27231,7 @@
 	        sublayer.setCartoCSS(locationCSS);
 	
 	        //TODO: fix this
-	        sublayer.on('featureClick', function (e, latlng, pos, data) {
+	        sublayer.on('featureClick', function (e, data) {
 	            e.preventDefault();
 	            e.stopPropagation();
 	        });
@@ -27240,7 +27266,8 @@
 	        $('.leaflet-container').css('cursor', 'pointer');
 	    },
 	
-	    onFeatureClick: function onFeatureClick(e, latlng, pos, data) {
+	    onFeatureClick: function onFeatureClick(e, data) {
+	        console.log('got here');
 	        e.preventDefault();
 	        e.stopPropagation();
 	
@@ -27539,8 +27566,10 @@
 	
 	        for (var i = 0; i < locations.length; i++) {
 	            var nextLocation = locations[i];
-	            renderedLocations.push(_react2.default.createElement(_reactLeaflet.CircleMarker, _extends({ key: 'locaiton-' + i }, markerStyle, {
-	                center: [nextLocation.lat, nextLocation.long] })));
+	            var nextMarker = _react2.default.createElement(_reactLeaflet.CircleMarker, _extends({ className: 'location-marker',
+	                ref: 'location_' + i, key: 'locaiton-' + i }, markerStyle, {
+	                center: [nextLocation.lat, nextLocation.long] }));
+	            renderedLocations.push(nextMarker);
 	        }
 	        return renderedLocations;
 	    },

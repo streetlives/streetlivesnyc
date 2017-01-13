@@ -464,6 +464,12 @@
   position: fixed;
   bottom: 15px;
   right: 15px; }
+
+svg.leaflet-zoom-animated {
+  pointer-events: auto !important; }
+
+.location-marker {
+  cursor: pointer; }
 .Dialog {
   position: absolute;
   width: 100%;
