@@ -25336,6 +25336,7 @@
 	        activeCoords: state.map.activeCoords,
 	        showLocationDetail: state.map.showLocationDetail,
 	        detailLocation: state.map.detailLocation,
+	        locationData: state.map.locationData,
 	        placeName: state.geocode.name,
 	        address: state.geocode.address
 	    };
@@ -25356,8 +25357,12 @@
 	            dispatch((0, _mapActions.addLocationClicked)());
 	        },
 	
-	        locationSelected: function locationSelected(coords) {
-	            dispatch((0, _mapActions.locationSelected)(coords));
+	        locationSelected: function locationSelected(locationData) {
+	            dispatch((0, _mapActions.locationSelected)(locationData));
+	        },
+	
+	        locationDismissed: function locationDismissed() {
+	            dispatch((0, _mapActions.locationDismissed)());
 	        },
 	
 	        addLocationCancelled: function addLocationCancelled() {
@@ -26951,12 +26956,14 @@
 	exports.welcomeClicked = welcomeClicked;
 	exports.mapClicked = mapClicked;
 	exports.locationSelected = locationSelected;
+	exports.locationDismissed = locationDismissed;
 	exports.addLocationClicked = addLocationClicked;
 	exports.addLocationCancelled = addLocationCancelled;
 	var MAP_CLICKED = exports.MAP_CLICKED = 'MAP_CLICKED';
 	var ADD_LOCATION_CLICKED = exports.ADD_LOCATION_CLICKED = 'ADD_LOCATION_CLICKED';
 	var ADD_LOCATION_CANCELLED = exports.ADD_LOCATION_CANCELLED = 'ADD_LOCATION_CANCELLED';
 	var LOCATION_SELECTED = exports.LOCATION_SELECTED = 'LOCATION_SELECTED';
+	var LOCATION_DISMISSED = exports.LOCATION_DISMISSED = 'LOCATION_DISMISSED';
 	var SEARCH_RESULT_SELECTED = exports.SEARCH_RESULT_SELECTED = 'SEARCH_RESULT_SELECTED';
 	var WELCOME_CLICKED = exports.WELCOME_CLICKED = 'WELCOME_CLICKED';
 	
@@ -26968,8 +26975,12 @@
 	    return { type: MAP_CLICKED, coords: coords };
 	}
 	
-	function locationSelected(coords) {
-	    return { type: LOCATION_SELECTED, coords: coords };
+	function locationSelected(locationData) {
+	    return { type: LOCATION_SELECTED, locationData: locationData };
+	}
+	
+	function locationDismissed() {
+	    return { type: LOCATION_DISMISSED };
 	}
 	
 	function addLocationClicked() {
@@ -27161,41 +27172,43 @@
 	        this._fetchLocations();
 	    },
 	    componentDidUpdate: function componentDidUpdate() {
+	        var _this = this;
+	
 	        if (this.state.locations.length && !this.state.boundClickEvents) {
 	            var locations = this.state.locations;
 	
-	            for (var i = 0; i < locations.length; i++) {
+	            var _loop = function _loop() {
 	                var nextLocation = locations[i];
-	                var nextMarker = this.refs['location_' + i];
+	                var nextMarker = _this.refs['location_' + i];
 	                if (nextMarker) {
 	                    console.log('bound handler');
 	                    var nextLeaflet = nextMarker.leafletElement;
-	                    nextLeaflet.interactive = true;
-	                    nextLeaflet.on('click', function (e) {
-	                        console.log('clicked');
-	                        console.log(e);
+	                    nextLeaflet.on('click', function () {
+	                        _this.props.locationSelected(nextLocation);
 	                    });
-	
-	                    nextLeaflet.bringToFront();
 	                }
+	            };
+	
+	            for (var i = 0; i < locations.length; i++) {
+	                _loop();
 	            }
 	
 	            this.setState({ boundClickEvents: true });
 	        }
 	    },
 	    componentDidMount: function componentDidMount() {
-	        var _this = this;
+	        var _this2 = this;
 	
 	        var url = this._getVizJSONURL();
 	        var options = this.state.mapOptions;
 	
 	        var leafletMap = this.refs.map.leafletElement;
 	        leafletMap.on('zoomstart', function () {
-	            _this.setState({ drawLocations: false });
+	            _this2.setState({ drawLocations: false });
 	        });
 	
 	        leafletMap.on('zoomend', function () {
-	            _this.setState({ drawLocations: true });
+	            _this2.setState({ drawLocations: true });
 	        });
 	
 	        //cartodb.createVis('map', url, options).done(this.onVisLoaded);
@@ -27207,81 +27220,7 @@
 	            return false;
 	        }
 	    },
-	    onVisLoaded: function onVisLoaded(vis, layers) {
-	        var _this2 = this;
 	
-	        var layer = layers[1];
-	        layer.setInteraction(true);
-	        var query = "SELECT l.*, string_agg(o.name, ', ') as offerings " + "FROM locations AS l " + "LEFT OUTER JOIN locations_offerings AS lo ON lo.location_id = l.cartodb_id " + "LEFT OUTER JOIN offerings as o ON o.cartodb_id = lo.offering_id " + (this.props.location.query.categories ? 'WHERE o.cartodb_id in (' + this.props.location.query.categories + ') ' : "") + "GROUP BY l.cartodb_id";
-	        layer.setQuery(query);
-	
-	        layer.on('mouseover', this.onMouseOver);
-	        layer.on('mouseout', this.onMouseOut);
-	        layer.on('featureClick', this.onFeatureClick);
-	
-	        var sublayer = layer.getSubLayer(0);
-	        sublayer.setInteraction(true);
-	        sublayer.setInteractivity('cartodb_id, name, description, offerings, address');
-	
-	        var markerWidth = this.isMobile() ? 20 : 10;
-	        var transparentMarkerWidth = this.isMobile() ? 40 : 20;
-	        var locationCSS = '#locations {' + 'marker-fill-opacity: 0.9;' + 'marker-line-color: #FFF;' + 'marker-line-width: 1;' + 'marker-line-opacity: 1;' + 'marker-placement: point;' + 'marker-type: ellipse;' + 'marker-width: ' + markerWidth + ';' + 'marker-fill: ' + markerFillColor + ';' + 'marker-allow-overlap: true; }';
-	        var transparentLocationCSS = '#locations {' + 'marker-fill-opacity: 0.0;' + 'marker-line-color: #111;' + 'marker-type: ellipse;' + 'marker-placement: point;' + 'market-line-width: 0' + 'marker-width: ' + transparentMarkerWidth + ';' + 'marker-allow-overlap: true; }';
-	
-	        sublayer.setCartoCSS(locationCSS);
-	
-	        //TODO: fix this
-	        sublayer.on('featureClick', function (e, data) {
-	            e.preventDefault();
-	            e.stopPropagation();
-	        });
-	
-	        this.map = vis.getNativeMap();
-	
-	        cartodb.createLayer(this.map, {
-	            user_name: 'streetlivesnyc',
-	            type: 'cartodb',
-	            sublayers: [{
-	                sql: query,
-	                cartocss: transparentLocationCSS
-	            }]
-	        }).done(function (layer) {
-	            layer.on('mouseover', _this2.onMouseOver);
-	            layer.on('mouseout', _this2.onMouseOut);
-	            layer.on('featureClick', _this2.onFeatureClick);
-	            layer.setInteraction(true);
-	            layer.setInteractivity('cartodb_id, name, description, offerings, address');
-	            layer.addTo(_this2.map);
-	        });
-	
-	        this.map.on('click', this.onClickMap);
-	    },
-	
-	
-	    onMouseOut: function onMouseOut() {
-	        $('.leaflet-container').css('cursor', 'auto');
-	    },
-	
-	    onMouseOver: function onMouseOver() {
-	        $('.leaflet-container').css('cursor', 'pointer');
-	    },
-	
-	    onFeatureClick: function onFeatureClick(e, data) {
-	        console.log('got here');
-	        e.preventDefault();
-	        e.stopPropagation();
-	
-	        if (this.t) {
-	            clearTimeout(this.t);
-	        }
-	
-	        this.map.closePopup();
-	
-	        this.setState({
-	            locationInformation: data,
-	            addLocationDialog: false
-	        });
-	    },
 	
 	    onClickMap: function onClickMap(e) {
 	        var geocoder = this.state.geocoder;
@@ -27464,9 +27403,9 @@
 	        });
 	    },
 	    renderLocationInformation: function renderLocationInformation() {
-	        if (this.state.locationInformation) {
-	            return _react2.default.createElement(_locationInformation.LocationInformation, { options: this.state.locationInformation,
-	                onClickClose: this.removeLocationInformation });
+	        if (this.props.showLocationDetail) {
+	            return _react2.default.createElement(_locationInformation.LocationInformation, { options: this.props.locationData,
+	                onClickClose: this.props.locationDismissed });
 	        }
 	    },
 	    renderLocationForm: function renderLocationForm() {
@@ -74330,7 +74269,8 @@
 	    activeCoords: [],
 	    showAddLocationInput: false,
 	    showLocationDetail: false,
-	    detailLocation: null
+	    detailLocation: null,
+	    locationData: {}
 	};
 	
 	var map = function map() {
@@ -74356,8 +74296,9 @@
 	                showAddLocation: false });
 	        case _mapActions.LOCATION_SELECTED:
 	            return Object.assign({}, state, { showLocationDetail: true,
-	                activeCoords: action.coords });
-	
+	                locationData: action.locationData });
+	        case _mapActions.LOCATION_DISMISSED:
+	            return Object.assign({}, state, { showLocationDetail: false, locationData: {} });
 	        case _mapActions.SEARCH_RESULT_SELECTED:
 	        default:
 	            return state;

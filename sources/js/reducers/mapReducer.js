@@ -1,5 +1,5 @@
 import { MAP_CLICKED, ADD_LOCATION_CLICKED, ADD_LOCATION_CANCELLED, LOCATION_SELECTED,
-         SEARCH_RESULT_SELECTED, WELCOME_CLICKED } from '../actions/mapActions'
+         SEARCH_RESULT_SELECTED, WELCOME_CLICKED, LOCATION_DISMISSED } from '../actions/mapActions'
 
 function getInitialWelcomeDialog() {
     if (typeof(Storage) !== "undefined" &&
@@ -16,7 +16,8 @@ const initialState = {
     activeCoords: [],
     showAddLocationInput: false,
     showLocationDetail: false,
-    detailLocation: null
+    detailLocation: null,
+    locationData: {} 
 }
 
 const map = (state=initialState, action) => {
@@ -39,8 +40,9 @@ const map = (state=initialState, action) => {
                                               showAddLocation: false })
         case LOCATION_SELECTED:
             return Object.assign({}, state, { showLocationDetail: true,
-                                              activeCoords: action.coords })
-
+                                              locationData: action.locationData })
+        case LOCATION_DISMISSED:
+            return Object.assign({}, state, { showLocationDetail: false, locationData: {}})
         case SEARCH_RESULT_SELECTED:
         default:
             return state

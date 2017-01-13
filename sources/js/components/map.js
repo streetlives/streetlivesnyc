@@ -106,13 +106,9 @@ module.exports.StreetlivesMap = React.createClass({
                 if (nextMarker) {
                     console.log('bound handler')
                     let nextLeaflet = nextMarker.leafletElement
-                    nextLeaflet.interactive = true
-                    nextLeaflet.on('click', (e) => {
-                        console.log('clicked')
-                        console.log(e);
+                    nextLeaflet.on('click', () => {
+                        this.props.locationSelected(nextLocation)
                     })
-
-                    nextLeaflet.bringToFront()
                 }
             }
 
@@ -151,105 +147,6 @@ module.exports.StreetlivesMap = React.createClass({
             return false;
           }
     },
-
-    onVisLoaded(vis, layers) {
-        var layer = layers[1];
-        layer.setInteraction(true);
-        var query = "SELECT l.*, string_agg(o.name, ', ') as offerings " +
-            "FROM locations AS l " +
-            "LEFT OUTER JOIN locations_offerings AS lo ON lo.location_id = l.cartodb_id " +
-                    "LEFT OUTER JOIN offerings as o ON o.cartodb_id = lo.offering_id " +
-                    (this.props.location.query.categories ?
-                    `WHERE o.cartodb_id in (${this.props.location.query.categories}) `
-                   : ""
-                    ) +
-            "GROUP BY l.cartodb_id";
-        layer.setQuery(query);
-
-        layer.on('mouseover',    this.onMouseOver);
-        layer.on('mouseout',     this.onMouseOut);
-        layer.on('featureClick', this.onFeatureClick);
-
-        var sublayer = layer.getSubLayer(0);
-        sublayer.setInteraction(true);
-        sublayer.setInteractivity('cartodb_id, name, description, offerings, address');
-
-        var markerWidth = this.isMobile() ? 20 : 10;
-        var transparentMarkerWidth = this.isMobile() ? 40: 20;
-        var locationCSS = '#locations {' +
-             'marker-fill-opacity: 0.9;' +
-             'marker-line-color: #FFF;' +
-             'marker-line-width: 1;' +
-             'marker-line-opacity: 1;' +
-             'marker-placement: point;' +
-             'marker-type: ellipse;' +
-             'marker-width: ' + markerWidth + ';' +
-             'marker-fill: ' + markerFillColor + ';' +
-                'marker-allow-overlap: true; }';
-        var transparentLocationCSS = '#locations {' +
-                'marker-fill-opacity: 0.0;' +
-                'marker-line-color: #111;' +
-                'marker-type: ellipse;' +
-                'marker-placement: point;' +
-                'market-line-width: 0' +
-                'marker-width: ' + transparentMarkerWidth + ';' +
-                'marker-allow-overlap: true; }';
-
-        sublayer.setCartoCSS(locationCSS);
-
-        //TODO: fix this
-        sublayer.on('featureClick', function(e, data) {
-            e.preventDefault();
-            e.stopPropagation();
-        });
-
-        this.map = vis.getNativeMap();
-
-        cartodb.createLayer(this.map, {
-            user_name: 'streetlivesnyc',
-            type: 'cartodb',
-            sublayers: [{
-                sql: query,
-                cartocss: transparentLocationCSS
-            }],
-        }).done(layer => {
-            layer.on('mouseover',    this.onMouseOver);
-            layer.on('mouseout',     this.onMouseOut);
-            layer.on('featureClick', this.onFeatureClick);
-            layer.setInteraction(true);
-            layer.setInteractivity('cartodb_id, name, description, offerings, address');
-            layer.addTo(this.map);
-        });
-
-        this.map.on('click', this.onClickMap);
-
-    },
-
-    onMouseOut: function() {
-        $('.leaflet-container').css('cursor', 'auto');
-    },
-
-    onMouseOver: function() {
-        $('.leaflet-container').css('cursor', 'pointer');
-    },
-
-    onFeatureClick: function(e, data) {
-        console.log('got here')
-        e.preventDefault();
-        e.stopPropagation();
-
-        if (this.t) {
-            clearTimeout(this.t);
-        }
-
-        this.map.closePopup();
-
-        this.setState({
-            locationInformation: data,
-            addLocationDialog: false
-        })
-    },
-
 
     onClickMap: function(e) {
         var geocoder = this.state.geocoder;
@@ -451,10 +348,10 @@ module.exports.StreetlivesMap = React.createClass({
     },
 
     renderLocationInformation() {
-        if (this.state.locationInformation) {
+        if (this.props.showLocationDetail) {
             return (
-                <LocationInformation options={this.state.locationInformation}
-                                     onClickClose={this.removeLocationInformation} />
+                <LocationInformation options={this.props.locationData}
+                                     onClickClose={this.props.locationDismissed} />
             )
         }
     },
