@@ -7,6 +7,7 @@ import { StreetlivesMap } from '../components/map.js';
 
 const mapStateToProps = (state) => {
     return {
+        isMobile: state.map.isMobile,
         showWelcome: state.map.showWelcome,
         showAddLocation: state.map.showAddLocation,
         showAddLocationInput: state.map.showAddLocationInput,
@@ -14,6 +15,7 @@ const mapStateToProps = (state) => {
         showLocationDetail: state.map.showLocationDetail,
         detailLocation: state.map.detailLocation,
         locationData: state.map.locationData,
+
         placeName: state.geocode.name,
         address: state.geocode.address
     } 

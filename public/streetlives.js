@@ -25330,6 +25330,7 @@
 	
 	var mapStateToProps = function mapStateToProps(state) {
 	    return {
+	        isMobile: state.map.isMobile,
 	        showWelcome: state.map.showWelcome,
 	        showAddLocation: state.map.showAddLocation,
 	        showAddLocationInput: state.map.showAddLocationInput,
@@ -25337,6 +25338,7 @@
 	        showLocationDetail: state.map.showLocationDetail,
 	        detailLocation: state.map.detailLocation,
 	        locationData: state.map.locationData,
+	
 	        placeName: state.geocode.name,
 	        address: state.geocode.address
 	    };
@@ -27142,30 +27144,7 @@
 	            offerings: offerings,
 	            locationForm: false,
 	            thanksDialog: false,
-	            addLocationDialog: false,
-	            viz: {
-	                templateURL: '//<%- username %>.cartodb.com/api/v2/viz/<%-id %>/viz.json'
-	            },
-	            mapOptions: {
-	                center: [40.74442, -73.970],
-	                zoom: 13,
-	                https: true,
-	                zoomControl: true,
-	                scrollwheel: true,
-	                loaderControl: true,
-	                search: false,
-	                shareable: false
-	            },
-	            style: {
-	                marker: {
-	                    radius: 7,
-	                    fillColor: markerFillColor,
-	                    color: '#FFFFFF',
-	                    weight: 1.5,
-	                    opacity: 0.9,
-	                    fillOpacity: 1
-	                }
-	            }
+	            addLocationDialog: false
 	        };
 	    },
 	    componentWillMount: function componentWillMount() {
@@ -27199,7 +27178,6 @@
 	    componentDidMount: function componentDidMount() {
 	        var _this2 = this;
 	
-	        var url = this._getVizJSONURL();
 	        var options = this.state.mapOptions;
 	
 	        var leafletMap = this.refs.map.leafletElement;
@@ -27210,15 +27188,6 @@
 	        leafletMap.on('zoomend', function () {
 	            _this2.setState({ drawLocations: true });
 	        });
-	
-	        //cartodb.createVis('map', url, options).done(this.onVisLoaded);
-	    },
-	    isMobile: function isMobile() {
-	        if (navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/webOS/i) || navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/BlackBerry/i) || navigator.userAgent.match(/Windows Phone/i)) {
-	            return true;
-	        } else {
-	            return false;
-	        }
 	    },
 	
 	
@@ -27248,7 +27217,7 @@
 	    },
 	
 	    _addMarker: function _addMarker(coordinates) {
-	        if (this.isMobile()) {
+	        if (this.props.isMobile) {
 	            this.setState({
 	                addLocationDialog: true
 	            });
@@ -27260,7 +27229,7 @@
 	
 	            var content = '<p>' + '<strong class="Popup-addressName">' + nameString + address + '</strong>' + '<br/>' + 'is not part of Streetlives yet. ' + 'Do you want to add this location to the map?' + '</p>' + '<button class="Button Button--addLocationSmall js-add-location">' + 'Add location' + '</button>';
 	
-	            var panCoords = this.isMobile() ? [0, 150] : [10, 75];
+	            var panCoords = this.props.isMobile ? [0, 150] : [10, 75];
 	            this.popup = SL.Popup({ autoPanPaddingTopLeft: panCoords, offset: [0, -5] }).setLatLng(coordinates).setContent(content).openOn(this.map);
 	
 	            var self = this;
@@ -27383,14 +27352,6 @@
 	        }, 500);
 	    },
 	
-	    _getVizJSONURL: function _getVizJSONURL() {
-	        var tpl = _.template(this.state.viz.templateURL);
-	
-	        return tpl({
-	            id: window.Config.map_id,
-	            username: window.Config.username
-	        });
-	    },
 	    removeLocationForm: function removeLocationForm() {
 	        this.setState({
 	            locationForm: false
@@ -27487,8 +27448,8 @@
 	
 	        var markerStyle = { radius: 7, fillColor: markerFillColor,
 	            color: '#FFFFFF', weight: 1.5, opacity: 0.9, fillOpacity: 1 };
-	        if (this.isMobile()) {
-	            markerStyle.radius = 20;
+	        if (this.props.isMobile) {
+	            markerStyle.radius = 15;
 	        }
 	
 	        for (var i = 0; i < locations.length; i++) {
@@ -27501,12 +27462,16 @@
 	        return renderedLocations;
 	    },
 	    render: function render() {
+	        var mapOptions = { center: [40.74442, -73.970], zoom: 13, https: true,
+	            zoomControl: true, scrollwheel: true, loaderControl: true,
+	            search: false, shareable: false };
+	
 	        return _react2.default.createElement(
 	            'div',
 	            { onkeyup: this.onKeyUp },
 	            _react2.default.createElement(
 	                _reactLeaflet.Map,
-	                _extends({}, this.state.mapOptions, { ref: 'map', id: 'map', url: this._getVizJSONURL(), className: 'Map' }),
+	                _extends({}, mapOptions, { ref: 'map', id: 'map', className: 'Map' }),
 	                _react2.default.createElement(_reactLeaflet.TileLayer, { url: 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png',
 	                    attribution: '© <a href=\'http://www.openstreetmap.org/copyright\'>OpenStreetMap</a>, ©<a href=\'https://carto.com/attribution\'>CARTO</a>\'' }),
 	                _react2.default.createElement(_search.Search, { gotoPlace: this._gotoPlace }),
@@ -74251,8 +74216,17 @@
 	    }
 	}
 	
+	function isMobile() {
+	    if (navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/webOS/i) || navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/BlackBerry/i) || navigator.userAgent.match(/Windows Phone/i)) {
+	        return true;
+	    } else {
+	        return false;
+	    }
+	}
+	
 	var initialState = {
 	    showWelcome: getInitialWelcomeDialog(),
+	    isMobile: isMobile(),
 	    showAddLocation: false,
 	    activeCoords: [],
 	    showAddLocationInput: false,

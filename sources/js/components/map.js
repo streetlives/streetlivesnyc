@@ -65,30 +65,7 @@ module.exports.StreetlivesMap = React.createClass({
             offerings: offerings,
             locationForm: false,
             thanksDialog: false,
-            addLocationDialog: false,
-            viz: {
-                templateURL: '//<%- username %>.cartodb.com/api/v2/viz/<%-id %>/viz.json'
-            },
-            mapOptions: {
-                center: [40.74442, -73.970],
-                zoom: 13,
-                https: true,
-                zoomControl: true,
-                scrollwheel: true,
-                loaderControl: true,
-                search: false,
-                shareable: false
-            },
-            style: {
-                marker: {
-                    radius: 7,
-                    fillColor: markerFillColor,
-                    color: '#FFFFFF',
-                    weight: 1.5,
-                    opacity: 0.9,
-                    fillOpacity: 1
-                }
-            }
+            addLocationDialog: false
         }
     },
 
@@ -117,7 +94,6 @@ module.exports.StreetlivesMap = React.createClass({
     },
 
     componentDidMount() {
-        var url = this._getVizJSONURL();
         var options = this.state.mapOptions;
 
         var leafletMap = this.refs.map.leafletElement
@@ -128,24 +104,6 @@ module.exports.StreetlivesMap = React.createClass({
         leafletMap.on('zoomend', ()=> {
             this.setState({drawLocations: true})
         });
-
-        //cartodb.createVis('map', url, options).done(this.onVisLoaded);
-    },
-
-    isMobile() {
-        if( navigator.userAgent.match(/Android/i)
-         || navigator.userAgent.match(/webOS/i)
-         || navigator.userAgent.match(/iPhone/i)
-         || navigator.userAgent.match(/iPad/i)
-         || navigator.userAgent.match(/iPod/i)
-         || navigator.userAgent.match(/BlackBerry/i)
-         || navigator.userAgent.match(/Windows Phone/i)
-         ){
-            return true;
-          }
-         else {
-            return false;
-          }
     },
 
     onClickMap: function(e) {
@@ -174,7 +132,7 @@ module.exports.StreetlivesMap = React.createClass({
     },
 
     _addMarker: function(coordinates) {
-        if (this.isMobile()) {
+        if (this.props.isMobile) {
             this.setState({
                 addLocationDialog: true
             });
@@ -197,7 +155,7 @@ module.exports.StreetlivesMap = React.createClass({
             'Add location' +
             '</button>';
 
-            var panCoords = (this.isMobile()) ? [0, 150] : [10, 75];
+            var panCoords = (this.props.isMobile) ? [0, 150] : [10, 75];
             this.popup = SL.Popup({ autoPanPaddingTopLeft: panCoords, offset: [0, -5] })
                            .setLatLng(coordinates)
                            .setContent(content)
@@ -325,15 +283,6 @@ module.exports.StreetlivesMap = React.createClass({
         }, 500);
     },
 
-    _getVizJSONURL() {
-        var tpl = _.template(this.state.viz.templateURL);
-
-        return tpl({
-            id: window.Config.map_id,
-            username: window.Config.username
-        });
-    },
-
     removeLocationForm() {
         this.setState({
             locationForm: false
@@ -443,8 +392,8 @@ module.exports.StreetlivesMap = React.createClass({
 
         var markerStyle = { radius: 7, fillColor: markerFillColor,
                             color: '#FFFFFF', weight: 1.5, opacity: 0.9, fillOpacity: 1 }
-        if (this.isMobile()) {
-            markerStyle.radius = 20
+        if (this.props.isMobile) {
+            markerStyle.radius = 15 
         }
 
         for (var i=0; i < locations.length; i++) {
@@ -458,8 +407,12 @@ module.exports.StreetlivesMap = React.createClass({
     },
 
     render() {
+        let mapOptions = { center: [40.74442, -73.970], zoom: 13, https: true,
+                           zoomControl: true, scrollwheel: true, loaderControl: true,
+                           search: false, shareable: false }
+
         return (<div onkeyup={this.onKeyUp}>
-                <Map {...this.state.mapOptions} ref="map" id="map" url={this._getVizJSONURL()} className="Map">
+                <Map {...mapOptions} ref="map" id="map" className="Map">
                    <TileLayer url='https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png'
                               attribution="&copy; <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a>, &copy;<a href='https://carto.com/attribution'>CARTO</a>'"/>
                    <Search gotoPlace={this._gotoPlace}/>
