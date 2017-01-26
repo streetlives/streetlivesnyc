@@ -81,7 +81,6 @@ module.exports.StreetlivesMap = React.createClass({
                 let nextLocation = locations[i]
                 let nextMarker = this.refs[`location_${i}`]
                 if (nextMarker) {
-                    console.log('bound handler')
                     let nextLeaflet = nextMarker.leafletElement
                     nextLeaflet.on('click', () => {
                         this.props.locationSelected(nextLocation)
@@ -358,6 +357,17 @@ module.exports.StreetlivesMap = React.createClass({
     },
 
     renderAddLocationDialog() {
+        if (this.props.showAddLocation) {
+            var name = (this.props.placeName && this.props.placeName.length) ? 
+                        `${this.props.placeName},` : ''
+            var address = this.props.address
+            return (<AddLocationDialog name={name} address={address} 
+                                       onClickAddLocation={this.props.addLocationClicked}
+                                       onClickClose={this.props.addLocationCancelled} />)
+        }
+    },
+
+    _renderAddLocationDialog() {
         var name = this.state.model.get('name');
         var nameString = name ? name + ', ' : '';
         var address = this.state.model.get('address');
@@ -410,9 +420,10 @@ module.exports.StreetlivesMap = React.createClass({
         let mapOptions = { center: [40.74442, -73.970], zoom: 13, https: true,
                            zoomControl: true, scrollwheel: true, loaderControl: true,
                            search: false, shareable: false }
+        let mapClicked = (e)=> { this.props.mapClicked(e.latlng) } 
 
         return (<div onkeyup={this.onKeyUp}>
-                <Map {...mapOptions} ref="map" id="map" className="Map">
+                <Map onClick={mapClicked} {...mapOptions} ref="map" id="map" className="Map">
                    <TileLayer url='https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png'
                               attribution="&copy; <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a>, &copy;<a href='https://carto.com/attribution'>CARTO</a>'"/>
                    <Search gotoPlace={this._gotoPlace}/>
