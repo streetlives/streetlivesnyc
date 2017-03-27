@@ -1,25 +1,37 @@
 .StaticPage-container {
-    padding: 100px;
     overflow-y: scroll;
 }
 
+.title-container {
+    padding: 30px 100px 30px 100px;
+    background-color: #F8E81C;
+    color: black;
+}
+
 .StaticPage {
+  padding: 100px;
   text-align: left;
   box-sizing: border-box;
   font-family: 'Open sans', sans-serif;
-  font-size: 16px;
+  font-size: 24px;
   line-height: 1.5;
-
-    p {
-        max-width: 600px;
-    }
 }
-.StaticPage-title {
-  font-weight: bold;
-  font-size: 18px;
-  color: #333 ;
-  line-height: normal;
-  margin-bottom: 30px;
+
+.bold {
+    font-weight: bold;
+}
+
+.StaticPage-headline {
+    font-size: 72px;
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: bold;
+}
+
+.StaticPage-subheader {
+    margin-bottom: 50px;
+    font-size: 36px;
+    text-align: center;
 }
 
 .StaticPage h2{
@@ -29,13 +41,22 @@
   font-weight: bold;
 }
 
+.StaticPage-title {
+  font-weight: bold;
+  font-size: 18px;
+  color: #333 ;
+  line-height: normal;
+  margin-bottom: 30px;
+  text-transform: nonee;
+}
+
 .StaticPage h3{
   font-weight: lighter;
   font-size: 32px;
 }
 
 .StaticPage h4 {
-  font-size: 16px;
+  font-size: 24px;
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -55,17 +76,6 @@
   font-size: 12px;
   color: #444444;
   line-height: 0;
-}
-
-
-@media screen and (max-width: 470px) {
-    .StaticPage-container {
-        padding: 20px;
-    }
-
-    .StaticPage h3 {
-        font-size: 24px; 
-    }
 }
 
 .title {
@@ -102,12 +112,47 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    max-width: 450px;
 
     .social-proof {
         width: 150px;
+        margin: 0px 15px 0px 15px;
         img {
             width: 150px; 
         }
+    }
+}
+
+@media screen and (max-width: 470px) {
+    .StaticPage {
+        padding: 20px;
+    }
+
+    .StaticPage-headline {
+        font-size: 36px;
+        margin-bottom: 15px;
+    }
+
+    .StaticPage-subheader {
+        font-size: 24px;
+    }
+
+    .social-proof {
+        margin: 0px 0px 15px 0px;
+    }
+
+    .StaticPage {
+        font-size: 16px;
+    }
+
+    .StaticPage h3 {
+        font-size: 24px; 
+    }
+
+    .StaticPage h4 {
+        font-size: 16px;
+    }
+
+    .title-container {
+        padding: 20px;
     }
 }

@@ -8,7 +8,7 @@ import { Map } from './map.js';
 import { Categories } from './categories.js';
 import { LocationInformation } from './locationInformation.js';
 import { Header } from './header.js';
-import { About} from './about.js';
+import { About} from './components/about.js';
 import { Privacy } from './privacy.js';
 import { ContentGuidelines } from './guidelines.js';
 import { TermsOfService } from './tos.js';
@@ -35,7 +35,7 @@ const App = React.createClass({
     return (
         <div>
             <Header title='StreetlivesNYC'
-                         url='http://beta.streetlives.nyc'
+                         url='/'
                          location={this.props.location}/>
             {React.cloneElement(this.props.children, this.props)}
         </div>
@@ -47,13 +47,8 @@ ReactDOM.render(
     <Provider store={store}>
         <Router history={history}>
             <Route path="/" component={App}>
-                <IndexRoute component={Map} />
+                <IndexRoute component={About} />
                 <Route path="about" component={About} />
-                <Route path="privacy" component={Privacy} />
-                <Route path="tos" component={TermsOfService} />
-                <Route path="guidelines" component={ContentGuidelines} />
-                <Route path="categories" component={Categories} />
-                <Route path="map" component={Map} />
             </Route>
         </Router>
     </Provider>

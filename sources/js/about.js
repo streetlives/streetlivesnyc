@@ -8,6 +8,9 @@ module.exports.About = React.createClass({
     return (
       <div className="StaticPage-container">
         <div className="StaticPage">
+         <div className="StaticPage-headline">Coming Soon</div>
+         <div className="StaticPage-subheader">StreetlivesNYC is currently under development. For any questions or concerns, reach out to team@streetlives.nyc</div>
+
          <h2 className="StaticPage-title">About</h2>
          <h3 className="StaticPage-title">Your city, your map, your voice.</h3>
          <h4>WHAT</h4>
@@ -44,7 +47,7 @@ module.exports.About = React.createClass({
                 <a href="https://cartodb.com/"><img src="img/CartoDB.svg"></img></a>
             </div>
             <div className="social-proof">
-                <a href="http://civichall.org/"><img src="img/CivicHall.svg"></img></a>
+                <a href="http://civichall.org/"><img src="img/CivicHall.png"></img></a>
             </div>
             <div className="social-proof">
                 <a href="https://openreferral.org/"><img src="img/OpenReferral.svg"></img></a>
