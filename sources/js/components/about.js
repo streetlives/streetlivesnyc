@@ -47,7 +47,7 @@ module.exports.About = React.createClass({
                 <a href="https://cartodb.com/"><img src="img/CartoDB.svg"></img></a>
             </div>
             <div className="social-proof">
-                <a href="http://civichall.org/"><img src="img/CivicHall.png"></img></a>
+                <a href="http://civichall.org/"><img src="img/CivicHall.svg"></img></a>
             </div>
             <div className="social-proof">
                 <a href="https://openreferral.org/"><img src="img/OpenReferral.svg"></img></a>
