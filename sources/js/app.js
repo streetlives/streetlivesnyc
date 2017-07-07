@@ -49,6 +49,7 @@ ReactDOM.render(
             <Route path="/" component={App}>
                 <IndexRoute component={About} />
                 <Route path="about" component={About} />
+                <Route path="map" component={Map} />
             </Route>
         </Router>
     </Provider>
