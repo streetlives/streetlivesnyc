@@ -34,7 +34,7 @@ const App = React.createClass({
   render: function() {
     return (
         <div>
-            <Header title='StreetlivesNYC'
+            <Header title='Streetlives'
                          url='/'
                          location={this.props.location}/>
             {React.cloneElement(this.props.children, this.props)}
