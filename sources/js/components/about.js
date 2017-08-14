@@ -41,13 +41,13 @@ module.exports.About = React.createClass({
          <p>Fiscal Sponsor:</p>
          <div className="Outreach">
             <div className="social-proof">
-                <a href=""><img src="img/techimpact_logo.png"></img></a>
+                <a href="https://techimpact.org/"><img src="img/techimpact_logo.png"></img></a>
             </div>
          </div>
          <p>Partner Organization:</p>
         <div className="Outreach">
             <div className="social-proof">
-                <a href=""><img src="img/infoxchange_logo.png"></img></a>
+                <a href="https://www.infoxchange.org/au/"><img src="img/infoxchange_logo.png"></img></a>
             </div>
          </div>
          <p>Advisors:</p>
@@ -83,7 +83,7 @@ module.exports.About = React.createClass({
                 <a href="https://www.breadandlife.org/"><img src="img/StJohn.png"></img></a>
             </div>
             <div className="social-proof">
-                <a href="https://www.breadandlife.org/"><img src="img/educational_alliance_logo.png"></img></a>
+                <a href="http://www.edalliance.org/"><img src="img/educational_alliance_logo.png"></img></a>
             </div>
          </div>
         </div>
