@@ -51,7 +51,7 @@ module.exports.About = React.createClass({
                 <a href="https://www.infoxchange.org/au/"><img src="img/infoxchange_logo.png"></img></a>
             </div>
          </div>
-         <p>Advisors:</p>
+         <p>Advisors & Supporters:</p>
          <div className="Outreach">
             <div className="social-proof">
                 <a href=""><img src="img/advisors_1.png"></img></a>
@@ -67,6 +67,12 @@ module.exports.About = React.createClass({
             </div>
             <div className="social-proof">
                 <a href="http://neighborstogether.org/"><img src="img/neighbors_together_logo.png"></img></a>
+            </div>
+            <div className="social-proof">
+                <a href="https://www.careforthehomeless.org/"><img src="img/care_for_the_homeless_logo.png"></img></a>
+            </div>
+            <div className="social-proof">
+                <a href="http://www.law.nyu.edu/"><img src="img/nyu_law_logo.png"></img></a>
             </div>
          </div>
          <p>Core Partners:</p>
