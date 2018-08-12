@@ -83,6 +83,9 @@ App.post('/comments', function(request, response) {
   });
 });
 
+App.get('/bnl', function(request, response) {
+  response.redirect('https://team.streetlives.nyc/bnl');
+});
 
 App.get('*', function(request, response) {
   response.render('layout', { map_id: Config.MAP_ID, username: Config.DB.USER });
