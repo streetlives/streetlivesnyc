@@ -83,8 +83,8 @@ App.post('/comments', function(request, response) {
   });
 });
 
-App.get('/bnl', function(request, response) {
-  response.redirect('https://team.streetlives.nyc/bnl');
+App.get('/sjbl', function(request, response) {
+  response.redirect('https://team.streetlives.nyc/sjbl');
 });
 
 App.get('*', function(request, response) {
